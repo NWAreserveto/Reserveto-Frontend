@@ -1,94 +1,56 @@
-import React, { useState } from "react";
+import React, { useState, Fragment } from "react";
 import { TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import propTypes from "prop-types";
+// import propTypes from "prop-types";
 // import { PropTypes } from "@mui/material/";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Imagew from "../images/barbim.jpg";
-import CustomTextArea from "../components/textArea";
-// import signUpNewCustomerAPI from "../API/ReservetoAPIendpoint";
+import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
+// import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
+import CustomTextArea from "../Components/textArea.jsx";
+import { CustomTabPanel } from "../Components/tabPanel.jsx";
+import { a11yProps } from "../Components/tabPanel.jsx";
+import Dialog from '@mui/material/Dialog';
+import DialogActions from '@mui/material/DialogActions';
+import DialogContent from '@mui/material/DialogContent';
+import DialogContentText from '@mui/material/DialogContentText';
+import DialogTitle from '@mui/material/DialogTitle';
 
-// const customer1 = {
-//     'user': {
-//         'username': 'kiavash',
-//         'email': 'kia@xyz.com',
-//         'password': 'Mohammad13822003',
-//         'confirm_password': 'Mohammad13822003'
-//     },
-//     'first_name': 'kia',
-//     'last_name': 'la',
-//     'phone_number': '+1234567890',
-// };
 
-const but = () => {
-  alert("Finally.");
-  // signUpNewCustomerAPI(customer1);
-};
 
-// for tabs
-function CustomTabPanel(props) {
-  const { children, value, index, ...other } = props;
-  return (
-    <div
-      role="tabpanel"
-      hidden={value !== index}
-      id={`simple-tabpanel-${index}`}
-      aria-labelledby={`simple-tab-${index}`}
-      {...other}
-    >
-      {value === index && (
-        <Box sx={{ p: 3 }}>
-          <Typography>{children}</Typography>
-        </Box>
-      )}
-    </div>
-  );
-}
 
-CustomTabPanel.propTypes = {
-  children: propTypes.node,
-  index: propTypes.number.isRequired,
-  value: propTypes.number.isRequired,
-};
 
-function a11yProps(index) {
-  return {
-    id: `simple-tab-${index}`,
-    "aria-controls": `simple-tabpanel-${index}`,
-  };
-}
-// end of tabs
 
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
-
+  
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
-
+  
   const [barberShowPassword, setBarberShowPassword] = useState(false);
   const handleBarberShowPassword = () => setBarberShowPassword(!showPassword);
-
+  
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword(!showPassword);
-
+  setShowConfirmPassword(!showPassword);
+  
   const [showBarberConfirmPassword, setShowBarberConfirmPassword] =
-    useState(false);
+  useState(false);
   const handleClickShowBarberConfirmPassword = () =>
-    setShowBarberConfirmPassword(!showPassword);
-
+  setShowBarberConfirmPassword(!showPassword);
+  
   const [check, setCheck] = useState(false);
-
-  const [name, setName] = useState("");
+  
+  const [username, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const handleNameChange = (e) => {
     setName(e.target.value);
@@ -108,10 +70,11 @@ const CreateAcc = () => {
       setBarberNameError(true);
     }
   };
-
+  
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-
+  
+  
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     if (e.target.validity.valid) {
@@ -120,10 +83,10 @@ const CreateAcc = () => {
       setEmailError(true);
     }
   };
-
+  
   const [barberEmail, setBarberEmail] = useState("");
   const [barberEmailError, setBarberEmailError] = useState("");
-
+  
   const handleBarberEmailChange = (e) => {
     setBarberEmail(e.target.value);
     if (e.target.validity.valid) {
@@ -132,10 +95,10 @@ const CreateAcc = () => {
       setBarberEmailError(true);
     }
   };
-
+  
   const [password, setPassword] = useState("");
   const [passwordError, setpasswordError] = useState("");
-
+  
   const handlePassChange = (e) => {
     setPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -144,10 +107,10 @@ const CreateAcc = () => {
       setpasswordError(true);
     }
   };
-
+  
   const [barberPassword, setBarberPassword] = useState("");
   const [barberPasswordError, setBarberpasswordError] = useState("");
-
+  
   const handleBarberPassChange = (e) => {
     setBarberPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -156,10 +119,10 @@ const CreateAcc = () => {
       setBarberpasswordError(true);
     }
   };
-
+  
   const [confirmPass, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-
+  
   const handleConfirmPassChange = (e) => {
     setConfirmPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -168,11 +131,10 @@ const CreateAcc = () => {
       setConfirmPasswordError(true);
     }
   };
-
+  
   const [barberConfirmPass, setBarberConfirmPassword] = useState("");
-  const [barberConfirmPasswordError, setBarberConfirmPasswordError] =
-    useState("");
-
+  const [barberConfirmPasswordError, setBarberConfirmPasswordError] = useState("");
+  
   const handleBarberConfirmPassChange = (e) => {
     setBarberConfirmPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -182,18 +144,98 @@ const CreateAcc = () => {
     }
   };
 
+  const [barberFirstName, setBarberFirstName] = useState("");
+  const [barberFirstNameError, setBarberFirstNameError] = useState("");
+
+  const handleBarberFirstName = (e) => {
+    setBarberFirstName(e.target.value);
+    if (e.target.validity.valid) {
+      setBarberFirstNameError(false);
+    } else {
+      setBarberFirstNameError(true);
+    }
+  }
+
+  const [barberLastName, setBarberLastName] = useState("");
+  const [barberLastNameError, setBarberLastNameError] = useState("");
+
+  const handleBarberLastName = (e) => {
+    setBarberLastName(e.target.value);
+    if (e.target.validity.valid) {
+      setBarberLastNameError(false);
+    } else {
+      setBarberLastNameError(true);
+    }
+  }
+
+  const [barberPhoneNum, setBarberPhoneNum] = useState("");
+  const [barberPhoneNumError, setBarberPhoneNumError] = useState("");
+
+  const handleBarberPhoneNum = (e) => {
+    setBarberPhoneNum(e.target.value);
+    if (e.target.validity.valid) {
+      setBarberPhoneNumError(false);
+    } else {
+      setBarberPhoneNumError(true);
+    }
+  }
+
+  
   // functions for tabs
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-
+  
   const [textInput, setTextInput] = useState("");
-
+  
   const handleTextInputChange = (event) => {
     setTextInput(event.target.value);
   };
+  
+  const customer1 = {
+      'user': {
+          'username': username,
+          'email': email,
+          'password': password,
+          'confirm_password': confirmPass
+      },
+  };
 
+  const barbersign = {
+    'user': {
+        'username': barberName,
+        'email': barberEmail,
+        'password': barberPassword,
+        'confirm_password': barberConfirmPass
+    },
+    'first_name': barberFirstName,
+    'last_name': barberLastName,
+    'phone_number': barberPhoneNum,
+};
+
+
+const [open, setOpen] = React.useState(false);
+
+
+
+const handleClose = () => {
+  setOpen(false);
+};
+
+  const customerSignupbutton = () => {
+    signUpNewCustomerAPI(customer1);
+    // alert("Haloo");
+    setOpen(true);
+  }
+
+  const barberSignupbutton = () => {
+    // signUpNewBarberAPI(barbersign);
+    alert('byee');
+
+  }
+
+  
   return (
     <div className="createAccount">
       <div className="imagew">
@@ -236,10 +278,10 @@ const CreateAcc = () => {
               },
             }}
             className="username"
-            value={name}
+            value={username}
             onChange={handleNameChange}
             error={nameError}
-            helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
+            // helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
             inputProps={{
               pattern: "[A-Za-z ]+",
             }}
@@ -271,11 +313,11 @@ const CreateAcc = () => {
             value={email}
             onChange={handleEmailChange}
             error={emailError}
-            helperText={emailError ? "ایمیل خود را وارد کنید" : ""}
+            // helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
             inputProps={{
               type: "email",
             }}
-          />{" "}
+          />
           <br />
           <TextField
             label="رمز"
@@ -314,11 +356,11 @@ const CreateAcc = () => {
             className="password"
             value={password}
             onChange={handlePassChange}
-            error={passwordError}
-            helperText={passwordError ? "رمز خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[a-zA-Z0-9._:$!%-]+",
-            }}
+            // error={passwordError}
+            // helperText={passwordError ? "رمز خود را وارد کنید" : ""}
+            // inputProps={{
+            //   pattern: "[a-zA-Z0-9._:$!%-]+",
+            // }}
           />
           <TextField
             label="تایید رمز"
@@ -357,15 +399,37 @@ const CreateAcc = () => {
             className="password"
             value={confirmPass}
             onChange={handleConfirmPassChange}
-            error={confirmPasswordError}
-            helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[a-zA-Z0-9._:$!%-]+",
-            }}
+            // error={confirmPasswordError}
+            // helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
+            // inputProps={{
+            //   pattern: "[a-zA-Z0-9._:$!%-]+",
+            // }}
           />
-          <button onClick={but} className="SignUp">
-            ثبت نام
-          </button>
+          <Fragment>
+            <button onClick={ customerSignupbutton } className="SignUp">
+              ثبت نام
+            </button>
+            <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {"response: 400"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            رکوئست باخت
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <button onClick={handleClose}>بستن</button>
+          
+        </DialogActions>
+      </Dialog>
+
+          </Fragment>
         </CustomTabPanel>
         <CustomTabPanel value={value} index={1}>
           <h1>پنل ثبت نام آرایشگر</h1>
@@ -547,8 +611,15 @@ const CreateAcc = () => {
               },
             }}
             className="name"
+            value={barberFirstName}
+            onChange={handleBarberFirstName}
+            error={barberFirstNameError}
+            helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
+            inputProps={{
+              pattern: "[A-Za-z ]+",
+            }}
           />
-          <CustomTextArea
+          {/* <CustomTextArea
             handleValue={handlePassChange}
             value={password}
             handleShowValue={handleShowPassword}
@@ -557,7 +628,7 @@ const CreateAcc = () => {
             errorText={"eshtebah"}
             showValue={showPassword}
             password
-          />
+          /> */}
           <TextField
             label="نام خانوادگی"
             variant="outlined"
@@ -580,6 +651,13 @@ const CreateAcc = () => {
               },
             }}
             className="lastName"
+            value={barberLastName}
+            onChange={handleBarberLastName}
+            error={barberLastNameError}
+            helperText={barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""}
+            inputProps={{
+              pattern: "[A-Za-z ]+",
+            }}
           />
           <TextField
             label="تلفن همراه"
@@ -603,8 +681,13 @@ const CreateAcc = () => {
                 fontSize: "10px",
               },
             }}
+            value={barberPhoneNum}
+            onChange={handleBarberPhoneNum}
+            error={barberPhoneNumError}
+            helperText={barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""}
+          
           />
-          <button onClick={but} className="SignUp">
+          <button onClick={ barberSignupbutton } className="SignUp">
             ثبت نام
           </button>
         </CustomTabPanel>

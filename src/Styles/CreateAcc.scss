@@ -6,22 +6,6 @@
   font-family: Roboto, "IRANYekan", sans-serif !important;
 }
 
-
-body {
-
-    margin: 0;
-    padding: 0;
-    display: flex;
-    justify-content: center;
-  
-    align-items: center;
-    height: 100vh;
-    background: #f2f2f2;
-    margin-top: 100px;
-
-  
-  }
-
   .createAccount {
     background: #f2f2f2;
       padding: 50px;
@@ -29,39 +13,58 @@ body {
       flex-direction: column;
       border-radius: 10px;
       box-shadow: 0 0 20px rgba(0, 0, 0, 0.5);
-      height: 400px;
+      height: 100%;
       width: 30rem;
+      position: fixed;
+      right: 0;
       h1 {
-        margin: -10px;
-        margin-bottom: 2px
+        margin-top: -7px;
       }
       .username {
         width: 30rem;
-        margin-bottom: -12px;
+        margin-bottom: 10px;
+        
       }
       .email {
         width: 30rem;
-        margin-bottom: -12px;
+        margin-bottom: 10px;
+        
       }
       .password {
         width: 30rem;
-        margin-bottom: 15px;
+        margin-bottom: 10px;
         .icon1 {
-          top: 25px;
+          top: 3px;
         }
       }
       .confirmPass {
-        margin-bottom: 4px;
+        margin-bottom: 10px;
+        .icon2{
+          top: 3px;
+        }
+      }
+      .name {
+        width: 30rem;
+        margin-bottom: 10px;
+      }
+      .lastName {
+        width: 30rem;
+        margin-bottom: 10px;
+      }
+
+      .telephoneNum {
+        width: 30rem;
+        margin-bottom: 10px;
+      }
+
+      .imagew {
+        position: fixed;
+        left: 0;
+      top: 0;   
       }
   }
 
 
-.checkbou {
-    border-radius: 20px;
-    width: fit-content;
-
-    margin-bottom:  20px;
-}
 
 .SignUp {
     display: flex;
@@ -70,7 +73,7 @@ body {
     width: 475px;
     height: 40px;
     border-radius: 10px;
-    background-color:rgb(27, 85, 244);
+    background-color:rgb(106, 128, 191);
     color: #f0f0f0;
     font-size: large;
     align-items: center;

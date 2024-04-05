@@ -4,7 +4,6 @@ import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
-import propTypes from "prop-types";
 
 export default function CustomTextArea({
   label,
