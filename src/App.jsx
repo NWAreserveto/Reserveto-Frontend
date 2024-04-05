@@ -1,6 +1,7 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
-import Login from "./Components/Login";
-import CreateAcc from "./Components/CreateAcc";
+import Login from "./pages/Login";
+import CreateAcc from "./pages/CreateAcc";
+
 
 function App() {
   return (
