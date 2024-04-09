@@ -12,44 +12,39 @@ import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
 import Imagew from "../images/barbim.jpg";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
-// import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
+import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
 import CustomTextArea from "../Components/textArea.jsx";
 import { CustomTabPanel } from "../Components/tabPanel.jsx";
 import { a11yProps } from "../Components/tabPanel.jsx";
-import Dialog from '@mui/material/Dialog';
-import DialogActions from '@mui/material/DialogActions';
-import DialogContent from '@mui/material/DialogContent';
-import DialogContentText from '@mui/material/DialogContentText';
-import DialogTitle from '@mui/material/DialogTitle';
-
-
-
-
-
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
 
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
     setIsChecked(!isChecked);
   };
-  
+
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
-  
+
   const [barberShowPassword, setBarberShowPassword] = useState(false);
   const handleBarberShowPassword = () => setBarberShowPassword(!showPassword);
-  
+
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleClickShowConfirmPassword = () =>
-  setShowConfirmPassword(!showPassword);
-  
+    setShowConfirmPassword(!showPassword);
+
   const [showBarberConfirmPassword, setShowBarberConfirmPassword] =
-  useState(false);
+    useState(false);
   const handleClickShowBarberConfirmPassword = () =>
-  setShowBarberConfirmPassword(!showPassword);
-  
+    setShowBarberConfirmPassword(!showPassword);
+
   const [check, setCheck] = useState(false);
-  
+
   const [username, setName] = useState("");
   const [nameError, setNameError] = useState(false);
   const handleNameChange = (e) => {
@@ -70,11 +65,10 @@ const CreateAcc = () => {
       setBarberNameError(true);
     }
   };
-  
+
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
-  
-  
+
   const handleEmailChange = (e) => {
     setEmail(e.target.value);
     if (e.target.validity.valid) {
@@ -83,10 +77,10 @@ const CreateAcc = () => {
       setEmailError(true);
     }
   };
-  
+
   const [barberEmail, setBarberEmail] = useState("");
   const [barberEmailError, setBarberEmailError] = useState("");
-  
+
   const handleBarberEmailChange = (e) => {
     setBarberEmail(e.target.value);
     if (e.target.validity.valid) {
@@ -95,10 +89,10 @@ const CreateAcc = () => {
       setBarberEmailError(true);
     }
   };
-  
+
   const [password, setPassword] = useState("");
   const [passwordError, setpasswordError] = useState("");
-  
+
   const handlePassChange = (e) => {
     setPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -107,10 +101,10 @@ const CreateAcc = () => {
       setpasswordError(true);
     }
   };
-  
+
   const [barberPassword, setBarberPassword] = useState("");
   const [barberPasswordError, setBarberpasswordError] = useState("");
-  
+
   const handleBarberPassChange = (e) => {
     setBarberPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -119,10 +113,10 @@ const CreateAcc = () => {
       setBarberpasswordError(true);
     }
   };
-  
+
   const [confirmPass, setConfirmPassword] = useState("");
   const [confirmPasswordError, setConfirmPasswordError] = useState("");
-  
+
   const handleConfirmPassChange = (e) => {
     setConfirmPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -131,10 +125,11 @@ const CreateAcc = () => {
       setConfirmPasswordError(true);
     }
   };
-  
+
   const [barberConfirmPass, setBarberConfirmPassword] = useState("");
-  const [barberConfirmPasswordError, setBarberConfirmPasswordError] = useState("");
-  
+  const [barberConfirmPasswordError, setBarberConfirmPasswordError] =
+    useState("");
+
   const handleBarberConfirmPassChange = (e) => {
     setBarberConfirmPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -154,7 +149,7 @@ const CreateAcc = () => {
     } else {
       setBarberFirstNameError(true);
     }
-  }
+  };
 
   const [barberLastName, setBarberLastName] = useState("");
   const [barberLastNameError, setBarberLastNameError] = useState("");
@@ -166,7 +161,7 @@ const CreateAcc = () => {
     } else {
       setBarberLastNameError(true);
     }
-  }
+  };
 
   const [barberPhoneNum, setBarberPhoneNum] = useState("");
   const [barberPhoneNumError, setBarberPhoneNumError] = useState("");
@@ -178,448 +173,472 @@ const CreateAcc = () => {
     } else {
       setBarberPhoneNumError(true);
     }
-  }
+  };
 
-  
   // functions for tabs
   const [value, setValue] = React.useState(0);
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
-  
+
   const [textInput, setTextInput] = useState("");
-  
+
   const handleTextInputChange = (event) => {
     setTextInput(event.target.value);
   };
-  
+
   const customer1 = {
-      'user': {
-          'username': username,
-          'email': email,
-          'password': password,
-          'confirm_password': confirmPass
-      },
+    user: {
+      username: username,
+      email: email,
+      password: password,
+      confirm_password: confirmPass,
+    },
+  };
+
+  //   const customer1 = {
+  //     'user': {
+  //         'username': 'tarasetare',
+  //         'email': 'ajsdasdj@gmail.com',
+  //         'password': 'password23871',
+  //         'confirm_password': 'password23871'
+  //     },
+  // };
+
+  const barber1 = {
+    user: {
+      username: barberName,
+      email: barberEmail,
+      password: barberPassword,
+      confirm_password: barberConfirmPass,
+    },
+    first_name: barberFirstName,
+    last_name: barberLastName,
+    phone_number: barberPhoneNum,
   };
 
   const barbersign = {
-    'user': {
-        'username': barberName,
-        'email': barberEmail,
-        'password': barberPassword,
-        'confirm_password': barberConfirmPass
+    user: {
+      username: "tasdqqessdsftbarber",
+      email: "barwdqberdwd@test.com",
+      password: "Mohammad13822003",
+      confirm_password: "Mohammad13822003",
     },
-    'first_name': barberFirstName,
-    'last_name': barberLastName,
-    'phone_number': barberPhoneNum,
-};
+    first_name: "Johnhjj",
+    last_name: "Dosakjdne",
+    phone_number: "+1234571360",
+  };
 
+  const [open, setOpen] = React.useState(false);
 
-const [open, setOpen] = React.useState(false);
-
-
-
-const handleClose = () => {
-  setOpen(false);
-};
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const customerSignupbutton = () => {
     signUpNewCustomerAPI(customer1);
     // alert("Haloo");
     setOpen(true);
-  }
+  };
 
   const barberSignupbutton = () => {
-    // signUpNewBarberAPI(barbersign);
-    alert('byee');
+    signUpNewBarberAPI(barber1);
+    // alert('byee');
+  };
 
-  }
-
-  
   return (
-    <div className="createAccount">
-      <div className="imagew">
-        <img src={Imagew} alt="wbarber" />
-      </div>
-      <Box sx={{ width: "100%" }}>
-        <Box sx={{ borderBottom: 1, borderColor: "divider" }}>
-          <Tabs
-            value={value}
-            onChange={handleChange}
-            aria-label="basic tabs example"
-          >
-            <Tab label="کاربر" {...a11yProps(0)} />
-            <Tab label="آرایشگر" {...a11yProps(1)} />
-          </Tabs>
-        </Box>
-        <CustomTabPanel value={value} index={0}>
-          <h1>پنل ثبت نام کاربر</h1>
-          {/* <CustomTextArea  showPassword handleShowPassword passwordError password passwordErrorText  handlePassChange={}/> */}
-          <TextField
-            id="outlined-basic"
-            label="نام کاربری"
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="username"
-            value={username}
-            onChange={handleNameChange}
-            error={nameError}
-            // helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />{" "}
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="ایمیل"
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="email"
-            value={email}
-            onChange={handleEmailChange}
-            error={emailError}
-            // helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
-            inputProps={{
-              type: "email",
-            }}
-          />
-          <br />
-          <TextField
-            label="رمز"
-            variant="outlined"
-            type={showPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    className="icon1"
-                    aria-label="toggle password visibility"
-                    onClick={handleShowPassword}
-                  >
-                    {showPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="password"
-            value={password}
-            onChange={handlePassChange}
-            // error={passwordError}
-            // helperText={passwordError ? "رمز خود را وارد کنید" : ""}
-            // inputProps={{
-            //   pattern: "[a-zA-Z0-9._:$!%-]+",
-            // }}
-          />
-          <TextField
-            label="تایید رمز"
-            variant="outlined"
-            type={showConfirmPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    className="icon2"
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowConfirmPassword}
-                  >
-                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="password"
-            value={confirmPass}
-            onChange={handleConfirmPassChange}
-            // error={confirmPasswordError}
-            // helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
-            // inputProps={{
-            //   pattern: "[a-zA-Z0-9._:$!%-]+",
-            // }}
-          />
-          <Fragment>
-            <button onClick={ customerSignupbutton } className="SignUp">
-              ثبت نام
-            </button>
-            <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {"response: 400"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            رکوئست باخت
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <button onClick={handleClose}>بستن</button>
-          
-        </DialogActions>
-      </Dialog>
-
-          </Fragment>
-        </CustomTabPanel>
-        <CustomTabPanel value={value} index={1}>
-          <h1>پنل ثبت نام آرایشگر</h1>
-          <TextField
-            id="outlined-basic"
-            label="نام کاربری"
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="username"
-            value={barberName}
-            onChange={handleBarberNameChange}
-            error={barberNameError}
-            helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />{" "}
-          <br />
-          <TextField
-            id="outlined-basic"
-            label="ایمیل"
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="email"
-            value={barberEmail}
-            onChange={handleBarberEmailChange}
-            error={barberEmailError}
-            helperText={barberEmailError ? "ایمیل خود را وارد کنید" : ""}
-            inputProps={{
-              type: "email",
-            }}
-          />{" "}
-          <br />
-          <TextField
-            label="رمز"
-            variant="outlined"
-            type={barberShowPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    className="icon1"
-                    aria-label="toggle password visibility"
-                    onClick={handleBarberShowPassword}
-                  >
-                    {barberShowPassword ? <Visibility /> : <VisibilityOff />}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="password"
-            value={barberPassword}
-            onChange={handleBarberPassChange}
-            error={barberPasswordError}
-            helperText={barberPasswordError ? "رمز خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[a-zA-Z0-9._:$!%-]+",
-            }}
-          />
-          <TextField
-            label="تایید رمز"
-            variant="outlined"
-            type={showBarberConfirmPassword ? "text" : "password"}
-            InputProps={{
-              endAdornment: (
-                <InputAdornment position="end">
-                  <IconButton
-                    className="icon2"
-                    aria-label="toggle password visibility"
-                    onClick={handleClickShowBarberConfirmPassword}
-                  >
-                    {showBarberConfirmPassword ? (
-                      <Visibility />
-                    ) : (
-                      <VisibilityOff />
-                    )}
-                  </IconButton>
-                </InputAdornment>
-              ),
-            }}
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="password"
-            value={barberConfirmPass}
-            onChange={handleBarberConfirmPassChange}
-            error={barberConfirmPasswordError}
-            helperText={
-              barberConfirmPasswordError ? "رمز خود را وارد کنید" : ""
-            }
-            inputProps={{
-              pattern: "[a-zA-Z0-9._:$!%-]+",
-            }}
-          />
-          <TextField
-            label="نام "
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="name"
-            value={barberFirstName}
-            onChange={handleBarberFirstName}
-            error={barberFirstNameError}
-            helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />
-          {/* <CustomTextArea
+    <body>
+      <div className="container" />
+      <div className="createAccount">
+        <Box sx={{ width: "100%" }} className="koli">
+          <Box className="tabs">
+            <Tabs
+              value={value}
+              onChange={handleChange}
+              aria-label="basic tabs example"
+              variant="fullWidth"
+              // className="tabs"
+              sx={{
+                backgroundColor: "var(--primary-color)",
+                ".Mui-selected": {
+                  color: "#668F8494",
+                },
+              }}
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#668F84",
+                },
+              }}
+            >
+              <Tab label="کاربر" {...a11yProps(0)} />
+              <Tab label="آرایشگر" {...a11yProps(1)} />
+            </Tabs>
+          </Box>
+          <CustomTabPanel value={value} index={0} className="tab1">
+            {/* <CustomTextArea  showPassword handleShowPassword passwordError password passwordErrorText  handlePassChange={}/> */}
+            <div className="tab1"></div>
+            <TextField
+              id="outlined-basic"
+              label="نام کاربری"
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="username"
+              value={username}
+              onChange={handleNameChange}
+              error={nameError}
+              // helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />{" "}
+            <br />
+            <TextField
+              id="outlined-basic"
+              label="ایمیل"
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="email"
+              value={email}
+              onChange={handleEmailChange}
+              error={emailError}
+              // helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
+              inputProps={{
+                type: "email",
+              }}
+            />
+            <br />
+            <TextField
+              label="رمز"
+              variant="outlined"
+              type={showPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      className="icon1"
+                      aria-label="toggle password visibility"
+                      onClick={handleShowPassword}
+                    >
+                      {showPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="password"
+              value={password}
+              onChange={handlePassChange}
+              // error={passwordError}
+              // helperText={passwordError ? "رمز خود را وارد کنید" : ""}
+              // inputProps={{
+              //   pattern: "[a-zA-Z0-9._:$!%-]+",
+              // }}
+            />
+            <TextField
+              label="تایید رمز"
+              variant="outlined"
+              type={showConfirmPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      className="icon2"
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowConfirmPassword}
+                    >
+                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="password"
+              value={confirmPass}
+              onChange={handleConfirmPassChange}
+              // error={confirmPasswordError}
+              // helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
+              // inputProps={{
+              //   pattern: "[a-zA-Z0-9._:$!%-]+",
+              // }}
+            />
+            <Fragment>
+              <button onClick={customerSignupbutton} className="SignUpCustomer">
+                ثبت نام
+              </button>
+              <Dialog
+                open={open}
+                onClose={handleClose}
+                aria-labelledby="alert-dialog-title"
+                aria-describedby="alert-dialog-description"
+              >
+                <DialogTitle id="alert-dialog-title">
+                  {"response: 400"}
+                </DialogTitle>
+                <DialogContent>
+                  <DialogContentText id="alert-dialog-description">
+                    رکوئست باخت
+                  </DialogContentText>
+                </DialogContent>
+                <DialogActions>
+                  <button onClick={handleClose}>بستن</button>
+                </DialogActions>
+              </Dialog>
+            </Fragment>
+          </CustomTabPanel>
+          <CustomTabPanel value={value} index={1} className="tab2">
+            <TextField
+              id="outlined-basic"
+              label="نام کاربری"
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="username"
+              value={barberName}
+              onChange={handleBarberNameChange}
+              error={barberNameError}
+              helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />{" "}
+            <br />
+            <TextField
+              id="outlined-basic"
+              label="ایمیل"
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="email"
+              value={barberEmail}
+              onChange={handleBarberEmailChange}
+              error={barberEmailError}
+              helperText={barberEmailError ? "ایمیل خود را وارد کنید" : ""}
+              inputProps={{
+                type: "email",
+              }}
+            />{" "}
+            <br />
+            <TextField
+              label="رمز"
+              variant="outlined"
+              type={barberShowPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      className="icon1"
+                      aria-label="toggle password visibility"
+                      onClick={handleBarberShowPassword}
+                    >
+                      {barberShowPassword ? <Visibility /> : <VisibilityOff />}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="password"
+              value={barberPassword}
+              onChange={handleBarberPassChange}
+              error={barberPasswordError}
+              helperText={barberPasswordError ? "رمز خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[a-zA-Z0-9._:$!%-]+",
+              }}
+            />
+            <TextField
+              label="تایید رمز"
+              variant="outlined"
+              type={showBarberConfirmPassword ? "text" : "password"}
+              InputProps={{
+                endAdornment: (
+                  <InputAdornment position="end">
+                    <IconButton
+                      className="icon2"
+                      aria-label="toggle password visibility"
+                      onClick={handleClickShowBarberConfirmPassword}
+                    >
+                      {showBarberConfirmPassword ? (
+                        <Visibility />
+                      ) : (
+                        <VisibilityOff />
+                      )}
+                    </IconButton>
+                  </InputAdornment>
+                ),
+              }}
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="password"
+              value={barberConfirmPass}
+              onChange={handleBarberConfirmPassChange}
+              error={barberConfirmPasswordError}
+              helperText={
+                barberConfirmPasswordError ? "رمز خود را وارد کنید" : ""
+              }
+              inputProps={{
+                pattern: "[a-zA-Z0-9._:$!%-]+",
+              }}
+            />
+            <TextField
+              label="نام "
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="name"
+              value={barberFirstName}
+              onChange={handleBarberFirstName}
+              error={barberFirstNameError}
+              helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
+            {/* <CustomTextArea
             handleValue={handlePassChange}
             value={password}
             handleShowValue={handleShowPassword}
@@ -629,70 +648,74 @@ const handleClose = () => {
             showValue={showPassword}
             password
           /> */}
-          <TextField
-            label="نام خانوادگی"
-            variant="outlined"
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            className="lastName"
-            value={barberLastName}
-            onChange={handleBarberLastName}
-            error={barberLastNameError}
-            helperText={barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />
-          <TextField
-            label="تلفن همراه"
-            type="number"
-            variant="outlined"
-            className="telephoneNum"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-            }}
-            value={barberPhoneNum}
-            onChange={handleBarberPhoneNum}
-            error={barberPhoneNumError}
-            helperText={barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""}
-          
-          />
-          <button onClick={ barberSignupbutton } className="SignUp">
-            ثبت نام
-          </button>
-        </CustomTabPanel>
-      </Box>
-    </div>
+            <TextField
+              label="نام خانوادگی"
+              variant="outlined"
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              className="lastName"
+              value={barberLastName}
+              onChange={handleBarberLastName}
+              error={barberLastNameError}
+              helperText={
+                barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""
+              }
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
+            <TextField
+              label="تلفن همراه"
+              type="number"
+              variant="outlined"
+              className="telephoneNum"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+              }}
+              value={barberPhoneNum}
+              onChange={handleBarberPhoneNum}
+              error={barberPhoneNumError}
+              helperText={
+                barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""
+              }
+            />
+            <button onClick={barberSignupbutton} className="SignUpBarber">
+              ثبت نام
+            </button>
+          </CustomTabPanel>
+        </Box>
+      </div>
+    </body>
   );
 };
 

@@ -1,6 +1,7 @@
 import { HashRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
+import Temp from "./Components/temp";
 
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
         <Route path="/CreateAcc" element= {<CreateAcc />} />
       </Routes>
     </Router>
+    
   );
 }
 

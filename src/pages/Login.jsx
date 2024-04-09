@@ -5,26 +5,51 @@ import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 // import Box from "@mui/material/Box";
-import Image from "../images/rad.jpg";
+import Image from "../images/LoginBackground.jpg";
 // import CustomTextArea from "../components/textArea";
-
-const login = () => {
-  alert("you have succesfully logged in!");
-};
+import LoginCOB from "../API/APIendpointLogin";
 
 const Login = () => {
+  const [username, setUsername] = useState("");
+  const [usernameError, setUsernameError] = useState("");
+
+  const handleUsername = (e) => {
+    setUsername(e.target.value);
+    if (e.target.validity.valid) {
+      setUsernameError(false);
+    } else {
+      setUsernameError(true);
+    }
+  };
+
+  const [password, setPassword] = useState("");
+  const [passwordError, setPasswordError] = useState("");
+  const handlePassword = (e) => {
+    setPassword(e.target.value);
+    if (e.target.validity.valid) {
+      setPasswordError(false);
+    } else {
+      setPasswordError(true);
+    }
+  };
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
 
+  const person = {
+    username: username,
+    password: password,
+  };
+
+  const loginButton = () => {
+    LoginCOB(person);
+  };
+
   return (
     <body>
-      <div className="image">
-        <img src={Image} alt="barber" />
-      </div>{" "}
-      diso
+      <div className="container" />
+
       <div className="login">
         <form className="login-form">
-          <h1 className="text">رزروتو، رزرو برای همه</h1>
           <h1>ورود به حساب کاربری</h1>
           <TextField
             id="outlined-basic"
@@ -48,6 +73,9 @@ const Login = () => {
             label="نام کاربری"
             variant="outlined"
             className="email"
+            value={username}
+            onChange={handleUsername}
+            error={usernameError}
           />
           <TextField
             label="رمز"
@@ -84,23 +112,22 @@ const Login = () => {
               },
             }}
             className="password"
+            value={password}
+            onChange={handlePassword}
+            error={passwordError}
           />
 
-          <button onClick={login} className="loginButton">
+          <button onClick={loginButton} className="loginButton">
             ورود
           </button>
 
           <div className="links">
-            <div className="link1">
-              <Link to="/CreateAcc">
-                <a className="createAcc">حساب کاربری نداری؟</a>
-              </Link>
-            </div>
-            <div className="link2">
-              <a href="." className="forgetPass">
-                رمزتو یادت رفته؟
-              </a>
-            </div>
+            <Link to="/CreateAcc">
+              <a className="createAcc">حساب کاربری نداری؟</a>
+            </Link>
+            <a href="." className="forgetPass">
+              رمزتو یادت رفته؟
+            </a>
           </div>
         </form>
       </div>
