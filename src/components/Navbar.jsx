@@ -1,27 +1,64 @@
-import { AppBar, Toolbar, Typography, Button, Box } from '@mui/material';
+import { Link } from "react-scroll";
+import style from "../styles/Navbar.module.scss";
 
-const Navbar = () => {
+const Navbar = ({ setLoginHovered }) => {
   return (
-    <div>
-      <AppBar position="static">
-        <Toolbar style={{display: 'flex', justifyContent: 'space-between', alignItems: "center", padding: "0px 100px"}}>
-          <Box>
-            <Button color="inherit">
-              <Typography variant="h6" component="div">
-                رزروتو
-              </Typography>
-            </Button>
-          </Box>
-          <Box>
-            <Button color="inherit" >آرایشگران</Button>
-            <Button color="inherit" >آرایشگاه ها</Button>
-            <Button color="inherit" >خدمات</Button>
-          </Box>
-          <Box style={{ position: 'relative' }}>
-            <Button color="inherit">ورود | ثبت نام</Button>
-          </Box>
-        </Toolbar>
-      </AppBar>
+    <div className={style.header}>
+      <nav className={style.navbar}>
+        <ul className={style.navMenu}>
+          <a
+            href="/"
+            className={style.logo}
+          >
+            <h2>رزروتو</h2>
+          </a>
+          <li className={style.navItem}>
+            <Link
+              to="services"
+              spy={true}
+              smooth={true}
+              offset={0}
+              duration={500}
+            >
+              خدمات
+            </Link>
+          </li>
+          <li className={style.navItem}>
+            <Link
+              to="tutorial"
+              spy={true}
+              smooth={true}
+              offset={-40}
+              duration={500}
+            >
+              آموزش
+            </Link>
+          </li>
+          <li className={style.navItem}>
+            <Link
+              to="about"
+              spy={true}
+              smooth={true}
+              offset={0}
+              duration={500}
+            >
+              درباره ما
+            </Link>
+          </li>
+        </ul>
+        <a
+          className={style.login}
+          href="/"
+          onMouseEnter={() => {
+            setLoginHovered(true);
+          }}
+          onMouseLeave={() => {
+            setLoginHovered(false);
+          }}
+        >
+          ورود | عضویت
+        </a>
+      </nav>
     </div>
   );
 };

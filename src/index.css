@@ -1,13 +1,48 @@
 @import url(https://fonts.cdnfonts.com/css/iranyekan);
 
 :root {
-    --primary-color: #F0F0F0; /* Light Gray */
-    --secondary-color: #3F51B5; /* Green */
-    --background-color: #FFFFFF; /* White */
-    --text-color: #333333; /* Dark Gray */
-  }
+  --primary-color: #e8dbc4;
+  --primary-color-lighter: #F9F2DE;
+  --secondary-color: #668F84;
+  --secondary-color-lighter: #8CB69B;
+  --overlay: #01211E;
+}
 
-*{
-    direction: rtl;
-    font-family: Roboto, "IRANYekan", sans-serif !important;
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: var(--secondary-color);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: var(--secondary-color-lighter);
+}
+
+* {
+  font-family: Roboto, "IRANYekan", sans-serif !important;
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  direction: rtl;
+}
+
+body {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.2;
+}
+
+ul {
+  list-style-type: none;
+}
+
+a {
+  text-decoration: none;
 }
