@@ -1,10 +1,10 @@
 import "./App.css";
-import Landing from "./pages/Landing";
+import BarbersLanding from "./pages/BarbersLanding";
 
 function App() {
   return (
     <div className="App">
-      <Landing />
+      <BarbersLanding />
     </div>
   );
 }

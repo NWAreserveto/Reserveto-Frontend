@@ -1,0 +1,33 @@
+.searchTab{
+    h4{
+        margin: 40px 14px 10px 10px;
+        width: 100%;
+        font-size: 15px;
+    }
+
+    ul{
+        margin: 0 14px 10px 10px;
+        font-size: 15px;
+        display: flex;
+        flex-direction: column;
+        justify-content: space-between;
+        list-style-type: circle;
+        list-style-position: inside;
+      }
+    
+      li{
+        padding-bottom: 5px;
+      }
+    
+      a {
+        color: var(--secondary-color-lighter);
+        cursor: pointer;
+        }
+    
+      a:hover {
+        color: var(--secondary-colors);
+        cursor: pointer;
+        }
+}
+
+
