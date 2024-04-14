@@ -4,9 +4,6 @@ import { InputAdornment, TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-// import Box from "@mui/material/Box";
-import Image from "../images/LoginBackground.jpg";
-// import CustomTextArea from "../components/textArea";
 import LoginCOB from "../API/APIendpointLogin";
 
 const Login = () => {
@@ -40,12 +37,13 @@ const Login = () => {
     password: password,
   };
 
-  const loginButton = () => {
+  const loginButt = (event) => {
+    event.preventDefault();
     LoginCOB(person);
   };
 
   return (
-    <body>
+    <div className="body">
       <div className="container" />
 
       <div className="login">
@@ -75,7 +73,7 @@ const Login = () => {
             className="email"
             value={username}
             onChange={handleUsername}
-            error={usernameError}
+            // error={usernameError}
           />
           <TextField
             label="رمز"
@@ -114,24 +112,28 @@ const Login = () => {
             className="password"
             value={password}
             onChange={handlePassword}
-            error={passwordError}
+            // error={passwordError}
           />
 
-          <button onClick={loginButton} className="loginButton">
-            ورود
-          </button>
+          <input
+            type="submit"
+            className="loginButton"
+            id="loginbutto"
+            onClick={loginButt}
+            value="ورود"
+          />
 
           <div className="links">
-            <Link to="/CreateAcc">
-              <a className="createAcc">حساب کاربری نداری؟</a>
+            <Link to="/CreateAcc" className="createAcc">
+              حساب کاربری نداری؟
             </Link>
-            <a href="." className="forgetPass">
+            <Link href="/forgetPassword" className="forgetPass">
               رمزتو یادت رفته؟
-            </a>
+            </Link>
           </div>
         </form>
       </div>
-    </body>
+    </div>
   );
 };
 

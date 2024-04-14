@@ -1,7 +1,7 @@
 import axios from "axios";
 
 const LoginCOB = async (person) => {
-  const api = axios.create({ baseURL: "http://127.0.0.1:8000" });
+  const api = axios.create({ baseURL: "https://reserveto-back.onrender.com/" });
 
   try {
     const response = await api.post("/api/login/", person);

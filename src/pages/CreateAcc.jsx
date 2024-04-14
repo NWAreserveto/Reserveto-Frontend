@@ -217,17 +217,17 @@ const CreateAcc = () => {
     phone_number: barberPhoneNum,
   };
 
-  const barbersign = {
-    user: {
-      username: "tasdqqessdsftbarber",
-      email: "barwdqberdwd@test.com",
-      password: "Mohammad13822003",
-      confirm_password: "Mohammad13822003",
-    },
-    first_name: "Johnhjj",
-    last_name: "Dosakjdne",
-    phone_number: "+1234571360",
-  };
+  // const barbersign = {
+  //   user: {
+  //     username: "tasdqqessdsftbarber",
+  //     email: "barwdqberdwd@test.com",
+  //     password: "Mohammad13822003",
+  //     confirm_password: "Mohammad13822003",
+  //   },
+  //   first_name: "Johnhjj",
+  //   last_name: "Dosakjdne",
+  //   phone_number: "+1234571360",
+  // };
 
   const [open, setOpen] = React.useState(false);
 
@@ -238,7 +238,7 @@ const CreateAcc = () => {
   const customerSignupbutton = () => {
     signUpNewCustomerAPI(customer1);
     // alert("Haloo");
-    setOpen(true);
+    // setOpen(true);
   };
 
   const barberSignupbutton = () => {
