@@ -196,15 +196,6 @@ const CreateAcc = () => {
     },
   };
 
-  //   const customer1 = {
-  //     'user': {
-  //         'username': 'tarasetare',
-  //         'email': 'ajsdasdj@gmail.com',
-  //         'password': 'password23871',
-  //         'confirm_password': 'password23871'
-  //     },
-  // };
-
   const barber1 = {
     user: {
       username: barberName,
@@ -216,18 +207,6 @@ const CreateAcc = () => {
     last_name: barberLastName,
     phone_number: barberPhoneNum,
   };
-
-  // const barbersign = {
-  //   user: {
-  //     username: "tasdqqessdsftbarber",
-  //     email: "barwdqberdwd@test.com",
-  //     password: "Mohammad13822003",
-  //     confirm_password: "Mohammad13822003",
-  //   },
-  //   first_name: "Johnhjj",
-  //   last_name: "Dosakjdne",
-  //   phone_number: "+1234571360",
-  // };
 
   const [open, setOpen] = React.useState(false);
 
@@ -257,6 +236,7 @@ const CreateAcc = () => {
               onChange={handleChange}
               aria-label="basic tabs example"
               variant="fullWidth"
+              textColor="#668F84"
               // className="tabs"
               sx={{
                 backgroundColor: "var(--primary-color)",

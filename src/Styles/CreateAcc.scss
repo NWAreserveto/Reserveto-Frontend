@@ -23,7 +23,7 @@ body {
   position:fixed;
   display: flex;
   background-color: var(--primary-color);
-  opacity: 0.6;
+  opacity: 0.8;
   flex-direction: column;
   // justify-content: center;
   // align-items: center;
@@ -169,6 +169,11 @@ body {
         background-color: var(--secondary-color);
         border-radius: 5px;
         height: 3rem;
+        border: 0;
+      }
+      .SignUpCustomer:hover {
+        border: 2px;
+        border-color: black;
       }
 
       .SignUpBarber {
@@ -176,6 +181,11 @@ body {
         background-color: var(--secondary-color);
         height: 3rem;
         border-radius: 5px;
+        border: 0;
+      }
+      .SignUpBarber:hover {
+        border: 2px;
+        border-color: black;
       }
   }
 

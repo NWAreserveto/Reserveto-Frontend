@@ -44,7 +44,7 @@ body {
 position:fixed;
 display: flex;
 background-color: #E8DBC4;
-opacity: 0.6;
+opacity: 0.8;
 flex-direction: column;
 justify-content: center;
 border-radius: 10px;
@@ -133,15 +133,21 @@ justify-content: center;
 margin-top: 10px;
 margin-bottom: 10px;
 width: 22rem;
-height: 40px;
+height: 3rem;
 border: none;
 border-radius: 10px;
 // background-color:rgb(106, 128, 191);
 background-color: var(--secondary-color);
 font-size: large;
 align-items: center;
+border: 0;
 
 }
+
+.loginButton:hover {
+  border: 3px;
+}
+
 
 .links {
   display: flex;
@@ -164,4 +170,24 @@ align-items: center;
   // }
   
   
+}
+
+.messageBox {
+  background-color: var(--primary-color);
+  width: 30rem;
+  
+}
+
+.email_forgetpass {
+  input.MuiInputBase-input {
+    border-bottom-color: var(--secondary-color) !important; // Override default border color to red
+  }
+
+  label.MuiInputLabel-root.Mui-focused {
+    color: var(--secondary-color) !important; // Optionally change the label color when focused
+  }
+
+  .MuiOutlinedInput-root.Mui-focused .MuiOutlinedInput-notchedOutline {
+    border-color: var(--secondary-color) !important; // Optionally change outline color when focused
+  }
 }

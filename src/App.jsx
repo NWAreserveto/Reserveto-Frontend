@@ -1,18 +1,22 @@
-import { HashRouter as Router, Routes, Route } from "react-router-dom";
+import {
+  HashRouter as Router,
+  Routes,
+  Route,
+  BrowserRouter,
+} from "react-router-dom";
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
-import Temp from "./Components/temp";
-
+import BarbersCard from "./Components/BarberCard";
 
 function App() {
   return (
-    <Router>
+    <BrowserRouter>
       <Routes>
-        <Route path="/" element= {<Login />} />
-        <Route path="/CreateAcc" element= {<CreateAcc />} />
+        <Route path="/" element={<Login />} />
+        <Route path="/CreateAcc" element={<CreateAcc />} />
       </Routes>
-    </Router>
-    
+    </BrowserRouter>
+    // <BarbersCard />
   );
 }
 
