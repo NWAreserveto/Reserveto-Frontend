@@ -592,16 +592,6 @@ const CreateAcc = () => {
                 pattern: "[A-Za-z ]+",
               }}
             />
-            {/* <CustomTextArea
-            handleValue={handlePassChange}
-            value={password}
-            handleShowValue={handleShowPassword}
-            label="رمز"
-            error={passwordError}
-            errorText={"eshtebah"}
-            showValue={showPassword}
-            password
-          /> */}
             <TextField
               label="نام خانوادگی"
               variant="outlined"

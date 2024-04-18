@@ -8,6 +8,7 @@ import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
 import BarbersCard from "./Components/BarberCard";
 import ForgetPassword from "./pages/ForgetPassword";
+import NewPassword from "./pages/NewPassword";
 
 function App() {
   return (
@@ -19,6 +20,7 @@ function App() {
       </Routes>
     </BrowserRouter>
     // <BarbersCard />
+    // <NewPassword />
   );
 }
 
