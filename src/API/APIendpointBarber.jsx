@@ -9,6 +9,7 @@ const signUpNewBarberAPI = async (barber1) => {
     throw response.status;
   }
   console.log(response.status);
+  alert("مشکل داریاا!!");
   // throw Error(response.data);
 
   // Handle error here, maybe display a message to the user

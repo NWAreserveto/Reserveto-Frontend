@@ -4,23 +4,15 @@ import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-// import propTypes from "prop-types";
-// import { PropTypes } from "@mui/material/";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
-import Typography from "@mui/material/Typography";
 import Box from "@mui/material/Box";
-import Imagew from "../images/barbim.jpg";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
 import CustomTextArea from "../Components/textArea.jsx";
 import { CustomTabPanel } from "../Components/tabPanel.jsx";
 import { a11yProps } from "../Components/tabPanel.jsx";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
+import { Link } from "react-router-dom";
 
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -283,7 +275,7 @@ const CreateAcc = () => {
               value={username}
               onChange={handleNameChange}
               error={nameError}
-              // helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
+              helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
               inputProps={{
                 pattern: "[A-Za-z ]+",
               }}
@@ -315,7 +307,7 @@ const CreateAcc = () => {
               value={email}
               onChange={handleEmailChange}
               error={emailError}
-              // helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
+              helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
               inputProps={{
                 type: "email",
               }}
@@ -407,29 +399,11 @@ const CreateAcc = () => {
               //   pattern: "[a-zA-Z0-9._:$!%-]+",
               // }}
             />
-            <Fragment>
+            <Link to="/">
               <button onClick={customerSignupbutton} className="SignUpCustomer">
                 ثبت نام
               </button>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">
-                  {"response: 400"}
-                </DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    رکوئست باخت
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <button onClick={handleClose}>بستن</button>
-                </DialogActions>
-              </Dialog>
-            </Fragment>
+            </Link>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1} className="tab2">
             <TextField
@@ -689,9 +663,11 @@ const CreateAcc = () => {
                 barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""
               }
             />
-            <button onClick={barberSignupbutton} className="SignUpBarber">
-              ثبت نام
-            </button>
+            <Link to="/">
+              <button onClick={barberSignupbutton} className="SignUpBarber">
+                ثبت نام
+              </button>
+            </Link>
           </CustomTabPanel>
         </Box>
       </div>

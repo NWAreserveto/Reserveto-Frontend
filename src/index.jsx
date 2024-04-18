@@ -5,6 +5,7 @@ import './Styles/CreateAcc.scss'
 import './Styles/Login.scss'
 import App from './App';
 import reportWebVitals from './reportWebVitals';
+import './Styles/ForgetPassword.scss';
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
