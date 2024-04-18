@@ -9,7 +9,7 @@ import Collapse from "@mui/material/Collapse";
 import Avatar from "@mui/material/Avatar";
 import IconButton from "@mui/material/IconButton";
 import Typography from "@mui/material/Typography";
-import { red } from "@mui/material/colors";
+import { purple, red } from "@mui/material/colors";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareIcon from "@mui/icons-material/Share";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
@@ -17,6 +17,7 @@ import MoreVertIcon from "@mui/icons-material/MoreVert";
 import { hover } from "@testing-library/user-event/dist/hover";
 import { Tooltip } from "@mui/material";
 import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import StarIcon from "@mui/icons-material/Star";
 
 const ExpandMore = styled((props) => {
   const { expand, ...other } = props;
@@ -39,18 +40,19 @@ export default function BarbersCard() {
   return (
     <Card sx={{ maxWidth: 345, borderRadius: "7px", width: 300 }}>
       <CardHeader
+        sx={{ flexDirection: "row", justifyContent: "space-between" }}
         avatar={
-          <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-            R
+          <Avatar
+            sx={{
+              bgcolor: purple[500],
+              marginLeft: "5px",
+            }}
+            aria-label="recipe"
+          >
+            K
           </Avatar>
         }
-        // action={
-        //   <IconButton aria-label="settings">
-        //     <MoreVertIcon />
-        //   </IconButton>
-        // }
         title="کوشا لاهوتی"
-        // subheader="September 14, 2016"
       />
       <CardMedia
         component="img"
@@ -85,19 +87,16 @@ export default function BarbersCard() {
             <ShareIcon />
           </IconButton>
         </Tooltip>
-        <ExpandMore
-          expand={expanded}
-          onClick={handleExpandClick}
-          aria-expanded={expanded}
-          aria-label="show more"
-        >
-          <ExpandMoreIcon />
-        </ExpandMore>
+
+        <Typography paragraph></Typography>
+        <Tooltip title="امتیاز">
+          <StarIcon
+            sx={{ color: "rgba(220, 203, 21, 0.5)", marginRight: "11.5rem" }}
+          />
+        </Tooltip>
       </CardActions>
       <Collapse in={expanded} timeout="auto" unmountOnExit>
         <CardContent>
-          <Typography paragraph>سلام من کوشا هستم</Typography>
-          <Typography paragraph>خوشحال میشم از صفحه من بازدید کنید</Typography>
           <Typography paragraph></Typography>
           <Typography paragraph></Typography>
           <Typography></Typography>
