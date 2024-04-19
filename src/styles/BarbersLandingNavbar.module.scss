@@ -27,11 +27,15 @@
 
 .header .navItem {
     position: relative;
-    color: var(--secondary-color);
     padding: 23px 10px 16px 10px;
     font-size: 15px;
     font-weight: 500;
     height: 100%;
+
+    a{
+        color: var(--secondary-color);
+
+    }
 
 }
 

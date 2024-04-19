@@ -3,8 +3,10 @@ import { IconButton } from "@mui/material";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
+import SearchTab from "../components/SearchTab";
+import NotificationList from "../components/NotificationList";
 
-const BarbersLandingNavbar = ({ setIsHoverd }) => {
+const BarbersLandingNavbar = ({ setIsHoverd, setSelectedTab }) => {
   return (
     <div className={style.header}>
       <nav className={style.navbar}>
@@ -20,13 +22,21 @@ const BarbersLandingNavbar = ({ setIsHoverd }) => {
             onMouseEnter={() => setIsHoverd(true)}
             onMouseLeave={() => setIsHoverd(false)}
           >
-            <a>خدمات</a>
+            <a href="/">آرایشگران</a>
           </li>
-          <li className={style.navItem}>
-            <a>آموزش</a>
+          <li
+            className={style.navItem}
+            onMouseEnter={() => setIsHoverd(true)}
+            onMouseLeave={() => setIsHoverd(false)}
+          >
+            <a href="/">آرایشگاه ها</a>
           </li>
-          <li className={style.navItem}>
-            <a>درباره ما</a>
+          <li
+            className={style.navItem}
+            onMouseEnter={() => setIsHoverd(true)}
+            onMouseLeave={() => setIsHoverd(false)}
+          >
+            <a href="/">خدمات</a>
           </li>
         </ul>
         <ul className={style.navMenu}>
@@ -34,6 +44,7 @@ const BarbersLandingNavbar = ({ setIsHoverd }) => {
             <IconButton
               onClick={() => {
                 setIsHoverd((prevIsHovered) => !prevIsHovered);
+                setSelectedTab(SearchTab);
               }}
             >
               <SearchIcon
@@ -46,7 +57,12 @@ const BarbersLandingNavbar = ({ setIsHoverd }) => {
             </IconButton>
           </li>
           <li>
-            <IconButton>
+            <IconButton
+              onClick={() => {
+                setIsHoverd((prevIsHovered) => !prevIsHovered);
+                setSelectedTab(NotificationList);
+              }}
+            >
               <NotificationsIcon
                 sx={{
                   color: "var(--secondary-color)",

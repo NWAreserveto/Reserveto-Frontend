@@ -1,7 +1,11 @@
 import style from "../styles/MegaMenu.module.scss";
-import SearchTab from "./SearchTab";
 
-const MegaMenu = ({ isHovered, isMenuHovered, setIsMenuHovered }) => {
+const MegaMenu = ({
+  isHovered,
+  isMenuHovered,
+  setIsMenuHovered,
+  selectedTab,
+}) => {
   return (
     <div
       className={`${style.MegaMenu} ${
@@ -10,9 +14,7 @@ const MegaMenu = ({ isHovered, isMenuHovered, setIsMenuHovered }) => {
       onMouseEnter={() => setIsMenuHovered(true)}
       onMouseLeave={() => setIsMenuHovered(false)}
     >
-      <div className={style.container}>
-        
-      </div>
+      <div className={style.container}>{selectedTab}</div>
     </div>
   );
 };
