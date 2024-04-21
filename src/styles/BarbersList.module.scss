@@ -6,3 +6,13 @@
     grid-gap: 20px;
     
 }
+
+
+.flex{
+    max-width: 1260px;
+    height:calc(100vh - 513px);
+    margin: 100px calc((100% - 1260px) / 2);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}

@@ -31,7 +31,10 @@ export default function BarbersCard({ image, name, location }) {
       >
         <CardHeader
           avatar={
-            <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
+            <Avatar
+              sx={{ bgcolor: red[500] }}
+              aria-label="recipe"
+            >
               {typeof name === "string" && name.charAt(0)}
             </Avatar>
           }
@@ -50,7 +53,10 @@ export default function BarbersCard({ image, name, location }) {
         <p>{location}</p>
       </div>
       <CardActions disableSpacing>
-        <IconButton aria-label="add to favorites" sx={{ marginTop: "7rem" }}>
+        <IconButton
+          aria-label="add to favorites"
+          sx={{ marginTop: "7rem" }}
+        >
           <BookmarkBorderIcon />
         </IconButton>
       </CardActions>
