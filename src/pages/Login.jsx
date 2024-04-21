@@ -1,10 +1,11 @@
 import { Link } from "react-router-dom";
-import { React, useState, Fragment } from "react";
+import { React, useState } from "react";
 import { InputAdornment, TextField } from "@mui/material";
-import { Balance, Visibility } from "@mui/icons-material";
+import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import LoginCOB from "../API/APIendpointLogin";
+import style from "../Styles/Login.module.scss";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -43,11 +44,11 @@ const Login = () => {
   };
 
   return (
-    <div className="body">
-      <div className="container" />
+    <div className={style.body}>
+      <div className={style.container} />
 
-      <div className="login">
-        <form className="login-form">
+      <div className={style.login}>
+        <form className={style.loginForm}>
           <h1>ورود به حساب کاربری</h1>
           <TextField
             id="outlined-basic"
@@ -67,10 +68,27 @@ const Login = () => {
                 justifyContent: "center",
                 fontSize: "10px",
               },
+              "& label.Mui-focused": {
+                color: "var(--secondary-color) !important",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+              },
             }}
             label="نام کاربری"
             variant="outlined"
-            className="email"
+            className={style.email}
             value={username}
             onChange={handleUsername}
             // error={usernameError}
@@ -83,7 +101,7 @@ const Login = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    className="icon"
+                    className={style.icon}
                     aria-label="toggle password visibility"
                     onClick={handleClickShowPassword}
                   >
@@ -108,8 +126,25 @@ const Login = () => {
                 justifyContent: "center",
                 fontSize: "10px",
               },
+              "& label.Mui-focused": {
+                color: "var(--secondary-color) !important",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+              },
             }}
-            className="password"
+            className={style.password}
             value={password}
             onChange={handlePassword}
             // error={passwordError}
@@ -117,17 +152,17 @@ const Login = () => {
 
           <input
             type="submit"
-            className="loginButton"
+            className={style.loginButton}
             id="loginbutto"
             onClick={loginButt}
             value="ورود"
           />
 
-          <div className="links">
-            <Link to="/CreateAcc" className="createAcc">
+          <div className={style.links}>
+            <Link to="/CreateAcc" className={style.createAcc}>
               حساب کاربری نداری؟
             </Link>
-            <Link className="forgetPass" to="/ForgetPassword">
+            <Link className={style.forgetPass} to="/ForgetPassword">
               رمزتو یادت رفته؟
             </Link>
           </div>
