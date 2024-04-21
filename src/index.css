@@ -46,3 +46,22 @@ ul {
 a {
   text-decoration: none;
 }
+
+
+.button {
+  padding: 17px 28px;
+  font-size: 1.2rem;
+  color: #fff;
+  font-weight: 600;
+  text-transform: uppercase;
+  background-color: var(--primary-color);
+  border: 1px solid var(--primary-color-lighter);
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.button:hover {
+  background: var(--primary-color);
+  border: 1px solid var(--primary-color-lighter);
+}
+
