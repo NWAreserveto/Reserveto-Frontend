@@ -21,7 +21,7 @@ const BarbersLanding = () => {
           isHovered || isMenuHovered ? style.blurredContent : ""
         }`}
       >
-        <BarbersCard />
+        <BarbersCard name="کوشا لاهوتی" location="کرج"/>
         <BarbersCard />
         <BarbersCard />
         <BarbersCard />
