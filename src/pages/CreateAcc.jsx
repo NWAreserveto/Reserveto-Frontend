@@ -9,9 +9,8 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
-import CustomTextArea from "../components/textArea.jsx";
-import { CustomTabPanel } from "../components/tabPanel.jsx";
-import { a11yProps } from "../components/tabPanel.jsx";
+import { CustomTabPanel } from "../components/TabPanel.jsx";
+import { a11yProps } from "../components/TabPanel.jsx";
 import { Link } from "react-router-dom";
 
 const CreateAcc = () => {
