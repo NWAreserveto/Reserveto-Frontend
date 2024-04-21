@@ -32,6 +32,7 @@ const BarbersList = () => {
         barbers.map((barber) => (
           <BarbersCard
             key={barber.id}
+            id={barber.id}
             name={barber.first_name + barber.last_name}
             location={barber.location}
             // profilePicture={barber.profile_picture}
