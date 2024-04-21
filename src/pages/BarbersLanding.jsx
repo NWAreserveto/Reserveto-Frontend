@@ -25,7 +25,6 @@ const BarbersLanding = () => {
       />
       <div className={isHovered || isMenuHovered ? style.blurredContent : ""}>
         <BarbersList />
-
         <Footer />
       </div>
     </>

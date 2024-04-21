@@ -20,21 +20,19 @@ export default function BarbersCard({ image, name, location }) {
       <CardMedia
         component={image}
         height="134"
-        image="/static/images/cards/paella.jpg"
-        // alt="Paella dish"
+        image={image}
       />
       <div
         style={{
           display: "flex",
           justifyContent: "center",
           marginTop: "1rem",
-          // marginBottom: "5.5rem",
         }}
       >
         <CardHeader
           avatar={
             <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-              {typeof name === "string" && name.charAt(0)};
+              {typeof name === "string" && name.charAt(0)}
             </Avatar>
           }
         />
