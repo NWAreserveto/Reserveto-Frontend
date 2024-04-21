@@ -11,8 +11,8 @@ const BarbersList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNzEzMDIzLCJpYXQiOjE3MTM3MTAzMjMsImp0aSI6IjJjNzc3Y2QxZDQ3NjRkYzM4NzQyOGQ1ZGZjYjBjOWQ0IiwidXNlcl9pZCI6MTJ9.b9GwraR5ukK9BJEcc-ibWkq9Orz5w588yhQ05s-wm0k";
+        const token = localStorage.getItem("token");
+        console.log(token);
         const responseData = await APIendpointBarbersList(token);
         setBarbers(responseData);
         setLoading(false);
