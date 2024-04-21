@@ -12,6 +12,7 @@ import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
 import { CustomTabPanel } from "../components/TabPanel.jsx";
 import { a11yProps } from "../components/TabPanel.jsx";
 import { Link } from "react-router-dom";
+import style from "../styles/CreateAcc.module.scss";
 
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -217,18 +218,19 @@ const CreateAcc = () => {
   };
 
   return (
-    <body>
-      <div className="container" />
-      <div className="createAccount">
-        <Box sx={{ width: "100%" }} className="koli">
-          <Box className="tabs">
+    <div className={style.container}>
+      <div className={style.createAccount}>
+        <Box
+          sx={{ width: "100%" }}
+          className={style.koli}
+        >
+          <Box className={style.tabs}>
             <Tabs
               value={value}
               onChange={handleChange}
               aria-label="basic tabs example"
               variant="fullWidth"
               textColor="#668F84"
-              // className="tabs"
               sx={{
                 backgroundColor: "var(--primary-color)",
                 ".Mui-selected": {
@@ -241,13 +243,23 @@ const CreateAcc = () => {
                 },
               }}
             >
-              <Tab label="کاربر" {...a11yProps(0)} />
-              <Tab label="آرایشگر" {...a11yProps(1)} />
+              <Tab
+                label="کاربر"
+                {...a11yProps(0)}
+              />
+              <Tab
+                label="آرایشگر"
+                {...a11yProps(1)}
+              />
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0} className="tab1">
+          <CustomTabPanel
+            value={value}
+            index={0}
+            className={style.tab1}
+          >
             {/* <CustomTextArea  showPassword handleShowPassword passwordError password passwordErrorText  handlePassChange={}/> */}
-            <div className="tab1"></div>
+            <div className={style.tab1}></div>
             <TextField
               id="outlined-basic"
               label="نام کاربری"
@@ -270,7 +282,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="username"
+              className={style.username}
               value={username}
               onChange={handleNameChange}
               error={nameError}
@@ -302,7 +314,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="email"
+              className={style.email}
               value={email}
               onChange={handleEmailChange}
               error={emailError}
@@ -320,7 +332,7 @@ const CreateAcc = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      className="icon1"
+                      className={style.icon1}
                       aria-label="toggle password visibility"
                       onClick={handleShowPassword}
                     >
@@ -346,7 +358,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="password"
+              className={style.password}
               value={password}
               onChange={handlePassChange}
               // error={passwordError}
@@ -363,7 +375,7 @@ const CreateAcc = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      className="icon2"
+                      className={style.icon2}
                       aria-label="toggle password visibility"
                       onClick={handleClickShowConfirmPassword}
                     >
@@ -389,7 +401,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="password"
+              className={style.password}
               value={confirmPass}
               onChange={handleConfirmPassChange}
               // error={confirmPasswordError}
@@ -399,12 +411,19 @@ const CreateAcc = () => {
               // }}
             />
             <Link to="/">
-              <button onClick={customerSignupbutton} className="SignUpCustomer">
+              <button
+                onClick={customerSignupbutton}
+                className={style.SignUpCustomer}
+              >
                 ثبت نام
               </button>
             </Link>
           </CustomTabPanel>
-          <CustomTabPanel value={value} index={1} className="tab2">
+          <CustomTabPanel
+            value={value}
+            index={1}
+            className={style.tab2}
+          >
             <TextField
               id="outlined-basic"
               label="نام کاربری"
@@ -427,7 +446,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="username"
+              className={style.username}
               value={barberName}
               onChange={handleBarberNameChange}
               error={barberNameError}
@@ -459,7 +478,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="email"
+              className={style.email}
               value={barberEmail}
               onChange={handleBarberEmailChange}
               error={barberEmailError}
@@ -477,7 +496,7 @@ const CreateAcc = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      className="icon1"
+                      className={style.icon1}
                       aria-label="toggle password visibility"
                       onClick={handleBarberShowPassword}
                     >
@@ -503,7 +522,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="password"
+              className={style.password}
               value={barberPassword}
               onChange={handleBarberPassChange}
               error={barberPasswordError}
@@ -520,7 +539,7 @@ const CreateAcc = () => {
                 endAdornment: (
                   <InputAdornment position="end">
                     <IconButton
-                      className="icon2"
+                      className={style.icon2}
                       aria-label="toggle password visibility"
                       onClick={handleClickShowBarberConfirmPassword}
                     >
@@ -550,7 +569,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="password"
+              className={style.password}
               value={barberConfirmPass}
               onChange={handleBarberConfirmPassChange}
               error={barberConfirmPasswordError}
@@ -582,7 +601,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="name"
+              className={style.name}
               value={barberFirstName}
               onChange={handleBarberFirstName}
               error={barberFirstNameError}
@@ -612,7 +631,7 @@ const CreateAcc = () => {
                   fontSize: "10px",
                 },
               }}
-              className="lastName"
+              className={style.lastName}
               value={barberLastName}
               onChange={handleBarberLastName}
               error={barberLastNameError}
@@ -627,7 +646,7 @@ const CreateAcc = () => {
               label="تلفن همراه"
               type="number"
               variant="outlined"
-              className="telephoneNum"
+              className={style.telephoneNum}
               sx={{
                 "& label": {
                   transformOrigin: "right !important",
@@ -653,14 +672,17 @@ const CreateAcc = () => {
               }
             />
             <Link to="/">
-              <button onClick={barberSignupbutton} className="SignUpBarber">
+              <button
+                onClick={barberSignupbutton}
+                className={style.SignUpBarber}
+              >
                 ثبت نام
               </button>
             </Link>
           </CustomTabPanel>
         </Box>
       </div>
-    </body>
+    </div>
   );
 };
 
