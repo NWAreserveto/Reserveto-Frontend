@@ -12,7 +12,7 @@ const BarbersList = () => {
     const fetchData = async () => {
       try {
         const token =
-          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNzEwMDY1LCJpYXQiOjE3MTM3MDczNjUsImp0aSI6IjhlYmE3NzE3NDQxNzQ2NTg4ZjYzMDYyNTMzMmZhZGE3IiwidXNlcl9pZCI6MTJ9.XkcDCffalRSB8dOmQZ-G34yLk_3dmA2pBZXcQ7YGy0c";
+          "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ0b2tlbl90eXBlIjoiYWNjZXNzIiwiZXhwIjoxNzEzNzEzMDIzLCJpYXQiOjE3MTM3MTAzMjMsImp0aSI6IjJjNzc3Y2QxZDQ3NjRkYzM4NzQyOGQ1ZGZjYjBjOWQ0IiwidXNlcl9pZCI6MTJ9.b9GwraR5ukK9BJEcc-ibWkq9Orz5w588yhQ05s-wm0k";
         const responseData = await APIendpointBarbersList(token);
         setBarbers(responseData);
         setLoading(false);
