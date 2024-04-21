@@ -41,7 +41,6 @@ export default function BarbersCard({ image, name, location }) {
       </div>
       <div style={{ display: "flex", justifyContent: "center" }}>
         <h2>{name}</h2>
-        <h2>کوشا لاهوتی</h2>
       </div>
       <div
         style={{
@@ -51,7 +50,6 @@ export default function BarbersCard({ image, name, location }) {
         }}
       >
         <p>{location}</p>
-        <p>کرج</p>
       </div>
       <CardActions disableSpacing>
         <IconButton aria-label="add to favorites" sx={{ marginTop: "7rem" }}>

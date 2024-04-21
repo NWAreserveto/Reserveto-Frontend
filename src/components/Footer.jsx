@@ -7,7 +7,7 @@ import Divider from "@mui/material/Divider";
 
 const Footer = () => {
   return (
-    <div className={style.footer}>
+    <footer className={style.footer}>
       <div className={style.container}>
         <div className={style.links}>
           <ul>
@@ -129,7 +129,7 @@ const Footer = () => {
           </div>
         </div>
       </div>
-    </div>
+    </footer>
   );
 };
 

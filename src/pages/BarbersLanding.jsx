@@ -4,6 +4,7 @@ import MegaMenu from "../components/MegaMenu";
 import BarbersCard from "../components/BarbersCard";
 import Footer from "../components/Footer";
 import style from "../styles/BarbersLanding.module.scss";
+import BarbersList from "../components/BarbersList";
 
 const BarbersLanding = () => {
   const [isHovered, setIsHoverd] = useState(false);
@@ -23,20 +24,7 @@ const BarbersLanding = () => {
         selectedTab={selectedTab}
       />
       <div className={isHovered || isMenuHovered ? style.blurredContent : ""}>
-        <div className={style.barbersList}>
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-          <BarbersCard />
-        </div>
+        <BarbersList />
 
         <Footer />
       </div>
@@ -45,4 +33,3 @@ const BarbersLanding = () => {
 };
 
 export default BarbersLanding;
-

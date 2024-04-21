@@ -3,12 +3,4 @@
     filter: blur(5px); /* Apply blur effect */
   }
 
-.barbersList{
-    max-width: 1260px;
-    margin: 100px calc((100% - 1260px) / 2);
-    display: grid;
-    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
-    grid-gap: 20px;
-    
-}
   
