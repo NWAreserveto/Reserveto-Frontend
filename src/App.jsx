@@ -6,9 +6,6 @@ import {
 } from "react-router-dom";
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
-import BarbersCard from "./Components/BarberCard";
-import ForgetPassword from "./pages/ForgetPassword";
-import NewPassword from "./pages/NewPassword";
 
 function App() {
   return (
@@ -16,11 +13,8 @@ function App() {
       <Routes>
         <Route path="/" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
       </Routes>
     </BrowserRouter>
-    // <BarbersCard />
-    // <NewPassword />
   );
 }
 
