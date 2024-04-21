@@ -1,3 +1,4 @@
+
 import {
   HashRouter as Router,
   Routes,
@@ -7,6 +8,7 @@ import {
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
 import Landing from "./pages/Landing";
+import BarbersLanding from "./pages/BarbersLanding";
 
 function App() {
   return (
@@ -15,6 +17,7 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
+        <Route path="/Home" element={<BarbersLanding />} />
         
       </Routes>
     </BrowserRouter>
