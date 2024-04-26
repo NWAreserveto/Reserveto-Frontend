@@ -1,5 +1,4 @@
 .header {
-    position: absolute;
     height: 80px;
     width: 100%;
     top: 0;
@@ -14,9 +13,9 @@
     justify-content: space-between;
     align-items: center;
     max-width: 1260px;
-    margin-right: auto;
-    margin-left: auto;
-    //height: 100%;
+    //margin: auto;
+    height: 100%;
+    margin-bottom: -50px;
 }
 
 .header .navMenu{
@@ -27,6 +26,8 @@
 }
 
 .header .navItem {
+    background-color: white;
+    border-radius: 0px;
     color: var(--secondary-color);
     padding: 1rem;
     font-weight: 500;
@@ -42,14 +43,6 @@
     color: var(--secondary-color-lighter);
     cursor: pointer;
     
-}
-
-.header .navbar .login{
-    color: #ffffff;
-    padding: 1rem;
-    font-weight: 500;
-    background-color: var(--secondary-color-lighter );
-    border-radius: 5px; 
 }
 
 .header .navbar .login:hover{
