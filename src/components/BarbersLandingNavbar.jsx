@@ -1,20 +1,17 @@
 import style from "../styles/BarbersLandingNavbar.module.scss";
-import { IconButton } from "@mui/material";
+import IconButton from "@mui/material/IconButton";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import SearchIcon from "@mui/icons-material/Search";
-import SearchTab from "../components/SearchTab";
-import NotificationList from "../components/NotificationList";
+import SearchTab from "./SearchTab";
+import NotificationList from "./NotificationList";
 
 const BarbersLandingNavbar = ({ setIsHoverd, setSelectedTab }) => {
   return (
     <div className={style.header}>
       <nav className={style.navbar}>
         <ul className={style.navMenu}>
-          <a
-            href="/"
-            className={style.logo}
-          >
+          <a href="/" className={style.logo}>
             <h2>رزروتو</h2>
           </a>
           <li

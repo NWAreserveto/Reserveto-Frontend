@@ -6,6 +6,7 @@ import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import LoginCOB from "../API/APIendpointLogin";
 import style from "../styles/Login.module.scss";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -37,10 +38,12 @@ const Login = () => {
     username: username,
     password: password,
   };
+  const navigate = useNavigate();
 
   const loginButt = (event) => {
     event.preventDefault();
     LoginCOB(person);
+    navigate("/BarbersLanding");
   };
 
   return (
@@ -125,16 +128,10 @@ const Login = () => {
           />
 
           <div className={style.links}>
-            <Link
-              to="/CreateAcc"
-              className={style.createAcc}
-            >
+            <Link to="/CreateAcc" className={style.createAcc}>
               حساب کاربری نداری؟
             </Link>
-            <Link
-              className={style.forgetPass}
-              to="/ForgetPassword"
-            >
+            <Link className={style.forgetPass} to="/ForgetPassword">
               رمزتو یادت رفته؟
             </Link>
           </div>

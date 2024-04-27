@@ -3,7 +3,7 @@ import { Avatar, Box, CardMedia, Typography } from "@mui/material";
 import BackGround from '../images/Back_1.jpg';
 import Barber_Photo from '../images/Barber_Photo.jpg'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
-import GradeIcon from '@material-ui/icons/Grade';
+import GradeIcon from "@mui/icons-material/Grade";
 
 
 const Header = () => {
