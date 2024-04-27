@@ -5,7 +5,7 @@ import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import LoginCOB from "../API/APIendpointLogin";
-import style from "../Styles/Login.module.scss";
+import style from "../styles/Login.module.scss";
 
 const Login = () => {
   const [username, setUsername] = useState("");

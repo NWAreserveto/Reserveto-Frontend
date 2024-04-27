@@ -1,43 +1,43 @@
+// NewPassword.jsx
 import { TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import InputAdornment from "@mui/material/InputAdornment";
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Fragment } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
-import { Link } from "react-router-dom";
-import style from "../Styles/NewPassword.module.scss";
-import { useParams } from "react-router-dom";
-import { useEffect } from "react";
-import React from "react";
+import style from "../styles/NewPassword.module.scss";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
 
 const NewPassword = () => {
+  const { tempToken } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
   const handleClickShowConfirmPassword = () =>
-    setShowConfirmPassword(!showPassword);
+    setShowConfirmPassword(!showConfirmPassword);
 
   const [password, setPassword] = useState("");
-  const [passwordError, setpasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
 
   const handlePassChange = (e) => {
     setPassword(e.target.value);
     if (e.target.validity.valid) {
-      setpasswordError(false);
+      setPasswordError(false);
     } else {
-      setpasswordError(true);
+      setPasswordError(true);
     }
   };
 
   const [confirmPass, setConfirmPassword] = useState("");
-  const [confirmPasswordError, setConfirmPasswordError] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
 
   const handleConfirmPassChange = (e) => {
     setConfirmPassword(e.target.value);
@@ -47,7 +47,31 @@ const NewPassword = () => {
       setConfirmPasswordError(true);
     }
   };
+
   const [open, setOpen] = useState(false);
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    console.log("Token:", tempToken);
+    if (tempToken) {
+      axios
+        .post("https://reserveto-back.onrender.com/api/password_reset/", {
+          token: tempToken,
+        })
+        .then((response) => {
+          if (response.status === 200) {
+            setOpen(true);
+          } else {
+            // navigate("/error");
+            alert("Error");
+          }
+        })
+        .catch((error) => {
+          console.error("Error verifying token:", error);
+          alert("Error");
+        });
+    }
+  }, [tempToken, navigate]);
 
   const handleClose = () => {
     setOpen(false);
@@ -58,23 +82,19 @@ const NewPassword = () => {
     setOpen(true);
   };
 
-  // const {token} = useParams();
-  // useEffect(() => {
-  //   console.log(token);
-  // }, [token]);
-
-  // const handleSubmit = async (event: React.FormEvent<HTMLFormElement>) => {
-  //   event.preventDefault();
-  // }}
+  const handlePasswordReset = () => {
+    setOpen(true);
+    // navigate("/Login");
+  };
 
   return (
     <div className={style.body}>
       <div className={style.newPassword}>
         <form className={style.newPasswordForm}>
-          <h3 className={style.text}>رمز جدید خود را وارد نمایید</h3>
+          <h3 className={style.text}>Enter your new password</h3>
           <TextField
             required
-            label="رمز"
+            label="Password"
             variant="outlined"
             type={showPassword ? "text" : "password"}
             InputProps={{
@@ -100,25 +120,19 @@ const NewPassword = () => {
                 fontWeight: 400,
                 overflow: "unset",
               },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
             }}
             className={style.password}
             value={password}
             onChange={handlePassChange}
             error={passwordError}
-            helperText={passwordError ? "رمز خود را وارد کنید" : ""}
+            helperText={passwordError ? "Enter your password" : ""}
             inputProps={{
               pattern: "[a-zA-Z0-9._:$!%-]+",
             }}
           />
           <TextField
             required
-            label="تایید رمز"
+            label="Confirm Password"
             variant="outlined"
             type={showConfirmPassword ? "text" : "password"}
             InputProps={{
@@ -144,42 +158,19 @@ const NewPassword = () => {
                 fontWeight: 400,
                 overflow: "unset",
               },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
             }}
             className={style.password}
             value={confirmPass}
             onChange={handleConfirmPassChange}
             error={confirmPasswordError}
-            helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
+            helperText={confirmPasswordError ? "Confirm your password" : ""}
             inputProps={{
               pattern: "[a-zA-Z0-9._:$!%-]+",
             }}
           />
           <Fragment>
             <button className={style.newPassButton} onClick={newPassbutton}>
-              تایید
+              Confirm
             </button>
 
             <div className={style.msgBox2}>
@@ -189,16 +180,14 @@ const NewPassword = () => {
                 aria-labelledby="alert-dialog-title"
                 aria-describedby="alert-dialog-description"
               >
-                <DialogTitle id="alert-dialog-title">{"موفقیت"}</DialogTitle>
+                <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
                 <DialogContent>
                   <DialogContentText id="alert-dialog-description">
-                    رمز با موفقیت عوض شد.
+                    Password changed successfully.
                   </DialogContentText>
                 </DialogContent>
                 <DialogActions>
-                  <Link to="/">
-                    <button onClick={handleClose}>بستن</button>
-                  </Link>
+                  <button onClick={handlePasswordReset}>Close</button>
                 </DialogActions>
               </Dialog>
             </div>

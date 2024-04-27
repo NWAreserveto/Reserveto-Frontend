@@ -7,7 +7,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import { Link } from "react-router-dom";
-import style from "../Styles/ForgetPassword.module.scss";
+import style from "../styles/ForgetPassword.module.scss";
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");

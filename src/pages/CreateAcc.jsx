@@ -9,9 +9,9 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
-import { CustomTabPanel, a11yProps } from "../Components/tabPanel.jsx";
+import { CustomTabPanel, a11yProps } from "../components/TabPanel.jsx";
 import { Link } from "react-router-dom";
-import style from "../Styles/CreateAcc.module.scss";
+import style from "../styles/CreateAcc.module.scss";
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
