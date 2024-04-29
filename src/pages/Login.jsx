@@ -46,7 +46,6 @@ const Login = () => {
   return (
     <div className={style.body}>
       <div className={style.container} />
-
       <div className={style.login}>
         <form className={style.loginForm}>
           <h1>ورود به حساب کاربری</h1>

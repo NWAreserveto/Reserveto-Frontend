@@ -14,9 +14,10 @@ import DialogTitle from "@mui/material/DialogTitle";
 import style from "../styles/NewPassword.module.scss";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
+import newPass from "../API/APIendpointNewPassword";
 
 const NewPassword = () => {
-  const { tempToken } = useParams();
+  const token = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -51,50 +52,30 @@ const NewPassword = () => {
   const [open, setOpen] = useState(false);
   const navigate = useNavigate();
 
-  useEffect(() => {
-    console.log("Token:", tempToken);
-    if (tempToken) {
-      axios
-        .post("https://reserveto-back.onrender.com/api/password_reset/", {
-          token: tempToken,
-        })
-        .then((response) => {
-          if (response.status === 200) {
-            setOpen(true);
-          } else {
-            // navigate("/error");
-            alert("Error");
-          }
-        })
-        .catch((error) => {
-          console.error("Error verifying token:", error);
-          alert("Error");
-        });
-    }
-  }, [tempToken, navigate]);
-
   const handleClose = () => {
     setOpen(false);
   };
-
-  const newPassbutton = (event) => {
-    event.preventDefault();
-    setOpen(true);
+  const person12 = {
+    password: password,
+    confirm_password: confirmPass,
   };
 
   const handlePasswordReset = () => {
-    setOpen(true);
+    // setOpen(true);
+    // event.prevenetDefault();
+    newPass(person12, token);
     // navigate("/Login");
   };
 
   return (
     <div className={style.body}>
+      <div className={style.container} />
       <div className={style.newPassword}>
         <form className={style.newPasswordForm}>
-          <h3 className={style.text}>Enter your new password</h3>
+          <h2 className={style.text}>رمز جدید خود را وارد کنید</h2>
           <TextField
             required
-            label="Password"
+            label="رمز"
             variant="outlined"
             type={showPassword ? "text" : "password"}
             InputProps={{
@@ -120,19 +101,42 @@ const NewPassword = () => {
                 fontWeight: 400,
                 overflow: "unset",
               },
+              "& legend": {
+                textAlign: "right",
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "10px",
+              },
+              "& label.Mui-focused": {
+                color: "var(--secondary-color) !important",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+              },
             }}
             className={style.password}
             value={password}
             onChange={handlePassChange}
             error={passwordError}
-            helperText={passwordError ? "Enter your password" : ""}
+            // helperText={passwordError ? "Enter your password" : ""}
             inputProps={{
               pattern: "[a-zA-Z0-9._:$!%-]+",
             }}
           />
           <TextField
             required
-            label="Confirm Password"
+            label="تکرار رمز"
             variant="outlined"
             type={showConfirmPassword ? "text" : "password"}
             InputProps={{
@@ -158,8 +162,31 @@ const NewPassword = () => {
                 fontWeight: 400,
                 overflow: "unset",
               },
+              "& legend": {
+                textAlign: "right",
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "10px",
+              },
+              "& label.Mui-focused": {
+                color: "var(--secondary-color) !important",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+              },
             }}
-            className={style.password}
+            className={style.confirmPassword}
             value={confirmPass}
             onChange={handleConfirmPassChange}
             error={confirmPasswordError}
@@ -168,30 +195,9 @@ const NewPassword = () => {
               pattern: "[a-zA-Z0-9._:$!%-]+",
             }}
           />
-          <Fragment>
-            <button className={style.newPassButton} onClick={newPassbutton}>
-              Confirm
-            </button>
-
-            <div className={style.msgBox2}>
-              <Dialog
-                open={open}
-                onClose={handleClose}
-                aria-labelledby="alert-dialog-title"
-                aria-describedby="alert-dialog-description"
-              >
-                <DialogTitle id="alert-dialog-title">{"Success"}</DialogTitle>
-                <DialogContent>
-                  <DialogContentText id="alert-dialog-description">
-                    Password changed successfully.
-                  </DialogContentText>
-                </DialogContent>
-                <DialogActions>
-                  <button onClick={handlePasswordReset}>Close</button>
-                </DialogActions>
-              </Dialog>
-            </div>
-          </Fragment>
+          <button className={style.newPassButton} onClick={handlePasswordReset}>
+            تایید
+          </button>
         </form>
       </div>
     </div>
