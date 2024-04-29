@@ -10,7 +10,7 @@ import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 
-export default function BarbersCard({ id, image, name, location }) {
+export default function BarbersCard({ id, profilePic, name, location }) {
   const navigate = useNavigate();
   const gotoProfile = () => {
     navigate("/BarberProfile");
@@ -18,7 +18,7 @@ export default function BarbersCard({ id, image, name, location }) {
   return (
     <Card sx={{ maxWidth: 345, height: "20rem" }}>
       <CardActionArea href={"/barber" + id}>
-        <CardMedia component={image} height="134" image={image} />
+        <CardMedia component="img" height="134" image={profilePic} />
         <div
           style={{
             display: "flex",
@@ -26,12 +26,16 @@ export default function BarbersCard({ id, image, name, location }) {
             marginTop: "1rem",
           }}
         >
-          <CardHeader
+          {/* <CardHeader
             avatar={
               <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
                 {typeof name === "string" && name.charAt(0)}
               </Avatar>
             }
+          /> */}
+          <img
+            src={profilePic}
+            alt={typeof name === "string" && name.charAt(0)}
           />
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -51,7 +55,6 @@ export default function BarbersCard({ id, image, name, location }) {
             <BookmarkBorderIcon />
           </IconButton>
         </CardActions>
-        <button onClick={gotoProfile}>برو</button>
       </CardActionArea>
     </Card>
   );

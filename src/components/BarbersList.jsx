@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import APIendpointBarbersList from "../API/APIendpointBarbersList";
 import style from "../styles/BarbersList.module.scss";
 import CircularProgress from "@mui/material/CircularProgress";
+import Image from "../images/Back.png";
 
 const BarbersList = () => {
   const [barbers, setBarbers] = useState([]);
@@ -23,9 +24,20 @@ const BarbersList = () => {
 
     fetchData();
   }, []);
+  const barberex = (
+    <BarbersCard
+      key="ex"
+      id="1"
+      name="Koosha Lahouti"
+      location="Karaj"
+      profilePic={Image}
+    />
+  );
 
   return (
     <div className={loading ? style.flex : style.barbersList}>
+      {barberex}
+
       {loading ? (
         <CircularProgress />
       ) : (
@@ -35,7 +47,7 @@ const BarbersList = () => {
             id={barber.id}
             name={barber.first_name + barber.last_name}
             location={barber.location}
-            // profilePicture={barber.profile_picture}
+            profilePic={barber.profile_picture}
           />
         ))
       )}
