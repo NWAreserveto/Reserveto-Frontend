@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React from 'react';
 import { Avatar, Box, CardMedia, Typography } from "@mui/material";
-import BackGround from '../images/Back_1.jpg';
+import BackGround from '../images/Back_1.png';
 import Barber_Photo from '../images/Barber_Photo.jpg'
 import LocationOnIcon from '@mui/icons-material/LocationOn';
 import GradeIcon from '@material-ui/icons/Grade';

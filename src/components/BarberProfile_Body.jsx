@@ -4,7 +4,7 @@ import Services from './BarberProfile_Services';
 import Samples from './BerberProfile_Samples';
 import Information from './BerberProfile_Information';
 import Reserve from './BerberProfile_Reserve';
-import Comments from './BarberProfile_Comments';
+import Comments from './comments/Comments'
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import CommentIcon from '@mui/icons-material/Comment';
 import EventIcon from '@mui/icons-material/Event';
@@ -18,7 +18,7 @@ const pages = [
     {label: 'خدمات', tag: <Services />, icon: <DoneIcon/>}, // 1
     {label: 'من کیم ؟', tag: <Information />, icon: <InfoIcon/>}, // 2
     {label: 'رزرو', tag: <Reserve />, icon: <EventIcon/>}, // 2
-    {label: 'نظرات', tag: <Comments />, icon: <CommentIcon/>}, // 2
+    // {label: 'نظرات', tag: <Comments />, icon: <CommentIcon/>}, // 2
 ]
 
 const Body = () => {
