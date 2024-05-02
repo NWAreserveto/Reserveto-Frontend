@@ -9,16 +9,24 @@ import { red } from "@mui/material/colors";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
 import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
+import Rating from "@mui/material/Rating";
+import Button from "@mui/material/Button";
 
-export default function BarbersCard({ id, image, name, location }) {
+export default function BarbersCard({ id, profilePic, name, location }) {
   const navigate = useNavigate();
-  const gotoProfile = () => {
-    navigate("/BarberProfile");
+  const gotoOtherPage = () => {
+    navigate(`/BarberProfile/${id}`);
   };
   return (
-    <Card sx={{ maxWidth: 345, height: "20rem" }}>
-      <CardActionArea href={"/barber" + id}>
-        <CardMedia component={image} height="134" image={image} />
+    <Card
+      sx={{
+        maxWidth: 345,
+        height: "20rem",
+        display: "flex",
+        flexDirection: "column",
+      }}
+    >
+      <CardActionArea style={{ flex: "1" }}>
         <div
           style={{
             display: "flex",
@@ -26,12 +34,15 @@ export default function BarbersCard({ id, image, name, location }) {
             marginTop: "1rem",
           }}
         >
-          <CardHeader
-            avatar={
-              <Avatar sx={{ bgcolor: red[500] }} aria-label="recipe">
-                {typeof name === "string" && name.charAt(0)}
-              </Avatar>
-            }
+          <img
+            src={profilePic}
+            alt={typeof name === "string" && name.charAt(0)}
+            style={{
+              clipPath: "circle()",
+              objectFit: "cover",
+              objectPosition: "center center",
+              maxHeight: "100px",
+            }}
           />
         </div>
         <div style={{ display: "flex", justifyContent: "center" }}>
@@ -46,13 +57,17 @@ export default function BarbersCard({ id, image, name, location }) {
         >
           <p>{location}</p>
         </div>
-        <CardActions disableSpacing>
-          <IconButton aria-label="add to favorites" sx={{ marginTop: "7rem" }}>
-            <BookmarkBorderIcon />
-          </IconButton>
-        </CardActions>
-        <button onClick={gotoProfile}>برو</button>
       </CardActionArea>
+      <CardActions disableSpacing style={{ justifyContent: "space-between" }}>
+        <Rating name="rating" defaultValue={0} max={5} />
+        <Button
+          variant="outlined"
+          onClick={gotoOtherPage}
+          sx={{ color: "var(--secondary-color)" }}
+        >
+          برو
+        </Button>
+      </CardActions>
     </Card>
   );
 }
