@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import { Box } from "@mui/material";
+import { Box, Typography, Container, Paper } from "@mui/material";
 import {
   getComments as getCommentsApi,
   createComment as createCommentApi,
-  updateComment as updateCommentApi,
   deleteComment as deleteCommentApi,
 } from "./api";
 import "./style.css";
@@ -30,18 +29,7 @@ const Comments = ({ commentsUrl, currentUserId }) => {
     });
   };
 
-  const updateComment = (text, commentId) => {
-    updateCommentApi(text).then(() => {
-      const updatedBackendComments = backendComments.map((backendComment) => {
-        if (backendComment.id === commentId) {
-          return { ...backendComment, body: text };
-        }
-        return backendComment;
-      });
-      setBackendComments(updatedBackendComments);
-      setActiveComment(null);
-    });
-  };
+
   const deleteComment = (commentId) => {
     if (window.confirm("Are you sure you want to remove comment?")) {
       deleteCommentApi().then(() => {
@@ -62,44 +50,41 @@ const Comments = ({ commentsUrl, currentUserId }) => {
 
 
   return (
-    <Box
-      sx={{
-        mt: 10,
-        display: 'flex',
-        width: '100%',
-        alignItems: 'center',
-        justifyContent: 'center',
-      }}
-      >
-
-      <Box 
-        sx={{
-          margin: 'auto',
-          width: '1260px',
+    <Container sx={{ mt: 7 }}>
+      <Typography variant="h4" align="center" gutterBottom>
+          نظرات
+      </Typography>
+      <Paper 
+        sx={{ 
+          padding: 3,
+          backgroundColor: '#e8dbc4',
+          borderRadius: '10px',
+          mb: 5,
         }}>
+        
+        {rootComments.map((rootComment) => (
+          <Comment
+            key={rootComment.id}
+            comment={rootComment}
+            replies={getReplies(rootComment.id)}
+            activeComment={activeComment}
+            setActiveComment={setActiveComment}
+            addComment={addComment}
+            deleteComment={deleteComment}
+            currentUserId={currentUserId}
+          />
+        ))}
         <Box
-            sx={{
-              borderRadius: 10,
-            }}
-            >
-            {rootComments.map((rootComment) => (
-              <Comment
-              key={rootComment.id}
-              comment={rootComment}
-              replies={getReplies(rootComment.id)}
-              activeComment={activeComment}
-              setActiveComment={setActiveComment}
-              addComment={addComment}
-              deleteComment={deleteComment}
-              updateComment={updateComment}
-              currentUserId={currentUserId}
-              />
-            ))}
-        </Box >
-        <div className="comment-form-title">افزودن نظر</div>
-        <CommentForm submitLabel="Write" handleSubmit={addComment}  />
+          sx={{
+            marginTop: 4,
+            textAlign: 'center',
+            fontWeight: 'bold',
+          }}
+        >
         </Box>
-      </Box>
+        <CommentForm submitLabel="ارسال" handleSubmit={addComment} />
+      </Paper>
+    </Container>
   );
 };
 

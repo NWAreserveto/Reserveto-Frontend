@@ -1,6 +1,6 @@
 import { useState } from "react";
 import "./style.css";
-import { Button, FormControl, TextareaAutosize } from '@mui/material';
+import { Button, FormControl, TextField, TextareaAutosize } from '@mui/material';
 
 const CommentForm = ({
   handleSubmit,
@@ -19,32 +19,36 @@ const CommentForm = ({
   return (
     <FormControl component="form" 
       onSubmit={onSubmit} 
-      sx={{ width: '100%', marginBottom: '16px' }}>
-      <TextareaAutosize
+      sx={{ 
+        
+      }}>
+      <TextField 
+        multiline
         value={text}
         onChange={(e) => setText(e.target.value)}
-        // onSubmit={onSubmit}
-        // aria-label="comment-textarea"
         placeholder="نظرتو بنویس..."
-        minRows={3}
         sx={{
-          width: '100%',
-          padding: '8px',
-          marginBottom: '8px',
-          borderRadius: '4px',
-          border: '1px solid rgba(0, 0, 0, 0.23)',
-          resize: 'vertical',
-          fontFamily: 'inherit',
-          fontSize: 'inherit',
+          width: {xs: 230, sm: 400, md: 500, lg: 600},
+          overflow: 'auto', // Enable scrolling for overflow
+        }}
+        inputProps={{
+          style: {
+            maxHeight: '200px', // Set maximum height for the TextField
+            overflow: 'auto', // Enable scrolling for overflow
+          }
         }}
       />
-      <Button
+      <Button        // submit button
         variant="contained"
         sx={{
-          backgroundColor: '#3F51B5',
+          mt: 2,
+          pb: 1.1,
+          height: 30,
+          width: 100,
+          backgroundColor: '#8CB69B',
           color: 'white',
           '&:hover': {
-            backgroundColor: '#303F9F',
+            backgroundColor: '#668F84',
           },
         }}
         type="submit"

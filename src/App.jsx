@@ -1,4 +1,3 @@
-
 import {
   HashRouter as Router,
   Routes,
@@ -8,10 +7,12 @@ import {
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
 import Landing from "./pages/Landing";
-import BarbersLanding from "./pages/BarbersLanding";import BarberProfile from "./pages/BarberProfile"
+import BarbersLanding from "./pages/BarbersLanding";
+import BarberProfile from "./pages/BarberProfile"
 
 function App() {
-  return (    <BarberProfile />
+  return (
+    <BarberProfile />
   );
 }
 
