@@ -15,9 +15,10 @@ import style from "../styles/NewPassword.module.scss";
 import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import newPass from "../API/APIendpointNewPassword";
+import Button from "@mui/material/Button";
 
 const NewPassword = () => {
-  const token = useParams();
+  const { tempToken } = useParams();
   const [showPassword, setShowPassword] = useState(false);
   const handleShowPassword = () => setShowPassword(!showPassword);
 
@@ -50,21 +51,31 @@ const NewPassword = () => {
   };
 
   const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
+    if (success) {
+      navigate("/");
+    }
   };
-  const person12 = {
-    password: password,
-    confirm_password: confirmPass,
-  };
-
-  const handlePasswordReset = () => {
-    // setOpen(true);
-    // event.prevenetDefault();
-    newPass(person12, token);
-    // navigate("/Login");
+  const handlePasswordReset = async (event) => {
+    event.preventDefault();
+    const person12 = {
+      password: password,
+      confirm_password: confirmPass,
+    };
+    console.log("Token:", tempToken);
+    try {
+      const response = await newPass(person12, tempToken);
+      setOpen(true);
+      setSuccess(response.status === 200);
+    } catch (error) {
+      console.error(error);
+      setOpen(true);
+      setSuccess(false);
+    }
   };
 
   return (
@@ -190,7 +201,7 @@ const NewPassword = () => {
             value={confirmPass}
             onChange={handleConfirmPassChange}
             error={confirmPasswordError}
-            helperText={confirmPasswordError ? "Confirm your password" : ""}
+            // helperText={confirmPasswordError ? "Confirm your password" : ""}
             inputProps={{
               pattern: "[a-zA-Z0-9._:$!%-]+",
             }}
@@ -200,6 +211,26 @@ const NewPassword = () => {
           </button>
         </form>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {success ? "موفقیت" : "ارور"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {success
+              ? "رمز با موفقیت عوض شد."
+              : "رمز عبور شما بازنشانی نشد. لطفا دوباره تلاش کنید"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>بستن</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };
