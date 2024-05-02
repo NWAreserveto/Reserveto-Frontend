@@ -24,20 +24,9 @@ const BarbersList = () => {
 
     fetchData();
   }, []);
-  const barberex = (
-    <BarbersCard
-      key="ex"
-      id="1"
-      name="Koosha Lahouti"
-      location="Karaj"
-      profilePic={Image}
-    />
-  );
 
   return (
     <div className={loading ? style.flex : style.barbersList}>
-      {barberex}
-
       {loading ? (
         <CircularProgress />
       ) : (
