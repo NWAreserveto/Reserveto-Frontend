@@ -219,7 +219,6 @@ const CreateAcc = () => {
   return (
     <div className={style.container}>
       <div className={style.createAccount}>
-        <Box sx={{ width: "100%" }} className={style.koli}>
 
         <Box
           sx={{ width: "100%" }}
@@ -254,7 +253,6 @@ const CreateAcc = () => {
               />
             </Tabs>
           </Box>
-          <CustomTabPanel value={value} index={0} className={style.tab1}>
 
           <CustomTabPanel
             value={value}
@@ -490,7 +488,6 @@ const CreateAcc = () => {
               </button>
             </Link>
           </CustomTabPanel>
-          <CustomTabPanel value={value} index={1} className={style.tab2}>
 
           <CustomTabPanel
             value={value}
