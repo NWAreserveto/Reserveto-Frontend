@@ -1,37 +1,35 @@
-import { Link, useNavigate } from "react-router-dom";
-
-import { Link } from "react-router-dom";
-import { React, useState } from "react";
-import { InputAdornment, TextField } from "@mui/material";
+// NewPassword.jsx
+import { TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
 import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
-import LoginCOB from "../API/APIendpointLogin";
-import style from "../styles/Login.module.scss";
+import InputAdornment from "@mui/material/InputAdornment";
+import React, { useState, useEffect } from "react";
+import { Fragment } from "react";
 import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
+import style from "../styles/NewPassword.module.scss";
+import axios from "axios";
+import { useNavigate, useParams } from "react-router-dom";
+import newPass from "../API/APIendpointNewPassword";
 import Button from "@mui/material/Button";
-import { useNavigate } from "react-router-dom";
 
-const Login = () => {
-  const [username, setUsername] = useState("");
-  const [usernameError, setUsernameError] = useState("");
+const NewPassword = () => {
+  const { tempToken } = useParams();
+  const [showPassword, setShowPassword] = useState(false);
+  const handleShowPassword = () => setShowPassword(!showPassword);
 
-  const handleUsername = (e) => {
-    setUsername(e.target.value);
-    if (e.target.validity.valid) {
-      setUsernameError(false);
-    } else {
-      setUsernameError(true);
-    }
-  };
+  const [showConfirmPassword, setShowConfirmPassword] = useState(false);
+  const handleClickShowConfirmPassword = () =>
+    setShowConfirmPassword(!showConfirmPassword);
 
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
-  const handlePassword = (e) => {
+  const [passwordError, setPasswordError] = useState(false);
+
+  const handlePassChange = (e) => {
     setPassword(e.target.value);
     if (e.target.validity.valid) {
       setPasswordError(false);
@@ -39,8 +37,19 @@ const Login = () => {
       setPasswordError(true);
     }
   };
-  const [showPassword, setShowPassword] = useState(false);
-  const handleClickShowPassword = () => setShowPassword(!showPassword);
+
+  const [confirmPass, setConfirmPassword] = useState("");
+  const [confirmPasswordError, setConfirmPasswordError] = useState(false);
+
+  const handleConfirmPassChange = (e) => {
+    setConfirmPassword(e.target.value);
+    if (e.target.validity.valid) {
+      setConfirmPasswordError(false);
+    } else {
+      setConfirmPasswordError(true);
+    }
+  };
+
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
@@ -48,20 +57,18 @@ const Login = () => {
   const handleClose = () => {
     setOpen(false);
     if (success) {
-      navigate("/BarbersLanding");
+      navigate("/");
     }
   };
-
-  const person = {
-    username: username,
-    password: password,
-  };
-  const navigate = useNavigate();
-
-  const loginButt = async (event) => {
+  const handlePasswordReset = async (event) => {
     event.preventDefault();
+    const person12 = {
+      password: password,
+      confirm_password: confirmPass,
+    };
+    console.log("Token:", tempToken);
     try {
-      const response = await LoginCOB(person);
+      const response = await newPass(person12, tempToken);
       setOpen(true);
       setSuccess(response.status === 200);
     } catch (error) {
@@ -69,61 +76,16 @@ const Login = () => {
       setOpen(true);
       setSuccess(false);
     }
-
-    LoginCOB(person);
-    navigate("/BarbersLanding");
   };
 
   return (
     <div className={style.body}>
       <div className={style.container} />
-      <div className={style.login}>
-        <form className={style.loginForm}>
-          <h1>ورود به حساب کاربری</h1>
+      <div className={style.newPassword}>
+        <form className={style.newPasswordForm}>
+          <h2 className={style.text}>رمز جدید خود را وارد کنید</h2>
           <TextField
-            id="outlined-basic"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
-            }}
-            label="نام کاربری"
-            variant="outlined"
-            className={style.email}
-            value={username}
-            onChange={handleUsername}
-            // error={usernameError}
-          />
-          <TextField
+            required
             label="رمز"
             variant="outlined"
             type={showPassword ? "text" : "password"}
@@ -131,9 +93,9 @@ const Login = () => {
               endAdornment: (
                 <InputAdornment position="end">
                   <IconButton
-                    className={style.icon}
+                    className="icon1"
                     aria-label="toggle password visibility"
-                    onClick={handleClickShowPassword}
+                    onClick={handleShowPassword}
                   >
                     {showPassword ? <Visibility /> : <VisibilityOff />}
                   </IconButton>
@@ -176,26 +138,77 @@ const Login = () => {
             }}
             className={style.password}
             value={password}
-            onChange={handlePassword}
-            // error={passwordError}
+            onChange={handlePassChange}
+            error={passwordError}
+            // helperText={passwordError ? "Enter your password" : ""}
+            inputProps={{
+              pattern: "[a-zA-Z0-9._:$!%-]+",
+            }}
           />
-
-          <input
-            type="submit"
-            className={style.loginButton}
-            id="loginbutto"
-            onClick={loginButt}
-            value="ورود"
+          <TextField
+            required
+            label="تکرار رمز"
+            variant="outlined"
+            type={showConfirmPassword ? "text" : "password"}
+            InputProps={{
+              endAdornment: (
+                <InputAdornment position="end">
+                  <IconButton
+                    className="icon2"
+                    aria-label="toggle password visibility"
+                    onClick={handleClickShowConfirmPassword}
+                  >
+                    {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
+                  </IconButton>
+                </InputAdornment>
+              ),
+            }}
+            sx={{
+              "& label": {
+                transformOrigin: "right !important",
+                left: "inherit !important",
+                right: "1.75rem !important",
+                fontSize: "small",
+                color: "#807D7B",
+                fontWeight: 400,
+                overflow: "unset",
+              },
+              "& legend": {
+                textAlign: "right",
+                display: "flex",
+                justifyContent: "center",
+                fontSize: "10px",
+              },
+              "& label.Mui-focused": {
+                color: "var(--secondary-color) !important",
+              },
+              "& .MuiInput-underline:after": {
+                borderBottomColor: "yellow",
+              },
+              "& .MuiOutlinedInput-root": {
+                "& fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&:hover fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+                "&.Mui-focused fieldset": {
+                  borderColor: "var(--secondary-color) !important",
+                },
+              },
+            }}
+            className={style.confirmPassword}
+            value={confirmPass}
+            onChange={handleConfirmPassChange}
+            error={confirmPasswordError}
+            // helperText={confirmPasswordError ? "Confirm your password" : ""}
+            inputProps={{
+              pattern: "[a-zA-Z0-9._:$!%-]+",
+            }}
           />
-
-          <div className={style.links}>
-            <Link to="/CreateAcc" className={style.createAcc}>
-              حساب کاربری نداری؟
-            </Link>
-            <Link className={style.forgetPass} to="/ForgetPassword">
-              رمزتو یادت رفته؟
-            </Link>
-          </div>
+          <button className={style.newPassButton} onClick={handlePasswordReset}>
+            تایید
+          </button>
         </form>
       </div>
       <Dialog
@@ -210,8 +223,8 @@ const Login = () => {
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
             {success
-              ? "به حساب کاربری خود وارد شدید."
-              : "اطلاعات وارد شده اشتباه است"}
+              ? "رمز با موفقیت عوض شد."
+              : "رمز عبور شما بازنشانی نشد. لطفا دوباره تلاش کنید"}
           </DialogContentText>
         </DialogContent>
         <DialogActions>
@@ -222,4 +235,4 @@ const Login = () => {
   );
 };
 
-export default Login;
+export default NewPassword;

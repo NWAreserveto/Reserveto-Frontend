@@ -9,8 +9,7 @@ import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
-import { CustomTabPanel } from "../components/TabPanel.jsx";
-import { a11yProps } from "../components/TabPanel.jsx";
+import { CustomTabPanel, a11yProps } from "../components/TabPanel.jsx";
 import { Link } from "react-router-dom";
 import style from "../styles/CreateAcc.module.scss";
 
@@ -220,6 +219,8 @@ const CreateAcc = () => {
   return (
     <div className={style.container}>
       <div className={style.createAccount}>
+        <Box sx={{ width: "100%" }} className={style.koli}>
+
         <Box
           sx={{ width: "100%" }}
           className={style.koli}
@@ -253,6 +254,8 @@ const CreateAcc = () => {
               />
             </Tabs>
           </Box>
+          <CustomTabPanel value={value} index={0} className={style.tab1}>
+
           <CustomTabPanel
             value={value}
             index={0}
@@ -280,6 +283,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.username}
@@ -312,6 +332,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.email}
@@ -357,6 +394,23 @@ const CreateAcc = () => {
                   justifyContent: "center",
                   fontSize: "10px",
                 },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
               }}
               className={style.password}
               value={password}
@@ -400,6 +454,23 @@ const CreateAcc = () => {
                   justifyContent: "center",
                   fontSize: "10px",
                 },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
               }}
               className={style.password}
               value={confirmPass}
@@ -419,6 +490,8 @@ const CreateAcc = () => {
               </button>
             </Link>
           </CustomTabPanel>
+          <CustomTabPanel value={value} index={1} className={style.tab2}>
+
           <CustomTabPanel
             value={value}
             index={1}
@@ -444,6 +517,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.username}
@@ -476,6 +566,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.email}
@@ -520,6 +627,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.password}
@@ -568,6 +692,23 @@ const CreateAcc = () => {
                   justifyContent: "center",
                   fontSize: "10px",
                 },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
               }}
               className={style.password}
               value={barberConfirmPass}
@@ -600,6 +741,23 @@ const CreateAcc = () => {
                   justifyContent: "center",
                   fontSize: "10px",
                 },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
               }}
               className={style.name}
               value={barberFirstName}
@@ -629,6 +787,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               className={style.lastName}
@@ -662,6 +837,23 @@ const CreateAcc = () => {
                   display: "flex",
                   justifyContent: "center",
                   fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
                 },
               }}
               value={barberPhoneNum}
