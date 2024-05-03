@@ -12,6 +12,7 @@ import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
 import { CustomTabPanel, a11yProps } from "../components/TabPanel.jsx";
 import { Link } from "react-router-dom";
 import style from "../styles/CreateAcc.module.scss";
+
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
   const handleOnChange = () => {
@@ -219,6 +220,11 @@ const CreateAcc = () => {
     <div className={style.container}>
       <div className={style.createAccount}>
         <Box sx={{ width: "100%" }} className={style.koli}>
+
+        <Box
+          sx={{ width: "100%" }}
+          className={style.koli}
+        >
           <Box className={style.tabs}>
             <Tabs
               value={value}
@@ -238,11 +244,23 @@ const CreateAcc = () => {
                 },
               }}
             >
-              <Tab label="کاربر" {...a11yProps(0)} />
-              <Tab label="آرایشگر" {...a11yProps(1)} />
+              <Tab
+                label="کاربر"
+                {...a11yProps(0)}
+              />
+              <Tab
+                label="آرایشگر"
+                {...a11yProps(1)}
+              />
             </Tabs>
           </Box>
           <CustomTabPanel value={value} index={0} className={style.tab1}>
+
+          <CustomTabPanel
+            value={value}
+            index={0}
+            className={style.tab1}
+          >
             {/* <CustomTextArea  showPassword handleShowPassword passwordError password passwordErrorText  handlePassChange={}/> */}
             <div className={style.tab1}></div>
             <TextField
@@ -473,6 +491,12 @@ const CreateAcc = () => {
             </Link>
           </CustomTabPanel>
           <CustomTabPanel value={value} index={1} className={style.tab2}>
+
+          <CustomTabPanel
+            value={value}
+            index={1}
+            className={style.tab2}
+          >
             <TextField
               id="outlined-basic"
               label="نام کاربری"

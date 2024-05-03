@@ -1,0 +1,32 @@
+.MegaMenu {
+    color: var(--secondary-color);
+    width: 100%;
+    pointer-events: none;
+    background-color: var(--primary-color);
+    position: fixed;
+    top: 70px;
+    max-height: 0px;
+    overflow: hidden;
+    top: 1;
+    z-index: 99;
+    transition: max-height 0.3s ease-in-out 0s;
+
+
+    .container{
+        color: var(--secondary-color-lighter);
+        max-width: 1260px;
+        margin: 20px auto;
+
+    }
+}
+  
+  .block {
+    pointer-events: auto;
+    height: auto;
+    max-height: 500px;
+    padding-bottom: 50px;
+  }
+
+
+
+  

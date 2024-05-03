@@ -1,4 +1,6 @@
 import { Link, useNavigate } from "react-router-dom";
+
+import { Link } from "react-router-dom";
 import { React, useState } from "react";
 import { InputAdornment, TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
@@ -12,6 +14,7 @@ import DialogContent from "@mui/material/DialogContent";
 import DialogContentText from "@mui/material/DialogContentText";
 import DialogTitle from "@mui/material/DialogTitle";
 import Button from "@mui/material/Button";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -45,7 +48,7 @@ const Login = () => {
   const handleClose = () => {
     setOpen(false);
     if (success) {
-      navigate("/");
+      navigate("/BarbersLanding");
     }
   };
 
@@ -53,6 +56,7 @@ const Login = () => {
     username: username,
     password: password,
   };
+  const navigate = useNavigate();
 
   const loginButt = async (event) => {
     event.preventDefault();
@@ -65,6 +69,9 @@ const Login = () => {
       setOpen(true);
       setSuccess(false);
     }
+
+    LoginCOB(person);
+    navigate("/BarbersLanding");
   };
 
   return (

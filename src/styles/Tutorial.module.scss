@@ -1,0 +1,44 @@
+.tutorial{
+    margin: auto;
+    width: 100%;
+
+}
+
+.tutorial h3 {
+    font-size: 3rem;
+    text-align: center;
+}
+
+
+.tutorial .container{
+    max-width: 1260px;
+    margin: auto;
+    padding: 3rem 0rem;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.tutorial .item{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 400px;
+    width: 300px;
+    background-color: var(--primary-color-lighter);
+    border-radius: 20px;
+}
+
+
+.tutorial .item img{
+    width: 250px;
+    height: 250px;
+}
+
+
+
+
+
