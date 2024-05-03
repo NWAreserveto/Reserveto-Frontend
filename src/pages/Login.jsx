@@ -1,4 +1,4 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import { React, useState } from "react";
 import { InputAdornment, TextField } from "@mui/material";
 import { Visibility } from "@mui/icons-material";
@@ -6,6 +6,12 @@ import { VisibilityOff } from "@mui/icons-material";
 import IconButton from "@mui/material/IconButton";
 import LoginCOB from "../API/APIendpointLogin";
 import style from "../styles/Login.module.scss";
+import Dialog from "@mui/material/Dialog";
+import DialogActions from "@mui/material/DialogActions";
+import DialogContent from "@mui/material/DialogContent";
+import DialogContentText from "@mui/material/DialogContentText";
+import DialogTitle from "@mui/material/DialogTitle";
+import Button from "@mui/material/Button";
 
 const Login = () => {
   const [username, setUsername] = useState("");
@@ -32,15 +38,33 @@ const Login = () => {
   };
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
+  const [open, setOpen] = useState(false);
+  const [success, setSuccess] = useState(false);
+  const navigate = useNavigate();
+
+  const handleClose = () => {
+    setOpen(false);
+    if (success) {
+      navigate("/");
+    }
+  };
 
   const person = {
     username: username,
     password: password,
   };
 
-  const loginButt = (event) => {
+  const loginButt = async (event) => {
     event.preventDefault();
-    LoginCOB(person);
+    try {
+      const response = await LoginCOB(person);
+      setOpen(true);
+      setSuccess(response.status === 200);
+    } catch (error) {
+      console.error(error);
+      setOpen(true);
+      setSuccess(false);
+    }
   };
 
   return (
@@ -167,6 +191,26 @@ const Login = () => {
           </div>
         </form>
       </div>
+      <Dialog
+        open={open}
+        onClose={handleClose}
+        aria-labelledby="alert-dialog-title"
+        aria-describedby="alert-dialog-description"
+      >
+        <DialogTitle id="alert-dialog-title">
+          {success ? "موفقیت" : "ارور"}
+        </DialogTitle>
+        <DialogContent>
+          <DialogContentText id="alert-dialog-description">
+            {success
+              ? "به حساب کاربری خود وارد شدید."
+              : "اطلاعات وارد شده اشتباه است"}
+          </DialogContentText>
+        </DialogContent>
+        <DialogActions>
+          <Button onClick={handleClose}>بستن</Button>
+        </DialogActions>
+      </Dialog>
     </div>
   );
 };

@@ -8,10 +8,10 @@ const LoginCOB = async (person) => {
 
     if (response.status === 200) {
       console.log(response.status);
-      
     } else {
       console.log(response.status);
     }
+    return response;
   } catch (error) {
     console.error(error);
     throw error;
