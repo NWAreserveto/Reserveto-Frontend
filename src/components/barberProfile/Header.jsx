@@ -1,11 +1,16 @@
 import React from "react";
 import { Avatar, Box, CardMedia, Typography } from "@mui/material";
-// import BackGround from '../images/Back_1.png';
-// import Barber_Photo from '../images/Barber_Photo.jpg'
 import LocationOnIcon from "@mui/icons-material/LocationOn";
 import GradeIcon from "@mui/icons-material/Grade";
 
-const Header = (name, city, backgroundImg, profileImg, point) => {
+const Header = ({
+  first_name,
+  last_name,
+  location,
+  profileImg,
+  backgroundImg,
+  point,
+}) => {
   return (
     <Box>
       <Box // background picture
@@ -57,7 +62,7 @@ const Header = (name, city, backgroundImg, profileImg, point) => {
             fontSize: { sm: 24, lg: 28 },
           }}
         >
-          {name}
+          {first_name + " " + last_name}
         </Typography>
       </Box>
 
@@ -85,7 +90,7 @@ const Header = (name, city, backgroundImg, profileImg, point) => {
             pr: 1,
           }}
         >
-          {city}
+          {location}
         </Typography>
       </Box>
 
