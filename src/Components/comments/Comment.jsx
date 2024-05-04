@@ -1,7 +1,6 @@
 import CommentForm from "./CommentForm";
-import Sample_1 from '../../images/Sample_1.jpg';
 import "./style.css";
-import { Avatar, Box, Typography  } from "@mui/material";
+import { Avatar, Box, Typography } from "@mui/material";
 
 const Comment = ({
   comment,
@@ -11,7 +10,8 @@ const Comment = ({
   deleteComment,
   addComment,
   parentId = null,
-  currentUserId,
+  userId,
+  pic,
 }) => {
   const isReplying =
     activeComment &&
@@ -20,126 +20,130 @@ const Comment = ({
   const fiveMinutes = 300000;
   const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
   const canDelete =
-    currentUserId === comment.userId && replies.length === 0 && !timePassed;
-  const canReply = Boolean(currentUserId);
+    userId === comment.userId && replies.length === 0 && !timePassed;
+  const canReply = Boolean(userId);
   const replyId = parentId ? parentId : comment.id;
-
 
   const milliSeconds = new Date() - new Date(comment.createdAt);
   const seconds = parseInt(milliSeconds / 1000);
   const minutes = parseInt(seconds / 60);
   const hours = parseInt(minutes / 60);
   const days = parseInt(hours / 24);
+  const weeks = parseInt(days / 7);
+  const months = parseInt(days / 30);
   const years = parseInt(days / 365);
   const isChild = parentId !== null;
-  
+
   let time = "";
-  if (minutes === 0)
-    time = `${seconds} ثانیه قبل`;
-  else if (hours === 0)
-    time = `${minutes} دقیقه قبل`;
-  else if (days === 0)
-    time = `${hours} ساعت قبل`;
-  else if (years === 0)
-    time = `${days} روز قبل`;
-  else
-    time = `${years} سال قبل`;
-
-
-
+  if (minutes < 5) time = "لحظاتی قبل";
+  else if (hours === 0) time = `${minutes} دقیقه قبل`;
+  else if (days === 0) time = `${hours} ساعت قبل`;
+  else if (weeks === 0) time = `${days} روز قبل`;
+  else if (months === 0) time = `${weeks} هفته قبل`;
+  else if (years === 0) time = `${months} ماه قبل`;
+  else time = `${years} سال قبل`;
 
   return (
-    <Box key={comment.id}  // whole comment
+    <Box
+      key={comment.id} // whole comment
       sx={{
-        borderRadius: '20px',
-        backgroundColor: '#F9F2DE',
-        // border: 'solid 1px red',
-        display: 'flex',
-        mb: '28px',
+        borderRadius: "20px",
+        backgroundColor: "#F9F2DE",
+        display: "flex",
+        mb: "28px",
         padding: 2,
-        width: '100%',
-      }}>
-
-      <Box    // profile picture of user
+        width: "100%",
+      }}
+    >
+      <Box // profile picture of user
         sx={{
           mt: -0.3,
-          ml: '15px',
-        }}>
-        <Avatar src={Sample_1} 
+          ml: "15px",
+        }}
+      >
+        <Avatar
+          src={pic}
           sx={{
-            border: 'solid 1px white',
-            height: {xs: 40, md: 50, lg: 65},
-            width: {xs: 40, md: 50, lg: 65},
-            borderRadius: '50%',
-            boxShadow: '0 2px 4px rgba(0, 0, 0, 0.3)'
-          }}/>
+            border: "solid 1px white",
+            height: { xs: 40, md: 50, lg: 65 },
+            width: { xs: 40, md: 50, lg: 65 },
+            borderRadius: "50%",
+            boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
+          }}
+        />
       </Box>
 
-      <Box    // front of profile picture
+      <Box // front of profile picture
         sx={{
-          width: '100%',
-          backgroundColor: 'red',
-        }}>
-
+          width: "100%",
+          // backgroundColor: 'red',
+        }}
+      >
         <Box // header of comment (name + time)
           sx={{
-            display: 'flex',
-          }}>
-          <Box   // name of user 
+            display: "flex",
+          }}
+        >
+          <Box // name of user
             sx={{
-              ml: {xs: 1, lg: 2},
-              fontSize: {xs: 18, md: 19, lg: 21},
+              ml: { xs: 1, lg: 2 },
+              fontSize: { xs: 18, md: 19, lg: 21 },
               color: "#668F84",
-          }}>
+            }}
+          >
             {comment.username}
           </Box>
-          <Box // time of comment 
+          <Box // time of comment
             sx={{
-              pt: {xs: 0.5, lg: 0.7},
-              fontSize: {xs: 13, md: 14, lg: 15},
+              pt: { xs: 0.5, lg: 0.7 },
+              fontSize: { xs: 13, md: 14, lg: 15 },
             }}
           >
             {time}
-          </Box> 
+          </Box>
         </Box>
 
-        {isChild && <Typography        // comment text 
-          sx={{
-            paddingLeft: 6,
-            width: '100%',
-            fontSize: { xs: 18, lg: 22 },
-            overflowWrap: 'break-word', // Add text wrapping
-            wordWrap: 'break-word', // For older browsers
-          }}
-        >
-          {comment.body}
-        </Typography >}
+        {isChild && (
+          <Typography // comment text
+            sx={{
+              paddingLeft: 6,
+              width: "100%",
+              fontSize: { xs: 18, lg: 22 },
+              overflowWrap: "break-word", // Add text wrapping
+              wordWrap: "break-word", // For older browsers
+            }}
+          >
+            {comment.body}
+          </Typography>
+        )}
 
-        {!isChild && <Typography        // comment text 
-          sx={{
-            paddingLeft: 8,
-            width: '100%',
-            fontSize: { xs: 18, lg: 22 },
-            overflowWrap: 'break-word', // Add text wrapping
-            wordWrap: 'break-word', // For older browsers
-          }}
-        >
-          {comment.body}
-        </Typography >}
+        {!isChild && (
+          <Typography // comment text
+            sx={{
+              paddingLeft: 8,
+              width: "100%",
+              fontSize: { xs: 18, lg: 22 },
+              overflowWrap: "break-word", // Add text wrapping
+              wordWrap: "break-word", // For older browsers
+            }}
+          >
+            {comment.body}
+          </Typography>
+        )}
 
-
-        <Box    // comment actions (reply + delete)
+        <Box // comment actions (reply + delete)
           sx={{
-            display: 'flex',
-            fontSize: '12px',
-            cursor: 'pointer',
+            display: "flex",
+            fontSize: "12px",
+            cursor: "pointer",
             mt: 1,
-            color: 'rgb(51, 51, 51)',
-          }} >
-          {canReply && (   // reply part
+            color: "rgb(51, 51, 51)",
+          }}
+        >
+          {canReply && ( // reply part
             <Box
               sx={{
-                mr: '8px'
+                mr: "8px",
               }}
               onClick={() =>
                 setActiveComment({ id: comment.id, type: "replying" })
@@ -148,10 +152,10 @@ const Comment = ({
               پاسخ
             </Box>
           )}
-          {canDelete && (   // delete part
+          {canDelete && ( // delete part
             <Box
               sx={{
-                mr: '8px'
+                mr: "8px",
               }}
               onClick={() => deleteComment(comment.id)}
             >
@@ -160,21 +164,22 @@ const Comment = ({
           )}
         </Box>
 
-        {isReplying && (    // replay form
+        {isReplying && ( // replay form
           <CommentForm
             submitLabel="پاسخ"
             handleSubmit={(text) => addComment(text, replyId)}
           />
         )}
 
-        {replies.length > 0 && (  // if there is reply comment:
-          <Box 
+        {replies.length > 0 && ( // if there is reply comment:
+          <Box
             sx={{
-              mt: '20px',
-            }} >
+              mt: "20px",
+            }}
+          >
             {replies.map((reply) => (
               <Comment
-                comment={reply} 
+                comment={reply}
                 key={reply.id}
                 setActiveComment={setActiveComment}
                 activeComment={activeComment}
@@ -182,7 +187,8 @@ const Comment = ({
                 addComment={addComment}
                 parentId={comment.id}
                 replies={[]}
-                currentUserId={currentUserId}
+                userId={userId}
+                pic={pic}
               />
             ))}
           </Box>
