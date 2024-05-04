@@ -1,31 +1,44 @@
-import React from "react";
-import Header from '../components/BarberProfile_Header'
-import Body from '../components/BarberProfile_Body'
+import Header from "../components/barberProfile/Header";
+import Samples from "../components/barberProfile/Samples";
+import Information from "../components/barberProfile/Information";
+import Navbar from "../components/Navbar";
+// import Reserve from "../components/barberProfile/Reserve";
+import Services from "../components/barberProfile/Services";
+import Comments from "../components/comments/Comments";
 import Footer from "../components/Footer";
-import Comments from "../components/comments/Comments"
-import GETBarberProfileAPI from "../API/APIendpointBarberProfile"
 
-
-const BarberProfile = (id, name, city, backgroundImg, profileImg, point) => {
+const BarberProfile = ( {userId, barber} ) => {
   return (
     <>
-      <Header 
-        name={name}
-        city={city}
-        backgroundImg={backgroundImg}
-        profileImg={profileImg}
-        point={point}
+      <Navbar />
+
+      <Header
+        first_name={barber.first_name}
+        last_name={barber.last_name}
+        location={barber.location}
+        profileImg={barber.profile_picture}
+        backgroundImg={barber.background_image}
+        point={barber.point}
       />
-      <Body />
-      <Comments
-        commentsUrl=""
-        currentUserId="1"
+
+      <Information 
+        bio={barber.bio}
       />
+
+      <Samples 
+        samples={barber.samples}
+      />
+
+      <Services />
+
+      <Comments 
+        userId={userId} 
+        barberId={barber.id}
+      />
+
       <Footer />
-      <button onClick={GETBarberProfileAPI}> click me</button>
     </>
   );
 };
-
 
 export default BarberProfile;
