@@ -6,7 +6,7 @@ import BottomNavigation from '@mui/material/BottomNavigation';
 import BottomNavigationAction from '@mui/material/BottomNavigationAction';
 import AccountCircleIcon from '@mui/icons-material/AccountCircle';
 import MyLocationIcon from '@mui/icons-material/MyLocation';
-import Editprofile from "./edirprofile"
+import Editprofile from "./editprofile"
 import style from '../styles/info.module.scss';
 import { Email } from '@mui/icons-material';
 

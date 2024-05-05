@@ -48,7 +48,7 @@ const Navbar = ({ setLoginHovered }) => {
         </ul>
         <a
           className={style.login}
-          href="/"
+          href="/Login"
           onMouseEnter={() => {
             setLoginHovered(true);
           }}

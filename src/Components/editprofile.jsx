@@ -8,6 +8,18 @@ import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import style from '../styles/EditProfile.module.scss';
 
+const user = {
+  firstname: 'پرهام',
+  lastname: 'هدایتی',
+  username: 'phd',
+  email: 'johndoe@example.com',
+  location:'تهران ، نیاوران',
+  followers: 100,
+  following: 50,
+  posts: 20
+};
+
+
 const currencies = [
     {
       value: 'ML',
@@ -28,6 +40,12 @@ const currencies = [
             <Box 
                 component="form"
                 sx={{
+                  bgcolor : 'var(--primary-color)',
+                  border: '2px solid',
+                  borderColor: "var(--secondary-color)",
+                  //bgcolor : 'white',
+                  height: {xs: 40, sm: 50, md: 60, lg: 600},
+                  width: {xs: 400, sm: 450, md:500, lg: 900},
                     '& .MuiTextField-root': { m: 1 },
                   }}
                 noValidate
@@ -35,7 +53,7 @@ const currencies = [
             >
                 <div style={{margin : '25px'}}>
                     <TextField
-                        sx={{ width : '57.5ch',
+                        sx={{ 
                         "& .MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
                             //borderColor: "#2e2e2e",
@@ -63,10 +81,11 @@ const currencies = [
                         fullWidth
                         required
                         id="fullWidth"
+                        defaultValue={user.username}
                         label="نام کاربری "
                     />
                     <TextField
-                    sx={{ width : '28ch',
+                    sx={{ //width : '28ch',
                     "& .MuiOutlinedInput-root": {
                       "& .MuiOutlinedInput-notchedOutline": {
                         //borderColor: "#2e2e2e",
@@ -91,13 +110,15 @@ const currencies = [
                        },
                      },
                         }}
+                        fullWidth
                         required
                         id="outlined-required"
+                        defaultValue={user.firstname}
                         label="نام"
 
                     />
                     <TextField
-                        sx={{ width : '28ch',
+                        sx={{ 
                         "& .MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
                             //borderColor: "#2e2e2e",
@@ -122,13 +143,15 @@ const currencies = [
                            },
                          },
                             }}
+                        fullWidth
                         required
                         id="outlined-required"
+                        defaultValue={user.lastname}
                         label=" نام خانوادگی"
 
                     />
                     <TextField
-                        sx={{ width : '28ch',
+                        sx={{
                         "& .MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
                             //borderColor: "#2e2e2e",
@@ -153,46 +176,19 @@ const currencies = [
                            },
                          },
                         }}
+                        fullWidth
                         required
                         id="outlined-required"
+                        defaultValue={user.email}
                         label="ایمیل"
-                    />
-                    <TextField
-                        sx={{ width : '28ch',
-                        "& .MuiOutlinedInput-root": {
-                          "& .MuiOutlinedInput-notchedOutline": {
-                            //borderColor: "#2e2e2e",
-                          },
-                          "&.Mui-focused": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color)",
-                              //borderWidth: "2px",
-                            },
-                          },
-                          "&:hover:not(.Mui-focused)": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color-lighter)",
-                            },
-                          },
-                        },
-                         "& .MuiInputLabel-outlined": {
-                           fontWeight: "bold",
-                           "&.Mui-focused": {
-                             color: "var(--secondary-color)",
-                             fontWeight: "bold",
-                           },
-                         },
-                        }}
-                        required
-                        id="outlined-required"
-                        label="تلفن همراه"
                     />
                     <TextField
                         fullWidth
                         required
                         id="fullWidth"
+                        defaultValue={user.location}
                         label="آدرس "
-                        sx={{ width : '57.5ch',
+                        sx={{
                         "& .MuiOutlinedInput-root": {
                           "& .MuiOutlinedInput-notchedOutline": {
                             //borderColor: "#2e2e2e",
