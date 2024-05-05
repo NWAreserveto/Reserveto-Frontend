@@ -1,17 +1,16 @@
 import axios from "axios";
 
-const GETBarberProfileAPI = async (barberId) => {
+const GETCommentsAPI = async () => {
   try {
     const api = axios.create({
-      baseURL: "https://reserveto-back.onrender.com/"
+      baseURL: "https://reserveto-back.onrender.com/",
     });
 
-    const response = await api.get(`api/barbers/profiles/${barberId}`);
+    const response = await api.get(`api/reviews`);
 
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {
@@ -19,4 +18,4 @@ const GETBarberProfileAPI = async (barberId) => {
   }
 };
 
-export default GETBarberProfileAPI;
+export default GETCommentsAPI;
