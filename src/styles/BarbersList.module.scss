@@ -13,6 +13,7 @@
     height: calc(100vh - 513px);
     margin: 100px calc((100% - 1260px) / 2);
     display: flex;
+    flex-direction: row;
     align-items: center;
     justify-content: center;
 }
