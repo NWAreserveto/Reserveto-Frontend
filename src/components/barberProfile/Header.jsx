@@ -53,7 +53,7 @@ const Header = ({
       <Box // barber name and score
         sx={{
           mt: "-135px",
-          pr: { xs: 31.5, xl: 56 },
+          pr: { xs: 31.5, lg: 40, xl: 56 },
         }}
       >
         <Typography
@@ -76,7 +76,7 @@ const Header = ({
           sx={{
             color: "white",
             fontSize: { xs: 31, sm: 32, md: 33, lg: 34 },
-            pr: { xs: 32, lg: 56.5 },
+            pr: { xs: 32, lg: 40, xl: 56.5 },
           }}
         >
           <LocationOnIcon />
@@ -99,7 +99,7 @@ const Header = ({
           direction: "ltr",
           display: "flex",
           mt: -7,
-          pl: { xs: 7, lg: 40 },
+          pl: { xs: 10, lg: 25, xl: 40 },
         }}
       >
         <Typography

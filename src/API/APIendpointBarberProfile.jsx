@@ -1,17 +1,24 @@
 import axios from "axios";
 
-const baseURL = "https://reserveto-back.onrender.com";
-
-const GETBarberProfileAPI = (id) => {
-  // axios.get(baseURL + `/api/barbers/profiles/${id}`)
-  // axios.get(baseURL + `/api/barbers/profiles/2/`)
-  axios.get(`https://reserveto-back.onrender.com/api/barbers/profiles/2/`)
-    .then(res => {
-      console.log(res);
-    }).catch(err => {
-      console.log(err);
+const GETBarberProfileAPI = async (barberId) => {
+  try {
+    const api = axios.create({
+      baseURL: "https://reserveto-back.onrender.com/"
     });
 
+    const response = await api.get(`api/barbers/profiles/${barberId}`);
+
+    if (response.status === 200) {
+      console.log(response.status);
+      console.log(response.data);
+      return response.data;
+    } else {
+      console.log(response.status);
+      throw new Error(`Request failed with status code ${response.status}`);
+    }
+  } catch (error) {
+    console.error("Error fetching data:", error);
+  }
 };
 
 export default GETBarberProfileAPI;

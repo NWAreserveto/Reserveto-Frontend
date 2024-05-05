@@ -18,7 +18,7 @@ function App() {
         <Route path="/ForgetPassword" element={<ForgetPassword />} />
         <Route path="/password_reset/:tempToken" element={<NewPassword />} />
         <Route path="/BarbersLanding" element={<BarbersLanding />} />
-        <Route path="/BarberProfile" element={<BarberProfile />} />
+        <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
       </Routes>
     </Router>
   );
