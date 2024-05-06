@@ -58,6 +58,7 @@ export default function BarbersCard({ id, profilePic, name, location }) {
           <p>{location}</p>
         </div>
       </CardActionArea>
+
       <CardActions disableSpacing style={{ justifyContent: "space-between" }}>
         <Rating name="rating" defaultValue={0} max={5} />
         <Button
