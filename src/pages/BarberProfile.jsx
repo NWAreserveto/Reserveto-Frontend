@@ -17,6 +17,7 @@ import Sample_5 from "../images/Sample_5.jpg";
 import Sample_6 from "../images/Sample_2.jpg";
 import Sample_7 from "../images/Sample_4.jpg";
 import Sample_8 from "../images/Sample_5.jpg";
+import Reserve from "../components/barberProfile/Reserve";
 
 
 const BarberProfile = () => {
@@ -73,6 +74,8 @@ const BarberProfile = () => {
       />
 
       <Services />
+      <Reserve />
+
 
       <Comments 
         userId="1"

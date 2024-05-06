@@ -1,14 +1,27 @@
-import React, { Component } from 'react';
-import { Avatar, Box, CardMedia, Typography, BottomNavigation } from "@mui/material";
+import React, { Component } from "react";
+import {
+  Avatar,
+  Box,
+  CardMedia,
+  Typography,
+  BottomNavigation,
+} from "@mui/material";
+import Calendar from "./Calendar";
 
 const Reserve = () => {
-    return (
-        <>
-        <Typography>
-            page 3
-        </Typography>
-        </>
-    );
-}
+  return (
+    <Box
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+
+        marginRight: "40rem",
+      }}
+    >
+      <Calendar />
+    </Box>
+  );
+};
 
 export default Reserve;
