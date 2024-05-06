@@ -1,28 +1,22 @@
 import { useState, useEffect } from "react";
 import "react-loading-skeleton/dist/skeleton.css";
 import style from "../styles/HeroSection.module.scss";
-import Hero from "../images/Hero.png";
-import HeroHoverd from "../images/HeroHover.png";
+import APIendPointLandingUp from "../API/APIendPointLandingUp";
 
 const HeroSection = ({ isLoginHovered }) => {
-  const [apiData, setApiData] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [apiData, setApiData] = useState({});
 
   useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await APIendPointLandingUp();
+        setApiData(data[0]);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
     fetchData();
   }, []);
-
-  const fetchData = async () => {
-    try {
-      // const response = await fetch("");
-      // const data = await response.json();
-      // setApiData(data);
-      // setLoading(false);
-    } catch (error) {
-      console.error("Error fetching data:", error);
-      setLoading(false);
-    }
-  };
 
   return (
     <div
@@ -31,18 +25,18 @@ const HeroSection = ({ isLoginHovered }) => {
     >
       <div className={style.container}>
         <div className={style.col1}>
-          <p>زیبایی را رزرو کنید</p>
-          <p>وقت خود را به راحتی برنامه‌ریزی کنید</p>
+          <p>{apiData.hero_section_title}</p>
+          <p>{apiData.hero_section_description}</p>
         </div>
         {isLoginHovered ? (
           <img
             alt="hero"
-            src={HeroHoverd}
+            src={apiData.hero_section_image2}
           />
         ) : (
           <img
             alt="hero"
-            src={Hero}
+            src={apiData.hero_section_image1}
           />
         )}
       </div>
