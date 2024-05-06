@@ -12,7 +12,6 @@ const BarbersList = ({ searchQuery }) => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        console.log(searchQuery);
         if (searchQuery === "") {
           const token = localStorage.getItem("token");
           console.log(token);
@@ -31,27 +30,21 @@ const BarbersList = ({ searchQuery }) => {
     };
 
     fetchData();
-  }, []);
+  }, [searchQuery]);
 
   return (
-    <div className={style.flex}>
+    <div className={loading ? style.flex : style.barbersList}>
       {loading ? (
         <CircularProgress />
       ) : (
-        <div className={style.flex}>
-          {barbers.slice(0, 4).map(
-            (
-              barber // Only first 8 items
-            ) => (
-              <BarbersCard
-                id={barber.id}
-                name={barber.first_name + " " + barber.last_name}
-                location={barber.location}
-                // profilePicture={barber.profile_picture}
-              />
-            )
-          )}
-        </div>
+        barbers.slice(0, 10).map((barber) => (
+          <BarbersCard
+            id={barber.id}
+            name={barber.first_name + " " + barber.last_name}
+            location={barber.location}
+            // profilePicture={barber.profile_picture}
+          />
+        ))
       )}
     </div>
   );

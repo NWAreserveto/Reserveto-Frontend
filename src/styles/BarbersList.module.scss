@@ -1,8 +1,10 @@
 .barbersList{
     max-width: 1260px;
-    margin: 100px calc((100% - 1260px) / 2);
+    min-height: 800px;
+    margin: 150px calc((100% - 1260px) / 2);
     display: grid;
     grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    grid-template-rows: 320px;
     grid-gap: 20px;
     height: auto;
 }
@@ -10,10 +12,11 @@
 
 .flex{
     max-width: 1260px;
+    min-height: 800px;
     height: calc(100vh - 513px);
-    margin: 100px calc((100% - 1260px) / 2);
+    margin: 150px calc((100% - 1260px) / 2);
     display: flex;
     flex-direction: row;
-    align-items: center;
+    align-items: flex-start;
     justify-content: center;
 }

@@ -13,7 +13,7 @@ const SearchBar = ({ setParentSearch }) => {
 
   const handleSearchQueryChanged = async (event, value) => {
     setSearchQuery(value);
-    
+
     if (value !== "") {
       setLoading(true);
       try {
@@ -57,12 +57,7 @@ const SearchBar = ({ setParentSearch }) => {
                 position="start"
                 sx={{ marginRight: "-30px" }}
               >
-                <IconButton
-                  onClick={setParentSearch(searchQuery)}
-                  onKeyDown={(event) => {
-                    if (event.key === "Enter") setParentSearch(searchQuery);
-                  }}
-                >
+                <IconButton onClick={() => setParentSearch(searchQuery)}>
                   <SearchIcon
                     fontSize="large"
                     sx={{
