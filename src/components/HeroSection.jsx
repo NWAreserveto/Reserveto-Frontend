@@ -3,7 +3,7 @@ import "react-loading-skeleton/dist/skeleton.css";
 import style from "../styles/HeroSection.module.scss";
 import APIendPointLandingUp from "../API/APIendPointLandingUp";
 
-const HeroSection = ({ isLoginHovered }) => {
+const HeroSection = ({ isLoginHovered}) => {
   const [apiData, setApiData] = useState({});
 
   useEffect(() => {
