@@ -1,36 +1,25 @@
-
-import {
-  HashRouter as Router,
-  Routes,
-  Route,
-  BrowserRouter,
-} from "react-router-dom";
+import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
 import Login from "./pages/Login";
 import CreateAcc from "./pages/CreateAcc";
+import ForgetPassword from "./pages/ForgetPassword";
+import NewPassword from "./pages/NewPassword";
 import Landing from "./pages/Landing";
 import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
-// function App() {
-//   return (
-//     <div className="App">
-//       <UserProfile/>
-//     </div>
 
 //   }
 function App() {
   return (
-    
-    <BrowserRouter>
+    <Router>
       <Routes>
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
-        <Route path="/Home" element={<BarbersLanding />} />
-        <Route path="/:userID" element={<UserProfile />} />
+        <Route path="/BarbersLanding" element={<BarbersLanding />} />
+        <Route path="/UserProfile/:id" element={<UserProfile/>}/>
         
       </Routes>
-    </BrowserRouter>
-
+    </Router>
   );
 }
 

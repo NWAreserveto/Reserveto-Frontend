@@ -1,5 +1,5 @@
 import { useEffect, useState } from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/BarbersLandingNavbar";
 import Navbox from "../components/NavBox";
 import style from "../styles/Avatar.module.scss"
 import Usernavbar from "../components/Usernavbar";
@@ -9,22 +9,61 @@ import Footer from "../components/Footer";
 import Info from '../components/info'; // Assuming you have an Info component
 import profilePic from "../images//profilePic.jpg"
 import axios from "axios";
+import APIendpointUser from "../API/APIendpointUser";
 import ReservesComponent from "../components/ReservesComponent"; // Import your custom components
 import CommentsComponent from "../components/CommentsComponent";
 import InterestsComponent from "../components/InterestsComponent";
 import CustomerReservesList from "../components/UserReserves";
 
-const UserProfile = (id) => {
+const UserProfile = () => {
   const [selectedTab, setSelectedTab] = useState(null);
   const [isEditProfileActive, setIsEditProfileActive] = useState(false);
-  const [isLoginHovered, setIsLoginHovered] = useState(false);
-  const[user , setUser] = useState([]);
+  const [isHovered, setIsHoverd] = useState(false);
+  const [isMenuHovered, setIsMenuHovered] = useState(false);
+  const [loading, setLoading] = useState(true);
+  const[user , setUser] = useState();
 
-  useEffect(()=>{
-    axios.get('https://reserveto-back.onrender.com/api/ ^customers/profiles/${id}').then(res=>{
-      setUser(res.data)
-    }).catch(err => {console.log(err)})
+  // const Editprofile = ({ user }) => {
+  //   const [userData, setUserData] = useState({
+  //       username: '',
+  //       first_name: '',
+  //       last_name: '',
+  //       email: '',
+  //       address: '',
+  //       // Add other fields as needed
+  //   });
+
+  //   const fetchUserDataOnClick = async () => {
+  //       try {
+  //           const userDataFromAPI = await APIUpdateUser();
+  //           setUserData(userDataFromAPI);
+  //       } catch (error) {
+  //           console.error('Error fetching user data:', error);
+  //       }
+  //   };
+  //   const handleSubmit = async (e) => {
+  //     e.preventDefault();
+  //     try {
+  //         await updateUserProfile(user.id, userData);
+  //         console.log('Profile updated successfully');
+  //     } catch (error) {
+  //         console.error('Failed to update profile:', error);
+  //     }
+  // };
+
+  useEffect(()=> {
+    const fetchData = async () => {
+      const userList = window.location.href.split("/");
+      const id = userList[userList.length - 1];
+      setLoading(true);
+      var temp = await APIendpointUser(id);
+      setUser(temp);
+      setLoading(false);
+      console.log(temp);
+    }
+    fetchData();
   },[]);
+  
 
   const reserves = [
     { customer: 'John Doe', amount: '$1000' },
@@ -51,49 +90,28 @@ const UserProfile = (id) => {
   };
 
   return (
-    <>
-    {user.length ? 
-    (
-      <div className={style.userpage}>
-        {/* <div className={style.mainhead} > */}
-        <Navbar setLoginHovered={setIsLoginHovered} />
-        <Avatar src={user.pi} alt={user.name} />
-        {/* </div> */}
-        {isEditProfileActive ? (
-        <Editprofile/> // Render Editprofile component if edit profile mode is active
-        ) : (
-        <Navbox /> // Render Navbox component if edit profile mode is not active
-        )}
-        <Footer/>
-      </div>
-
-    )
-  :
-  (
     <div className={style.userpage}>
       <div className={style.mainhead} >
-      <Navbar setLoginHovered={setIsLoginHovered} />
-      <Avatar image={user.image} name={user.first_name +" " + user.last_name} location={user.address} onClick={toggleEditProfile} />
+      <Navbar setIsHoverd={setIsHoverd} setSelectedTab={setSelectedTab}/>
+      <Avatar user={user} onClick={toggleEditProfile} />
       </div>
       {isEditProfileActive ? (
         <div className={style.editcontainer}>
-        <Editprofile />
+        <Editprofile user={user} />
         </div>
       ) : (
         <div>
         <Navbox handleImageButtonClick={handleImageButtonClick}/>
-        <CustomerReservesList reserves={reserves} />
-        {selectedTab === 0 && <ReservesComponent/> }
+        {/* <CustomerReservesList reserves={reserves} /> */}
+        {/* {selectedTab === 0 && <ReservesComponent/> }
         {selectedTab === 1 && <InterestsComponent />} 
-        {selectedTab === 2 && <CommentsComponent />}
+        {selectedTab === 2 && <CommentsComponent />} */}
       </div>
       )
       }
       <Footer/>
     </div>
-  )}
-    </>
-  );
+)
 };
 
 export default UserProfile;

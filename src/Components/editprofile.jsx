@@ -1,23 +1,28 @@
 import React from 'react';
+import { useState } from 'react';
+import { useRef } from 'react';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import DeleteIcon from '@mui/icons-material/Delete';
+import AddPhotoIcon from '@mui/icons-material/AddAPhoto';
 import checkIcon from '@mui/icons-material/Check';
+import IconButton from '@mui/material/IconButton';
 import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import style from '../styles/EditProfile.module.scss';
+import APIUserUpdate from "../API/APIendpointUpdateUser";
 
-const user = {
-  firstname: 'پرهام',
-  lastname: 'هدایتی',
-  username: 'phd',
-  email: 'johndoe@example.com',
-  location:'تهران ، نیاوران',
-  followers: 100,
-  following: 50,
-  posts: 20
-};
+// const user = {
+//   firstname: 'پرهام',
+//   lastname: 'هدایتی',
+//   username: 'phd',
+//   email: 'johndoe@example.com',
+//   location:'تهران ، نیاوران',
+//   followers: 100,
+//   following: 50,
+//   posts: 20
+// };
 
 
 const currencies = [
@@ -31,15 +36,87 @@ const currencies = [
     },
   ];
 
- const Editprofile = () => {
-    const [name, setName] = React.useState('');
+ const EditProfile = ({user}) => {
+  const [profilePicture, setProfilePicture] = useState(null);
+  const fileInputRef = useRef();
+  const handleFileSelect = (event) => {
+    const file = event.target.files[0];
+    setProfilePicture(file);
+  };
+
+  const [userData, setUserData] = useState({
+    username: user.user.username,
+    first_name: user.first_name,
+    last_name: user.last_name,
+    email: user.user.email,
+    address: user.address,
+    // Add other fields as needed
+  });
     const handleChange = (event) => {
-        setName(event.target.value);}
+      setUserData({
+          ...userData,
+          [event.target.name]: event.target.value,
+      });
+    };
+    const handleApplyChanges = async () => {
+      try {
+          console.log('handleApplyChanges called -----------------------');
+          // Call the function to update user profile
+          await APIUserUpdate(user.id, userData);
+          console.log('Profile updated successfully');
+      } catch (error) {
+          console.error('Failed to update profile:', error);
+      }
+    };
+    const [username, setuserName] = useState(user.user.username);
+    const handleUsername = (e) => {
+      setuserName(e.target.value);
+    }
+    const [firstname, setfirstname] = useState(user.first_name);
+    const handleFirstname = (e) => {
+      setfirstname(e.target.value);
+    }
+    const [lastname, setlastname] = useState(user.last_name);
+    const handleLastname = (e) => {
+      setlastname(e.target.value);
+    }
+    const [email, setemail] = useState(user.user.email);
+    const handleEmail = (e) => {
+      setemail(e.target.value);
+    }
+    const [address, setaddress] = useState(user.address);
+    const handleAddress = (e) => {
+      setaddress(e.target.value);
+    }
+    const newData = {
+      first_name : firstname,
+      last_name : lastname,
+      address : address,
+      user: {
+        username: username,
+        // email: email,
+      },
+      profile_Picture: profilePicture
+    };
+    const edit = () =>{
+      try {
+        console.log('handleApplyChanges called -----------------------');
+      const formData = new FormData();
+      formData.append('profilePicture', profilePicture); // Append the selected file
+      formData.append('data', JSON.stringify(newData));
+      APIUserUpdate(user.id ,formData);
+      } catch (error) {
+        console.error('Failed to update profile:', error);
+    }
+    }
+    // const handleChange = (event) => {
+    //     setName(event.target.value);}
     return (
         <div className={style.EditContainer}>
             <Box 
                 component="form"
                 sx={{
+                  mb : 2,
                   bgcolor : 'var(--primary-color)',
                   border: '2px solid',
                   borderColor: "var(--secondary-color)",
@@ -50,171 +127,273 @@ const currencies = [
                   }}
                 noValidate
                 autoComplete="off"
+                //onSubmit={(e) => { e.preventDefault(); }}
             >
                 <div style={{margin : '25px'}}>
+                <div className={style.changebutt}>
+                <Stack direction="row" spacing={2} gap={1}>
+                  <input
+                    type="file"
+                    accept="image/*"
+                    style={{ display: 'none' }}
+                    ref={fileInputRef}
+                    onChange={handleFileSelect}
+                  />
+                <IconButton aria-label="add" size="large" onClick={() => fileInputRef.current.click()} >
+                  <AddPhotoIcon />
+                </IconButton>
+                </Stack>
+                </div>
+                <TextField
+              id="outlined-basic"
+              label="نام کاربری"
+              variant="outlined"
+              fullWidth
+              required
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
+              }}
+              //className={style.username}
+              value={username}
+              onChange={handleUsername}
+              //error={barberNameError}
+              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
                     <TextField
-                        sx={{ 
-                        "& .MuiOutlinedInput-root": {
-                          "& .MuiOutlinedInput-notchedOutline": {
-                            //borderColor: "#2e2e2e",
-                          },
-                          "&.Mui-focused": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color)",
-                              //borderWidth: "2px",
-                            },
-                          },
-                          "&:hover:not(.Mui-focused)": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color-lighter)",
-                            },
-                          },
-                        },
-                         "& .MuiInputLabel-outlined": {
-                           fontWeight: "bold",
-                           "&.Mui-focused": {
-                             color: "var(--secondary-color)",
-                             fontWeight: "bold",
-                           },
-                         },
-                        }}
-                        fullWidth
-                        required
-                        id="fullWidth"
-                        defaultValue={user.username}
-                        label="نام کاربری "
-                    />
+              id="outlined-basic"
+              label="نام"
+              variant="outlined"
+              fullWidth
+              required
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
+              }}
+              //className={style.username}
+              value={firstname}
+              onChange={handleFirstname}
+              //error={barberNameError}
+              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
                     <TextField
-                    sx={{ //width : '28ch',
-                    "& .MuiOutlinedInput-root": {
-                      "& .MuiOutlinedInput-notchedOutline": {
-                        //borderColor: "#2e2e2e",
-                      },
-                      "&.Mui-focused": {
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "var(--secondary-color)",
-                          //borderWidth: "2px",
-                        },
-                      },
-                      "&:hover:not(.Mui-focused)": {
-                        "& .MuiOutlinedInput-notchedOutline": {
-                          borderColor: "var(--secondary-color-lighter)",
-                        },
-                      },
-                    },
-                     "& .MuiInputLabel-outlined": {
-                       fontWeight: "bold",
-                       "&.Mui-focused": {
-                         color: "var(--secondary-color)",
-                         fontWeight: "bold",
-                       },
-                     },
-                        }}
-                        fullWidth
-                        required
-                        id="outlined-required"
-                        defaultValue={user.firstname}
-                        label="نام"
-
-                    />
+              id="outlined-basic"
+              label="نام خانوادگی"
+              variant="outlined"
+              fullWidth
+              required
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
+              }}
+              //className={style.username}
+              value={lastname}
+              onChange={handleLastname}
+              //error={barberNameError}
+              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
                     <TextField
-                        sx={{ 
-                        "& .MuiOutlinedInput-root": {
-                          "& .MuiOutlinedInput-notchedOutline": {
-                            //borderColor: "#2e2e2e",
-                          },
-                          "&.Mui-focused": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color)",
-                              //borderWidth: "2px",
-                            },
-                          },
-                          "&:hover:not(.Mui-focused)": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color-lighter)",
-                            },
-                          },
-                        },
-                         "& .MuiInputLabel-outlined": {
-                           fontWeight: "bold",
-                           "&.Mui-focused": {
-                             color: "var(--secondary-color)",
-                             fontWeight: "bold",
-                           },
-                         },
-                            }}
-                        fullWidth
-                        required
-                        id="outlined-required"
-                        defaultValue={user.lastname}
-                        label=" نام خانوادگی"
-
-                    />
+              id="outlined-basic"
+              label="ایمیل "
+              variant="outlined"
+              fullWidth
+              required
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
+              }}
+              //className={style.username}
+              value={email}
+              onChange={handleEmail}
+              //error={barberNameError}
+              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              inputProps={{
+                pattern: "[A-Za-z ]+",
+              }}
+            />
                     <TextField
-                        sx={{
-                        "& .MuiOutlinedInput-root": {
-                          "& .MuiOutlinedInput-notchedOutline": {
-                            //borderColor: "#2e2e2e",
-                          },
-                          "&.Mui-focused": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color)",
-                              //borderWidth: "2px",
-                            },
-                          },
-                          "&:hover:not(.Mui-focused)": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color-lighter)",
-                            },
-                          },
-                        },
-                         "& .MuiInputLabel-outlined": {
-                           fontWeight: "bold",
-                           "&.Mui-focused": {
-                             color: "var(--secondary-color)",
-                             fontWeight: "bold",
-                           },
-                         },
-                        }}
-                        fullWidth
-                        required
-                        id="outlined-required"
-                        defaultValue={user.email}
-                        label="ایمیل"
-                    />
-                    <TextField
-                        fullWidth
-                        required
-                        id="fullWidth"
-                        defaultValue={user.location}
-                        label="آدرس "
-                        sx={{
-                        "& .MuiOutlinedInput-root": {
-                          "& .MuiOutlinedInput-notchedOutline": {
-                            //borderColor: "#2e2e2e",
-                          },
-                          "&.Mui-focused": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color)",
-                              //borderWidth: "2px",
-                            },
-                          },
-                          "&:hover:not(.Mui-focused)": {
-                            "& .MuiOutlinedInput-notchedOutline": {
-                              borderColor: "var(--secondary-color-lighter)",
-                            },
-                          },
-                        },
-                         "& .MuiInputLabel-outlined": {
-                           fontWeight: "bold",
-                           "&.Mui-focused": {
-                             color: "var(--secondary-color)",
-                             fontWeight: "bold",
-                           },
-                         },
-                     
-                        }}
-                    />
+              id="outlined-basic"
+              label="آدرس "
+              variant="outlined"
+              fullWidth
+              required
+              type="text"
+              sx={{
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
+              }}
+              //className={style.username}
+              value={address}
+              onChange={handleAddress}
+              //error={barberNameError}
+              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
+              // inputProps={{
+              //   pattern: "[A-Za-z ]+",
+              // }}
+            />
                     <TextField
                         sx={{
                           "& .MuiOutlinedInput-root": {
@@ -258,10 +437,10 @@ const currencies = [
                 </div>
                 <div className={style.changebutt}>
                 <Stack direction="row" spacing={2} gap={1}>
-                    <Button variant="contained" sx={{m :1,bgcolor : 'var(--secondary-color)'}} startIcon={<checkIcon/>}>
+                    <Button type="button" variant="contained" onClick={edit} sx={{m :1,bgcolor : 'var(--secondary-color)'}} startIcon={<checkIcon/>}>
                       اعمال تغییرات
                     </Button>
-                    <Button variant="outlined" sx={{m :1,borderColor : 'var(--secondary-color)',  color : 'var(--secondary-color)'}} startIcon={<DeleteIcon  sx={{color : 'var(--secondary-color)'}}/>}>
+                    <Button type="submit" variant="outlined" sx={{m :1,borderColor : 'var(--secondary-color)',  color : 'var(--secondary-color)'}} startIcon={<DeleteIcon  sx={{color : 'var(--secondary-color)'}}/>}>
                       حذف تغییرات  
                     </Button>
                 </Stack>
@@ -271,4 +450,4 @@ const currencies = [
     );
 };
 
-export default Editprofile;
+export default EditProfile;
