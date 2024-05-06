@@ -1,0 +1,102 @@
+// .info {
+//     //text-align: center;
+//     direction: rtl;
+//     margin-left: 20%; /* Adjust the spacing as needed */
+//     margin-right: 20%;
+//     margin-bottom: 5%;
+//     padding: 20px; /* Add padding to create space around the content */
+//     border: 2px solid #ccc; /* Add a border */
+//     border-radius: 8px; /* Add border-radius for rounded corners */
+//     background-color: var(--primary-color); /* Add a background color */
+//       p{
+//         //background-color: #ccc;
+//         padding: 2rem;
+//         font-weight: 500;
+//         border-radius: 5px;
+//         margin-bottom: 5px; /* Adjust the spacing as needed */
+//         font-size: 25px; /* Adjust the font size as needed */
+//         color: var(--secondary-color);
+//       }
+//   }
+
+.info{
+  //display: flex;
+  //justify-content: right;
+  //text-align: right;
+  margin-top: 5px;
+  align-items: right;
+    box-shadow: 0 0 30px var(--primary-color);
+    background-color: var(--primary-color-lighter);
+    // background-color: rgb(105, 14, 14);
+    //height: 900px;
+    //width: 1300px;
+    height :inherit;
+    border-radius: 20px;
+    // margin-top: 4%;
+    margin: 4% 5% 4% 5%;
+    flex-direction: column;
+  h3{
+    color: var(--secondary-color);
+    font-weight: 800;
+  }
+    p{
+        //background-color: #ccc;
+        direction: ltr;
+        padding: 1rem;
+        font-weight: 500;
+        border-radius: 5px;
+        margin-bottom: 0px; /* Adjust the spacing as needed */
+        font-size: 25px; /* Adjust the font size as needed */
+        //color: var(--primary-color);
+        color:gray;
+     }
+}
+  .editcontainer{
+    display: flex;
+    justify-content: center;
+    text-align: center;
+  }
+
+  .edit{
+    color: #ffffff;
+    padding: 1rem;
+    font-weight: 500;
+    background-color: var(--overlay );
+    border-radius: 5px; 
+    margin-top: 100px;
+}
+
+.ButtomNav{
+  display: flex;
+  justify-content: right;
+}
+.selector_box {
+  //background-image: url("../images/cream-back.jpg");
+  //background-size: cover;
+  display: flex;
+  //justify-content: right;
+  //text-align: right;
+  //align-items: right;
+  //justify-content: right;
+    box-shadow: 0 0 30px var(--primary-color);
+    background-color: var(--primary-color-lighter);
+    // background-color: rgb(105, 14, 14);
+    height: 600px;
+    width: auto;
+    border-radius: 20px;
+    // margin-top: 4%;
+    margin: 4% 5% 4% 5%;
+    //align-items: center;
+    flex-direction: column;
+  }
+
+
+
+  .trapezoid {
+    width:500px ;
+    height: 0;
+    border-bottom: 50px solid blue;
+    border-left: 25px solid transparent;
+    border-right: 25px solid transparent;
+  }
+  

@@ -4,9 +4,10 @@ import CreateAcc from "./pages/CreateAcc";
 import ForgetPassword from "./pages/ForgetPassword";
 import NewPassword from "./pages/NewPassword";
 import Landing from "./pages/Landing";
+import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
-import BarberProfile from "./pages/BarberProfile";
 
+//   }
 function App() {
   return (
     <Router>
@@ -14,10 +15,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
-
-        <Route path="/ForgetPassword" element={<ForgetPassword />} />
-        <Route path="/password_reset/:tempToken" element={<NewPassword />} />
         <Route path="/BarbersLanding" element={<BarbersLanding />} />
+        <Route path="/UserProfile/:id" element={<UserProfile/>}/>
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
       </Routes>
     </Router>
