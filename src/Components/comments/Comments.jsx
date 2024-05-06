@@ -1,7 +1,6 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
 import Comment from "./Comment";
-import pic from "../../images/Sample_1.jpg";
 
 import { Box, Typography, Container, Paper } from "@mui/material";
 import {
@@ -11,30 +10,60 @@ import {
 } from "./api";
 import "./style.css";
 
-const Comments = ({ userId, barberId }) => {
+import GETCommentsAPI from "../../API/APIendpointComments"
+import GETCommentResponseAPI from "../../API/APIendpointCommentResponse"
+
+const Comments = ({ userId, barberId, barberName }) => {
+  const [comments, setComments] = useState([]);
+  const [replies, setReplies] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseData = await GETCommentsAPI();
+        setComments(responseData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [comments]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const responseData = await GETCommentResponseAPI();
+        setReplies(responseData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
+  }, [replies]);
+
+  const rootComments = comments
+  .filter(
+    (comment) => barberId === comment.recipient_barber
+  ).sort(
+    (a, b) =>
+      new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+  );
+
+
+
   const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
 
-  const rootComments = backendComments
-    .filter(
-      (backendComment) =>
-        backendComment.parentId === null && backendComment.barberId === barberId
-    )
-    .sort(
-      (a, b) =>
-        new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
-    );
 
-  const getReplies = (commentId) =>
-    backendComments
+
+  const getReplies = (reviewId) =>
+    replies
       .filter(
-        (backendComment) =>
-          backendComment.parentId === commentId &&
-          backendComment.barberId === barberId
-      )
-      .sort(
-        (a, b) =>
-          new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
+        (reply) =>
+          reply.review === reviewId
+          // reply.recipient_barber === barberId
       );
 
   const addComment = (text, parentId) => {
@@ -99,7 +128,7 @@ const Comments = ({ userId, barberId }) => {
             addComment={addComment}
             deleteComment={deleteComment}
             userId={userId}
-            pic={pic}
+            barberName={barberName}
           />
         ))}
         <Box
