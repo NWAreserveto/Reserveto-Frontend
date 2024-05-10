@@ -76,7 +76,6 @@ const BarberProfile = () => {
       <Services />
       <Reserve />
 
-
       <Comments 
         userId="5"
         barberId={barber.id}

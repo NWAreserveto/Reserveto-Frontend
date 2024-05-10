@@ -12,7 +12,6 @@ const Samples = ({ samples }) => {
   return (
     <Box
       sx={{
-        mt: 6,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -37,6 +36,7 @@ const Samples = ({ samples }) => {
         >
           نمونه کار ها
         </Typography>
+        <p>جهت رزرو سرویس از دکمه زیر استفاده کنید</p>
         <Box
           sx={{
             display: "flex",
