@@ -1,6 +1,5 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
-import "./style.css";
 import { Avatar, Box, Typography } from "@mui/material";
 import GETCommentNameAPI from "../../API/APIendpointCommentName"
 

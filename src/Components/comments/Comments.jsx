@@ -8,7 +8,6 @@ import {
   createComment as createCommentApi,
   deleteComment as deleteCommentApi,
 } from "./api";
-import "./style.css";
 
 import GETCommentsAPI from "../../API/APIendpointComments"
 import GETCommentResponseAPI from "../../API/APIendpointCommentResponse"

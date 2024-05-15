@@ -1,5 +1,4 @@
 import { useState } from "react";
-import "./style.css";
 import { Button, FormControl, TextField, TextareaAutosize } from '@mui/material';
 
 const CommentForm = ({

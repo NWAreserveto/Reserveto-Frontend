@@ -6,6 +6,7 @@ import NewPassword from "./pages/NewPassword";
 import Landing from "./pages/Landing";
 import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
+import BarberProfile from "./pages/BarberProfile";
 
 //   }
 function App() {
