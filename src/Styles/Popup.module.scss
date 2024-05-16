@@ -9,6 +9,7 @@
     justify-content: center;
     align-items: center;
     z-index: 1000;
+    overflow-y: auto;
   }
   
 //   .popup {
@@ -20,5 +21,12 @@
   
   .popupContainer {
     backdrop-filter: blur(5px);
+  }
+
+  .closeButton {
+    display: flex;
+    position: absolute;
+    top: 0;
+    right: 0;
   }
 

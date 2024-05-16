@@ -7,6 +7,7 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { CardMedia } from "@material-ui/core";
+import ParentComponent from "./ParentPopup";
 
 const Samples = ({ samples }) => {
   return (
@@ -68,6 +69,7 @@ const Samples = ({ samples }) => {
                 />
               </SwiperSlide>
             ))}
+            <ParentComponent />
           </Swiper>
         </Box>
       </Box>

@@ -1,7 +1,7 @@
 import React, { Component } from "react";
 import moment from "moment-jalaali";
 import { toPersianDigit } from "./helper";
-import TimeClockAmPm from "./Time";
+import Time from "./Time";
 import TextField from "@mui/material/TextField";
 import "../../styles/Calendar.scss";
 
@@ -173,7 +173,7 @@ export default class Calendar extends Component {
                   readOnly: true,
                 }}
                 sx={{
-                  width: "18.5rem",
+                  width: "100%",
                   marginTop: "7px",
                   marginBottom: "7px",
                   "& label": {
@@ -212,7 +212,7 @@ export default class Calendar extends Component {
               />
             </div>
             <div id="time-clock">
-              <TimeClockAmPm
+              <Time
                 selectedDate={this.state.selectedDay.toDate()}
                 onTimeChange={this.handleTimeChange}
               />

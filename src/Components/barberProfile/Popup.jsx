@@ -1,17 +1,28 @@
-import React from "react";
+import React, { useState } from "react";
 import style from "../../styles/Popup.module.scss";
 import Calendar from "./Calendar";
+import CloseIcon from "@mui/icons-material/Close";
+import { IconButton } from "@mui/material";
 
-const Popup = () => {
+const Popup = ({ onClose }) => {
+  const [isOpen, setIsOpen] = useState(true);
+
+  const handleClose = () => {
+    setIsOpen(false);
+    onClose();
+  };
+
   return (
-    <div className={style.popupContainer}>
-      {/* <h2>Popup Content</h2>
-        <p>This is the content of the popup.</p> */}
-      <Calendar />
-      <button className={style.closeButton}>
-        بستن
-      </button>
-    </div>
+    <>
+      {isOpen && (
+        <div className={style.popupContainer}>
+          <IconButton onClick={handleClose} className={style.closeButton}>
+            <CloseIcon />
+          </IconButton>
+          <Calendar />
+        </div>
+      )}
+    </>
   );
 };
 
