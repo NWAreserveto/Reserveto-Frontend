@@ -71,11 +71,11 @@ const BarberProfile = () => {
 
       <Services />
 
-      <Comments
+      {/* <Comments
         userId="5"
         barberId={barber.id}
         barberName={barber.first_name + " " + barber.last_name}
-      />
+      /> */}
 
       <Footer />
     </>
