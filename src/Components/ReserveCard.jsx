@@ -1,21 +1,31 @@
-import React from "react";
+import { useState } from "react";
 import Card from "@mui/material/Card";
 import CardContent from "@mui/material/CardContent";
 import Typography from "@mui/material/Typography";
 import Button from "@mui/material/Button";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
+import { CardHeader } from "@mui/material";
+import Avatar from "@mui/material/Avatar";
+import Chip from "@mui/material/Chip";
+import { styled } from "@mui/material/styles";
+import Paper from "@mui/material/Paper";
+import DeleteIcon from "@mui/icons-material/Delete";
 
-const reserve = {
-  barberName: "کوشا لاهوتی",
-  location: "تهران",
-  reservationTime: "dvd",
-  services: ["اصلاح مو", "اصلاح صورت"],
-};
+const ListItem = styled("li")(({ theme }) => ({
+  margin: theme.spacing(0.5),
+}));
 
 const ReserveCard = () => {
-  const handleRemoveService = (index) => {
-    // Remove service logic
+  const [reserve, setReserve] = useState({
+    barberName: "کوشا لاهوتی",
+    location: "تهران",
+    reservationTime: "1403/02/01 12:30",
+    services: ["اصلاح مو", "اصلاح صورت", "ارایش"],
+  });
+
+  const handleDelete = (index) => {
+    const newServices = [...reserve.services]; // Create a new array
+    newServices.splice(index, 1); // Remove the item
+    setReserve({ ...reserve, services: newServices }); // Update the state
   };
 
   const handleConfirmReserve = () => {
@@ -23,54 +33,73 @@ const ReserveCard = () => {
   };
 
   return (
-    <Card sx={{ width: "300px" }}>
+    <Card
+      variant="outlined"
+      sx={{ width: "325px", margin: "15px" }}
+    >
+      <CardHeader
+        sx={{ padding: "16px 0", gap: "10px", fontSize: "50px" }}
+        avatar={<Avatar>{reserve.barberName[0]}</Avatar>}
+        title={reserve.barberName}
+        subheader={reserve.location}
+      />
       <CardContent>
         <Typography
-          variant="h6"
-          gutterBottom
-        >
-          {reserve.barberName}
-        </Typography>
-        <Typography
           variant="body1"
-          color="textSecondary"
           gutterBottom
         >
-          Location: {reserve.location}
+          {reserve.reservationTime}
         </Typography>
-        <Typography
-          variant="body1"
-          color="textSecondary"
-          gutterBottom
+        <Paper
+          sx={{
+            display: "flex",
+            justifyContent: "flex-start",
+            flexWrap: "wrap",
+            listStyle: "none",
+            p: 0.5,
+            marginTop: 1,
+            marginBottom: 2,
+          }}
+          component="ul"
         >
-          Reservation Time: {reserve.reservationTime}
-        </Typography>
-        <Typography
-          variant="h6"
-          gutterBottom
+          {reserve.services.map((data, index) => {
+            return (
+              <ListItem key={index}>
+                <Chip
+                  sx={{
+                    backgroundColor: "var(--primary-color-lighter)",
+                    "& .MuiChip-deleteIcon": { margin: "0 -6px 0 5px" },
+                  }}
+                  label={data}
+                  onDelete={() => handleDelete(index)}
+                />
+              </ListItem>
+            );
+          })}
+        </Paper>
+        <div
+          style={{
+            display: "flex",
+            justifyContent: "flex-end",
+            gap: "5px",
+            flexDirection: "row",
+          }}
         >
-          Services:
-        </Typography>
-        <ul>
-          {reserve.services.map((service, index) => (
-            <li key={index}>
-              {service}
-              <IconButton
-                onClick={() => handleRemoveService(index)}
-                size="small"
-              >
-                <CloseIcon />
-              </IconButton>
-            </li>
-          ))}
-        </ul>
-        <Button
-          variant="contained"
-          color="primary"
-          onClick={handleConfirmReserve}
-        >
-          Confirm Reserve
-        </Button>
+          <Button
+            variant="contained"
+            color="error"
+            onClick={handleConfirmReserve}
+          >
+            <DeleteIcon />
+          </Button>
+          <Button
+            variant="contained"
+            color="success"
+            onClick={handleConfirmReserve}
+          >
+            تکمیل رزرو
+          </Button>
+        </div>
       </CardContent>
     </Card>
   );

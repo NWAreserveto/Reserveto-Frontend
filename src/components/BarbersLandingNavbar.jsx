@@ -22,7 +22,6 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
   const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState(null);
   const [reserveMenuAnchorEl, setReserveMenuAnchorEl] = useState(null);
   const isAccountMenuOpen = Boolean(accountMenuAnchorEl);
-  const isReserveMenuOpen = Boolean(reserveMenuAnchorEl);
 
   const handleAccountMenuClick = (event) => {
     setAccountMenuAnchorEl(event.currentTarget);
@@ -88,7 +87,8 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                 PaperProps={{
                   elevation: 0,
                   sx: {
-                    overflow: "visible",
+                    maxHeight: "500px",
+                    overflow: "auto",
                     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                     mt: 1.5,
                     ml: -3,
@@ -116,6 +116,8 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                   horizontal: "left",
                 }}
               >
+                <ReserveCard />
+                <ReserveCard />
                 <ReserveCard />
               </Popover>
             </li>
