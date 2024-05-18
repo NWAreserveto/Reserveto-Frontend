@@ -12,7 +12,7 @@ const BarbersLanding = () => {
     <>
       <Navbar setParentSearch={setSearchQuery} />
       <BarbersList searchQuery={searchQuery} />
-      <ChatWidget sender="salamm" reciever="salammmm"/>
+      <ChatWidget />
       <Footer />
     </>
   );

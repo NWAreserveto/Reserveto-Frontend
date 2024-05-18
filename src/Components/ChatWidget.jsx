@@ -1,87 +1,78 @@
+// src/ChatWidget.js
 import React, { useState } from "react";
-import "../styles/Chatwidget.scss"; // Create ChatWidget.css for styling
-// import ChatIcon from "./ChatIcon";
+import axios from "axios";
+import "../styles/Chatwidget.scss";
 import ChatIcon from "@mui/icons-material/Chat";
-import { ChatBox, SenderMessage, ReceiverMessage } from "mui-chat-box";
-import { TextField, Button } from "@mui/material";
+import { TextField } from "@mui/material";
 import SendIcon from "@mui/icons-material/Send";
 
 const ChatWidget = () => {
-  const [isOpen, setIsOpen] = useState(false);
+  const [showChat, setShowChat] = useState(false);
+  const [messages, setMessages] = useState([]);
+  const [input, setInput] = useState("");
 
   const toggleChat = () => {
-    setIsOpen(!isOpen);
+    setShowChat(!showChat);
   };
 
-  const [write, setWrite] = useState(" ");
-  const handleWriteChange = (e) => {
-    setWrite(e.target.value);
-  };
+  const sendMessage = async () => {
+    if (!input.trim()) return;
 
-  const handleWrite = () => {};
+    const newMessage = { user: "You", text: input };
+    setMessages([...messages, newMessage]);
+
+    try {
+      const response = await axios.post("https://api.example.com/send", {
+        message: input,
+      });
+      const botMessage = { user: "Bot", text: response.data.reply };
+      setMessages([...messages, newMessage, botMessage]);
+    } catch (error) {
+      console.error("Error sending message:", error);
+      const errorMessage = {
+        user: "Bot",
+        text: "مشکلی پیش آمده. دوباره تلاش کنید.",
+      };
+      setMessages([...messages, newMessage, errorMessage]);
+    }
+
+    setInput("");
+  };
 
   return (
-    <div className={`chat-widget ${isOpen ? "open" : ""}`}>
-      <button className="chat-toggle-btn" onClick={toggleChat}>
+    <div className="chat-widget-container">
+      <button className="chat-toggle-button" onClick={toggleChat}>
         <ChatIcon />
       </button>
-      {isOpen && (
-        <div className="chat-window">
-          <ChatBox>
-            <div style={{ display: "felx" }}>
-              <TextField
-                value={write}
-                onChange={handleWriteChange}
-                size="small"
-                label="بنویس"
-                sx={{
-                  width: "70%",
-                  "& label": {
-                    transformOrigin: "right !important",
-                    left: "inherit !important",
-                    right: "1.75rem !important",
-                    fontSize: "small",
-                    color: "#807D7B",
-                    fontWeight: 400,
-                    overflow: "unset",
-                  },
-                  "& legend": {
-                    textAlign: "right",
-                    display: "flex",
-                    justifyContent: "center",
-                    fontSize: "10px",
-                  },
-                  "& label.Mui-focused": {
-                    color: "var(--secondary-color) !important",
-                  },
-                  "& .MuiInput-underline:after": {
-                    borderBottomColor: "yellow",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                  },
-                }}
-              ></TextField>
-              <Button
-                sx={{ width: "25px", height: "25px", marginBottom: "-6px" }}
+      {showChat && (
+        <div className="chat-widget">
+          <div className="chat-header">با ما چت کن</div>
+          <div className="chat-body">
+            {messages.map((msg, index) => (
+              <div
+                key={index}
+                className={`chat-message ${
+                  msg.user === "You" ? "user" : "bot"
+                }`}
               >
-                <SendIcon
-                  sx={{
-                    transform: "rotate(180deg)",
-                    color: "var(--secondary-color)",
-                  }}
-                />
-              </Button>
-            </div>
-          </ChatBox>
+                <div className="message-box">
+                  <strong>{msg.user}:</strong> {msg.text}
+                </div>
+              </div>
+            ))}
+          </div>
+          <div className="chat-footer">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyPress={(e) => e.key === "Enter" && sendMessage()}
+              placeholder="پیام خود را بنویسید..."
+            />
+            <button onClick={sendMessage}>
+              <SendIcon />
+            </button>
+          </div>
         </div>
       )}
     </div>
