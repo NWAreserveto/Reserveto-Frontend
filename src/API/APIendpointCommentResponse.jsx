@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const GETCommentResponseAPI = async () => {
+const GETCommentResponseAPI = async (id) => {
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -10,7 +10,7 @@ const GETCommentResponseAPI = async () => {
       },
     });
 
-    const response = await api.get(`api/reviews/responses`);
+    const response = await api.get(`api/reviews/${id}/responses`);
 
     if (response.status === 200) {
       return response.data;

@@ -1,42 +1,80 @@
 import { useState } from "react";
-import { Button, FormControl, TextField, TextareaAutosize } from '@mui/material';
+import { Button, FormControl, TextField, Box } from '@mui/material';
+import POSTCommentAPI from "../../API/APIendpointComment"
+import POSTReplyAPI from "../../API/APIendpointReply"
+
 
 const CommentForm = ({
-  handleSubmit,
   submitLabel,
-  hasCancelButton = false,
-  handleCancel,
-  initialText = "",
+  isComment,
+  commentId = null
 }) => {
-  const [text, setText] = useState(initialText);
+  const [text, setText] = useState('');
+  const [rating, setRating] = useState(0);
   const isTextareaDisabled = text.length === 0;
-  const onSubmit = (event) => {
-    event.preventDefault();
-    handleSubmit(text);
-    setText("");
+
+
+  const handleFormSubmit = async (e) => {
+    e.preventDefault();
+    if (text.trim() !== '') {
+      try {
+        if (rating === 0)
+          await POSTReplyAPI({reply: text, commentId: commentId});
+        else
+          await POSTCommentAPI({comment: text, rating: rating});
+        setText('');
+        setRating(0);
+      } catch (error) {
+        console.error(error);
+      }
+    }
+  };
+
+  const handleRatingChange = (e) => {
+    setRating(parseInt(e.target.value));
   };
   return (
     <FormControl component="form" 
-      onSubmit={onSubmit} 
+      onSubmit={handleFormSubmit} 
       sx={{ 
         
       }}>
-      <TextField 
-        multiline
-        value={text}
-        onChange={(e) => setText(e.target.value)}
-        placeholder="نظرتو بنویس..."
+      <Box
         sx={{
-          width: {xs: 230, sm: 400, md: 500, lg: 600},
-          overflow: 'auto', // Enable scrolling for overflow
+          display: 'flex',
+          flexDirection: 'row',
         }}
-        inputProps={{
-          style: {
-            maxHeight: '200px', // Set maximum height for the TextField
+        >
+        <TextField 
+          multiline
+          value={text}
+          onChange={(e) => setText(e.target.value)}
+          placeholder="نظرتو بنویس..."
+          sx={{
+            width: {xs: 230, sm: 400, md: 500, lg: 600},
             overflow: 'auto', // Enable scrolling for overflow
-          }
-        }}
-      />
+          }}
+          inputProps={{
+            style: {
+              maxHeight: '200px', // Set maximum height for the TextField
+              overflow: 'auto', // Enable scrolling for overflow
+            }
+          }}
+        />
+        {!isComment && <TextField
+          type="number"
+          label="امتیاز"
+          inputProps={{ min: 1, max: 5 }}
+          value={rating}
+          onChange={handleRatingChange}
+          fullWidth
+          required
+          sx={{
+            width: 65,
+            mr: 10,
+          }}
+        />}
+      </Box>
       <Button        // submit button
         variant="contained"
         sx={{
@@ -55,15 +93,6 @@ const CommentForm = ({
       >
         {submitLabel}
       </Button>
-      {hasCancelButton && (
-        <button
-          type="button"
-          className="comment-form-button comment-form-cancel-button"
-          onClick={handleCancel}
-        >
-          Cancel
-        </button>
-      )}
     </FormControl>
   );
 };

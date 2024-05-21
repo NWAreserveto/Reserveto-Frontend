@@ -3,11 +3,6 @@ import CommentForm from "./CommentForm";
 import Comment from "./Comment";
 
 import { Box, Typography, Container, Paper } from "@mui/material";
-import {
-  getComments as getCommentsApi,
-  createComment as createCommentApi,
-  deleteComment as deleteCommentApi,
-} from "./api";
 
 import GETCommentsAPI from "../../API/APIendpointComments"
 import GETCommentResponseAPI from "../../API/APIendpointCommentResponse"
@@ -21,26 +16,29 @@ const Comments = ({ userId, barberId, barberName }) => {
       try {
         const responseData = await GETCommentsAPI();
         setComments(responseData);
+    
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
+    if (!comments.length) {
     fetchData();
+    }
+    else {
+      // let tmp = [];
+      // console.log('ow', comments);
+
+      // comments.forEach(async (element, index) => {
+      //   tmp[index] = await GETCommentResponseAPI(element.id);
+
+      // });
+      // setReplies(tmp);
+
+    }
+
   }, [comments]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        const responseData = await GETCommentResponseAPI();
-        setReplies(responseData);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
 
-    fetchData();
-  }, [replies]);
 
   const rootComments = comments
   .filter(
@@ -50,44 +48,25 @@ const Comments = ({ userId, barberId, barberName }) => {
       new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime()
   );
 
-
-
-  const [backendComments, setBackendComments] = useState([]);
   const [activeComment, setActiveComment] = useState(null);
 
 
 
-  const getReplies = (reviewId) =>
-    replies
-      .filter(
-        (reply) =>
-          reply.review === reviewId
-          // reply.recipient_barber === barberId
-      );
 
-  const addComment = (text, parentId) => {
-    createCommentApi(text, parentId).then((comment) => {
-      setBackendComments([comment, ...backendComments]);
-      setActiveComment(null);
-    });
-  };
+  // const getReplies =  (reviewId) => {
+  //   const responseData =  GETCommentResponseAPI(reviewId);
+  //   return responseData;
+  // }
 
-  const deleteComment = (commentId) => {
-    if (window.confirm("Are you sure you want to remove comment?")) {
-      deleteCommentApi().then(() => {
-        const updatedBackendComments = backendComments.filter(
-          (backendComment) => backendComment.id !== commentId
-        );
-        setBackendComments(updatedBackendComments);
-      });
-    }
-  };
 
-  useEffect(() => {
-    getCommentsApi().then((data) => {
-      setBackendComments(data);
-    });
-  }, []);
+  // let replies = {};
+  // rootComments.forEach(element => {
+  //   replies[element.id] = getReplies(element.id);
+  // });
+
+  // console.log(replies);
+
+
 
   return (
     <Container
@@ -117,17 +96,16 @@ const Comments = ({ userId, barberId, barberName }) => {
           نظرات
         </Typography>
 
-        {rootComments.map((rootComment) => (
+        {rootComments.map((rootComment, index) => (
           <Comment
             key={rootComment.id}
             comment={rootComment}
-            replies={getReplies(rootComment.id)}
+            replies={replies[index]}
             activeComment={activeComment}
             setActiveComment={setActiveComment}
-            addComment={addComment}
-            deleteComment={deleteComment}
-            userId={userId}
+            userId={rootComment.reviewer}
             barberName={barberName}
+            commentId={rootComment.id}
           />
         ))}
         <Box
@@ -137,7 +115,10 @@ const Comments = ({ userId, barberId, barberName }) => {
             fontWeight: "bold",
           }}
         ></Box>
-        <CommentForm submitLabel="ارسال" handleSubmit={addComment} />
+        <CommentForm 
+          submitLabel="ارسال"
+          isComment={false}
+          />
       </Paper>
     </Container>
   );
