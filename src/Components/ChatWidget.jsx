@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
 import "../styles/Chatwidget.scss";
 import ChatIcon from "@mui/icons-material/Chat";
@@ -10,6 +10,7 @@ const ChatWidget = () => {
   const [input, setInput] = useState("");
   const [botTyping, setBotTyping] = useState(false);
   const [chatId, setChatId] = useState(null);
+  const chatBodyRef = useRef(null);
 
   const token = localStorage.getItem("token");
 
@@ -18,6 +19,12 @@ const ChatWidget = () => {
       createChat();
     }
   }, [showChat]);
+
+  useEffect(() => {
+    if (chatBodyRef.current) {
+      chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
+    }
+  }, [messages, botTyping]);
 
   const createChat = async () => {
     try {
@@ -89,8 +96,8 @@ const ChatWidget = () => {
       </button>
       {showChat && (
         <div className="chat-widget">
-          <div className="chat-header">با ما چت کن</div>
-          <div className="chat-body">
+          {/* <div className="chat-header">با ما چت کن</div> */}
+          <div className="chat-body" ref={chatBodyRef}>
             {messages.map((msg, index) => (
               <div
                 key={index}
