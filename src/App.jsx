@@ -6,6 +6,8 @@ import NewPassword from "./pages/NewPassword";
 import Landing from "./pages/Landing";
 import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
+import BarberDashboard from "./pages/BarberDashboard";
+import BarberProfile from "./pages/BarberProfile";
 
 //   }
 function App() {
@@ -18,6 +20,7 @@ function App() {
         <Route path="/BarbersLanding" element={<BarbersLanding />} />
         <Route path="/UserProfile/:id" element={<UserProfile/>}/>
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
+        <Route path="/Barber/Dashboard/:barberID" element={<BarberDashboard />} />
       </Routes>
     </Router>
   );
