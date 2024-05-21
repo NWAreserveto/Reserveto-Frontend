@@ -40,7 +40,7 @@ const BarberDashboard = () => {
           sx={{ fontSize: "20px" }}
         >
           <DashboardIcon fontSize="medium" />
-          دشبورد
+          پیشخوان
         </Button>
         <Button sx={{ fontSize: "20px" }}>
           <EventIcon fontSize="medium" />
