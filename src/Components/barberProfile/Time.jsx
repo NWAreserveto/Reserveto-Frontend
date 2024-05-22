@@ -15,17 +15,17 @@ export default function Time() {
   const [open, setOpen] = useState(true);
   const [selectedTime, setSelectedTime] = useState("");
   const [timeServices, setTimeServices] = useState({
-    "16:00": {
+    "8:00": {
       کوتاهی_مو: false,
       رنگ_مو: false,
       ماساژ: false,
     },
-    "17:30": {
+    "9:00": {
       کوتاه_کردن_مو: false,
       رنگ_مو: false,
       ماساژ: false,
     },
-    "19:20": {
+    "10:00": {
       کوتاه_کردن_مو: false,
       رنگ_مو: false,
       سلام: false,
@@ -80,7 +80,18 @@ export default function Time() {
         </ListItemButton>
         <Collapse in={open} timeout="auto" unmountOnExit>
           <List component="div" disablePadding>
-            {["16:00", "17:30", "19:20"].map((time) => (
+            {[
+              "8:00",
+              "9:00",
+              "10:00",
+              "11:00",
+              "12:00",
+              "13:00",
+              "14:00",
+              "15:00",
+              "16:00",
+              "17:00",
+            ].map((time) => (
               <ListItemButton
                 key={time}
                 sx={{ pl: 4 }}
