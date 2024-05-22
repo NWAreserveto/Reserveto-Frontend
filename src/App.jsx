@@ -7,7 +7,6 @@ import Landing from "./pages/Landing";
 import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
 
-//   }
 function App() {
   return (
     <Router>
@@ -16,8 +15,9 @@ function App() {
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
         <Route path="/BarbersLanding" element={<BarbersLanding />} />
-        <Route path="/UserProfile/:id" element={<UserProfile/>}/>
-        <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
+        <Route path="/UserProfile/:id" element={<UserProfile />} />
+
+        {/* <Route path="/BarberProfile/:barberId" element={<BarberProfile />} /> */}
       </Routes>
     </Router>
   );
