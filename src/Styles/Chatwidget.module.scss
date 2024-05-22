@@ -1,8 +1,8 @@
-.chat-widget-container {
+.chatWidgetContainer {
   position: relative;
 }
 
-.chat-toggle-button {
+.chatToggleButton {
   position: fixed;
   bottom: 20px;
   right: 20px;
@@ -21,12 +21,12 @@
   transition: background-color 0.3s, transform 0.3s;
 }
 
-.chat-toggle-button:hover {
+.chatToggleButton:hover {
   background-color: var(--secondary-color-lighter);
   transform: scale(1.1);
 }
 
-.chat-widget {
+.chatWidget {
   position: fixed;
   bottom: 100px;
   right: 20px;
@@ -41,50 +41,57 @@
   box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
 }
 
-.chat-header {
+.chatHeader {
   background-color: var(--secondary-color);
   color: white;
   padding: 10px;
   text-align: center;
   font-size: 15px;
+  justify-content: space-between;
 }
 
-.chat-body {
+.chatBody {
   flex: 1;
   padding: 10px;
   overflow-y: auto;
   background-color: #f9f9f9;
 }
 
-.chat-message {
+.chatMessage {
   margin-bottom: 10px;
   display: flex;
-  justify-content: flex-start;
+  font-size: 12px;
 }
 
-.chat-message.user {
+.chatMessage.user {
   justify-content: flex-end;
+  text-align: right;
 }
 
-.message-box {
+.chatMessageBot {
+  justify-content: flex-start;
+  text-align: left;
+}
+
+.messageBox {
   max-width: 70%;
-  padding: 10px;
+  padding: 8px;
   border-radius: 10px;
   background-color: #e9ecef;
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
-.chat-message.user .message-box {
+.chatMessage.user .messageBox {
   background-color: var(--secondary-color);
   color: white;
 }
 
-.chat-footer {
+.chatFooter {
   display: flex;
   border-top: 1px solid #ccc;
 }
 
-.chat-footer input {
+.chatFooter input {
   flex: 1;
   padding: 10px;
   border: none;
@@ -92,15 +99,42 @@
   border-bottom-left-radius: 0;
 }
 
-.chat-footer button {
+.chatFooter button {
   padding: 10px;
   background-color: var(--secondary-color);
   color: white;
   border: none;
   cursor: pointer;
-  transform: rotate(180deg);
 }
 
-.chat-footer button:hover {
+.chatFooter button:hover {
   background-color: var(--secondary-color-lighter);
+}
+
+.typingIndicator {
+  display: inline-block;
+  width: 20px;
+  text-align: left;
+}
+
+.typingIndicator span {
+  display: inline-block;
+  animation: typing 1s infinite;
+}
+
+.typingIndicator span:nth-child(2) {
+  animation-delay: 0.2s;
+}
+
+.typingIndicator span:nth-child(3) {
+  animation-delay: 0.4s;
+}
+
+@keyframes typing {
+  0%, 100% {
+    opacity: 0;
+  }
+  50% {
+    opacity: 1;
+  }
 }

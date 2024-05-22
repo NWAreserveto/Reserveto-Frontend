@@ -1,8 +1,10 @@
 import React, { useState, useEffect, useRef } from "react";
 import axios from "axios";
-import "../styles/Chatwidget.scss";
 import ChatIcon from "@mui/icons-material/Chat";
 import SendIcon from "@mui/icons-material/Send";
+import Chip from "@mui/material/Chip";
+import Stack from "@mui/material/Stack";
+import style from "../styles/Chatwidget.module.scss";
 
 const ChatWidget = () => {
   const [showChat, setShowChat] = useState(false);
@@ -89,36 +91,63 @@ const ChatWidget = () => {
     }
   };
 
+  const handleClick = (label) => {
+    setInput(label);
+  };
+
   return (
-    <div className="chat-widget-container">
-      <button className="chat-toggle-button" onClick={toggleChat}>
+    <div className={style.chatWidgetContainer}>
+      <button className={style.chatToggleButton} onClick={toggleChat}>
         <ChatIcon />
       </button>
       {showChat && (
-        <div className="chat-widget">
-          {/* <div className="chat-header">با ما چت کن</div> */}
-          <div className="chat-body" ref={chatBodyRef}>
+        <div className={style.chatWidget}>
+          <div className={style.chatHeader}>
+            <Stack direction="row" spacing={0}>
+              <Chip
+                label="رزرو چیجوریه؟"
+                onClick={() => handleClick("رزرو چیجوریه؟")}
+                sx={{ color: "white" }}
+              />
+              <Chip
+                label="لغو رزرو"
+                onClick={() => handleClick("شرایط لغو رزرو")}
+                sx={{ color: "white" }}
+              />
+              <Chip
+                label="نحوه پرداخت"
+                onClick={() => handleClick("نحوه پرداخت")}
+                sx={{ color: "white" }}
+              />
+            </Stack>
+          </div>
+          <div className={style.chatBody} ref={chatBodyRef}>
             {messages.map((msg, index) => (
               <div
                 key={index}
-                className={`chat-message ${
-                  msg.user === "You" ? "user" : "bot"
+                className={`${style.chatMessage} ${
+                  msg.user === "You" ? style.user : style.bot
                 }`}
               >
-                <div className="message-box">
+                <div className={style.messageBox}>
                   <strong>{msg.user}:</strong> {msg.text}
                 </div>
               </div>
             ))}
             {botTyping && (
-              <div className="chat-message bot">
-                <div className="message-box">
-                  <strong>Bot:</strong> در حال نوشتن...
+              <div className={style.chatMessageBot}>
+                <div className={style.messageBox}>
+                  <strong>Bot:</strong>
+                  <span className={style.typingIndicator}>
+                    <span>.</span>
+                    <span>.</span>
+                    <span>.</span>
+                  </span>
                 </div>
               </div>
             )}
           </div>
-          <div className="chat-footer">
+          <div className={style.chatFooter}>
             <input
               type="text"
               value={input}
@@ -127,7 +156,7 @@ const ChatWidget = () => {
               placeholder="پیام خود را بنویسید..."
             />
             <button onClick={sendMessage}>
-              <SendIcon />
+              <SendIcon sx={{ transform: "rotate(180deg)" }} />
             </button>
           </div>
         </div>
