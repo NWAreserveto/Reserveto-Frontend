@@ -39,7 +39,6 @@ const rows = [
   createData(10, "مینا", "کوتاهی و شست و شوی مو", "1403-05-22", "9:00"),
   createData(11, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
   createData(12, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-
 ];
 
 function descendingComparator(a, b, orderBy) {
@@ -72,8 +71,16 @@ const headCells = [
 ];
 
 function EnhancedTableHead(props) {
-  const { onSelectAllClick, order, orderBy, numSelected, rowCount, onRequestSort } = props;
-  const createSortHandler = (property) => (event) => onRequestSort(event, property);
+  const {
+    onSelectAllClick,
+    order,
+    orderBy,
+    numSelected,
+    rowCount,
+    onRequestSort,
+  } = props;
+  const createSortHandler = (property) => (event) =>
+    onRequestSort(event, property);
 
   return (
     <TableHead>
@@ -101,7 +108,10 @@ function EnhancedTableHead(props) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box component="span" sx={visuallyHidden}>
+                <Box
+                  component="span"
+                  sx={visuallyHidden}
+                >
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
@@ -132,16 +142,29 @@ function EnhancedTableToolbar(props) {
         pl: { sm: 2 },
         pr: { xs: 1, sm: 1 },
         ...(numSelected > 0 && {
-          bgcolor: alpha(theme.palette.primary.main, theme.palette.action.activatedOpacity),
+          bgcolor: alpha(
+            theme.palette.primary.main,
+            theme.palette.action.activatedOpacity
+          ),
         }),
       }}
     >
       {numSelected > 0 ? (
-        <Typography sx={{ flex: "1 1 100%" }} color="inherit" variant="subtitle1" component="div">
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          color="inherit"
+          variant="subtitle1"
+          component="div"
+        >
           {numSelected} انتخاب
         </Typography>
       ) : (
-        <Typography sx={{ flex: "1 1 100%" }} variant="h6" id="tableTitle" component="div">
+        <Typography
+          sx={{ flex: "1 1 100%" }}
+          variant="h6"
+          id="tableTitle"
+          component="div"
+        >
           سفارش‌ها
         </Typography>
       )}
@@ -171,6 +194,7 @@ export default function OrderList() {
   const [orderBy, setOrderBy] = React.useState("service");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
+  const [dense, setDense] = React.useState();
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
 
   const handleRequestSort = (event, property) => {
@@ -199,7 +223,10 @@ export default function OrderList() {
     } else if (selectedIndex === selected.length - 1) {
       newSelected = newSelected.concat(selected.slice(0, -1));
     } else if (selectedIndex > 0) {
-      newSelected = newSelected.concat(selected.slice(0, selectedIndex), selected.slice(selectedIndex + 1));
+      newSelected = newSelected.concat(
+        selected.slice(0, selectedIndex),
+        selected.slice(selectedIndex + 1)
+      );
     }
 
     setSelected(newSelected);
@@ -216,10 +243,15 @@ export default function OrderList() {
 
   const isSelected = (id) => selected.indexOf(id) !== -1;
 
-  const emptyRows = page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
+  const emptyRows =
+    page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
   const visibleRows = React.useMemo(
-    () => stableSort(rows, getComparator(order, orderBy)).slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage),
+    () =>
+      stableSort(rows, getComparator(order, orderBy)).slice(
+        page * rowsPerPage,
+        page * rowsPerPage + rowsPerPage
+      ),
     [order, orderBy, page, rowsPerPage]
   );
 
@@ -228,7 +260,11 @@ export default function OrderList() {
       <Paper sx={{ width: "100%", mb: 2 }}>
         <EnhancedTableToolbar numSelected={selected.length} />
         <TableContainer>
-          <Table sx={{ minWidth: 750 }} aria-labelledby="tableTitle" size={dense ? "small" : "medium"}>
+          <Table
+            sx={{ minWidth: 750 }}
+            aria-labelledby="tableTitle"
+            size={dense ? "small" : "medium"}
+          >
             <EnhancedTableHead
               numSelected={selected.length}
               order={order}
@@ -259,27 +295,52 @@ export default function OrderList() {
                         inputProps={{ "aria-labelledby": labelId }}
                       />
                     </TableCell>
-                    <TableCell component="th" id={labelId} scope="row" padding="none">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">{headCells[0].label}</Typography>
+                    <TableCell
+                      component="th"
+                      id={labelId}
+                      scope="row"
+                      padding="none"
+                    >
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                      >
+                        <Typography variant="caption">
+                          {headCells[0].label}
+                        </Typography>
                         <Typography>{row.name}</Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">{headCells[1].label}</Typography>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                      >
+                        <Typography variant="caption">
+                          {headCells[1].label}
+                        </Typography>
                         <Typography>{row.service}</Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">{headCells[2].label}</Typography>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                      >
+                        <Typography variant="caption">
+                          {headCells[2].label}
+                        </Typography>
                         <Typography>{row.date}</Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">{headCells[3].label}</Typography>
+                      <Box
+                        display="flex"
+                        flexDirection="column"
+                      >
+                        <Typography variant="caption">
+                          {headCells[3].label}
+                        </Typography>
                         <Typography>{row.time}</Typography>
                       </Box>
                     </TableCell>
@@ -305,7 +366,12 @@ export default function OrderList() {
         />
       </Paper>
       <FormControlLabel
-        control={<Switch checked={dense} onChange={handleChangeDense} />}
+        control={
+          <Switch
+            checked={dense}
+            onChange={handleChangeDense}
+          />
+        }
         label="تراکم بیشتر"
       />
     </Box>

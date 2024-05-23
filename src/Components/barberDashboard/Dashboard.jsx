@@ -2,7 +2,7 @@ import Paper from "@mui/material/Paper";
 import EventIcon from "@mui/icons-material/Event";
 import CommentIcon from "@mui/icons-material/Comment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
-import StarIcon from '@mui/icons-material/Star';
+import StarIcon from "@mui/icons-material/Star";
 import style from "../../styles/Dashboard.module.scss";
 import { Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -41,8 +41,7 @@ const Dashboard = () => {
             />
             <h3>نظرات</h3>
           </div>
-          <div className={style.score}>1111
-          </div>
+          <div className={style.score}>1111</div>
           <Divider flexItem />
           <Link>مشاهده نظرات</Link>
         </Paper>

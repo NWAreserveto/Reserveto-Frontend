@@ -1,7 +1,6 @@
 import React, { useState } from "react";
 import {
   Button,
-  Typography,
   Divider,
   Paper,
   TextField,
@@ -9,12 +8,29 @@ import {
   Box,
   Stack,
   IconButton,
+  FormControl,
+  InputLabel,
+  Select,
+  Chip,
+  OutlinedInput,
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
-import { useEffect } from "react";
 import style from "../../styles/EditBarberProfile.module.scss";
-
 import jsonData from "../../images/provinces_cities_counties.json";
+import { styled } from "@material-ui/core";
+
+const names = [
+  "Oliver Hansen",
+  "Van Henry",
+  "April Tucker",
+  "Ralph Hubbard",
+  "Omar Alexander",
+  "Carlos Abbott",
+  "Miriam Wagner",
+  "Bradley Wilkerson",
+  "Virginia Andrews",
+  "Kelly Snyder",
+];
 
 const extractData = (data) => {
   const provinces = {};
@@ -88,7 +104,6 @@ const textfieldstyle = {
     right: "unset",
     left: "10px",
   },
-
   "& .MuiSelect-select": {
     paddingRight: "15px !important",
   },
@@ -118,12 +133,20 @@ const EditProfile = (barber) => {
     first_name: barber.barber.first_name,
     last_name: barber.barber.last_name,
     phone_number: barber.barber.phone_number,
-    // email: barber.barber.user.email,
     bio: barber.barber.bio,
     province: addr[0],
     city: addr[1],
     region: addr[2],
   });
+
+  const [service, setService] = useState([]);
+
+  const handleSelectChange = (event) => {
+    const {
+      target: { value },
+    } = event;
+    setService(typeof value === "string" ? value.split(",") : value);
+  };
 
   const [files, setFiles] = useState([]);
   const [previews, setPreviews] = useState([]);
@@ -165,7 +188,10 @@ const EditProfile = (barber) => {
           gap: "15px",
         }}
       >
-        <h3>اطلاعات شخصی</h3>
+        <div className={style.formItem}>
+          <h3>اطلاعات شخصی</h3>
+          <Button variant="outlined">ویرایش اطلاعات</Button>
+        </div>
         <Divider flexItem />
         <div className={style.formItem}>
           <TextField
@@ -301,6 +327,63 @@ const EditProfile = (barber) => {
               ))}
           </TextField>
         </div>
+        <div className={style.formItem}>
+          <FormControl sx={{ width: "100%" }}>
+            <InputLabel
+              id="multiple-chip-label"
+              sx={{
+                transformOrigin: "right !important",
+                left: "inherit !important",
+                right: "1.75rem !important",
+                fontSize: "small",
+                color: "#807D7B",
+                fontWeight: 400,
+              }}
+            >
+              خدمات
+            </InputLabel>
+            <Select
+              multiple
+              fullWidth
+              value={service}
+              onChange={handleSelectChange}
+              input={
+                <OutlinedInput
+                  id="select-multiple-chip"
+                  label="خدمات"
+                />
+              }
+              renderValue={(selected) => (
+                <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
+                  {selected.map((value) => (
+                    <Chip
+                      key={value}
+                      label={value}
+                    />
+                  ))}
+                </Box>
+              )}
+              MenuProps={{
+                PaperProps: {
+                  style: {
+                    maxHeight: 48 * 4.5 + 8,
+                    width: 250,
+                  },
+                },
+              }}
+              sx={textfieldstyle}
+            >
+              {names.map((name) => (
+                <MenuItem
+                  key={name}
+                  value={name}
+                >
+                  {name}
+                </MenuItem>
+              ))}
+            </Select>
+          </FormControl>
+        </div>
         <span />
         <span />
         <h3>اطلاعات تکمیلی</h3>
@@ -309,11 +392,13 @@ const EditProfile = (barber) => {
           border="1px solid var(--secondary-color)"
           padding="16.5px 14px"
           borderRadius="5px"
+          minHeight="150px"
+          justifyContent="space-between"
         >
           <Box>
             <h6 style={{ color: "#807D7B" }}>نمونه کار</h6>
 
-            <Box sx={{ display: "flex", flexWrap: "wrap", mb: 2 }}>
+            <Box sx={{ display: "flex", flexWrap: "wrap", mb: 2, mt: 2 }}>
               {previews.map((preview, index) => (
                 <Box
                   key={index}
@@ -330,40 +415,46 @@ const EditProfile = (barber) => {
                     }}
                   />
                   <IconButton
-                    variant="outlined"
+                    variant="contained"
                     color="error"
                     size="small"
                     onClick={() => handleRemoveImage(index)}
                     sx={{
-                      backgroundColor: "gray",
                       position: "absolute",
-                      top: "-15px",
-                      right: "-15px",
+                      top: "-10px",
+                      right: "-10px",
                       minWidth: "unset",
+                      width: 20,
+                      height: 20,
                     }}
                   >
-                    <CloseIcon />
+                    <CloseIcon sx={{ width: 16, height: 16 }} />
                   </IconButton>
                 </Box>
               ))}
             </Box>
-            <label htmlFor="file-upload">
-              <input
-                id="file-upload"
-                type="file"
-                multiple
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              <Button
-                variant="outlined"
-                component="span"
-              >
-                افزودن تصویر
-              </Button>
-            </label>
           </Box>
+          <label htmlFor="file-upload">
+            <input
+              id="file-upload"
+              type="file"
+              multiple
+              accept="image/*"
+              onChange={handleFileChange}
+              style={{
+                display: "none",
+                position: "absolute",
+                bottom: "0",
+                left: "0",
+              }}
+            />
+            <Button
+              variant="outlined"
+              component="span"
+            >
+              افزودن تصویر
+            </Button>
+          </label>
         </Stack>
       </Paper>
     </div>

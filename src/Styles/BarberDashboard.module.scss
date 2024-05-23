@@ -44,7 +44,7 @@
             }
         }
 
-        button{
+        .button{
             color: var(--primary-color);
             width: 258px;
             display: flex;
@@ -54,6 +54,31 @@
             gap: 10px;
         }
     }
+    
+.avatarContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .fileInput {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+  
+  .uploadButton {
+    position: absolute;
+    color: var(--secondary-color);
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+  }
+  
+  .avatarContainer:hover .uploadButton {
+    display: block;
+  }
 
 
     .main{
