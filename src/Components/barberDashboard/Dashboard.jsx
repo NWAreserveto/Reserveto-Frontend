@@ -27,7 +27,7 @@ const Dashboard = () => {
           </div>
           <div className={style.score}>1111</div>
           <Divider flexItem />
-          <Link>مشاهده رزورها</Link>
+          <Link>مشاهده رزروها</Link>
         </Paper>
         <Paper className={style.card}>
           <div className={style.header}>
