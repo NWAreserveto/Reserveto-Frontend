@@ -12,7 +12,6 @@ const LoginCOB = async (person) => {
       console.log(response.data.access);
 
       localStorage.setItem("token", response.data.access);
-
     } else {
       console.log(response.status);
     }

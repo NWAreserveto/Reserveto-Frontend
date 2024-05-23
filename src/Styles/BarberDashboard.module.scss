@@ -11,11 +11,38 @@
         display: flex;
         flex-direction: column;
         align-items: center;
-        justify-content: flex-start;
-        gap: 15px;
+        justify-content: space-between;
         padding: 30px 5px; 
         background-color: var(--secondary-color);
         color: var(--primary-color);
+
+
+        .menuItem{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+
+
+            .name{
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+                h3{
+                    padding: 8px 3px;
+                }
+
+                button{
+                    width: auto;
+                }
+            }
+
+            h2{
+                font-size: 18px;
+            }
+        }
 
         button{
             color: var(--primary-color);

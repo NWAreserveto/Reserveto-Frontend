@@ -3,10 +3,11 @@ import axios from "axios";
 const GETBarberProfileAPI = async (barberId) => {
   try {
     const api = axios.create({
-      baseURL: "https://reserveto-back.onrender.com/"
+      baseURL: "https://reserveto-back.onrender.com/",
+      proxy: true,
     });
 
-    const response = await api.get(`api/barbers/profiles/${barberId}`);
+    const response = await api.get(`api/barbers/profiles/${barberId}/`);
 
     if (response.status === 200) {
       return response.data;
