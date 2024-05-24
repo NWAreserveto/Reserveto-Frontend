@@ -18,6 +18,7 @@ function App() {
         <Route path="/BarbersLanding" element={<BarbersLanding />} />
         <Route path="/UserProfile/:id" element={<UserProfile />} />
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
+        
       </Routes>
     </Router>
   );
