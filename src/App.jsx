@@ -8,7 +8,6 @@ import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
 import BarberProfile from "./pages/BarberProfile";
 import BarberDashboard from "./pages/BarberDashboard";
-import BarberProfile from "./pages/BarberProfile";
 
 function App() {
   return (
