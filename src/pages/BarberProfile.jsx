@@ -2,7 +2,6 @@ import Header from "../components/barberProfile/Header";
 import Samples from "../components/barberProfile/Samples";
 import Information from "../components/barberProfile/Information";
 import Navbar from "../components/BarbersLandingNavbar";
-// import Reserve from "../components/barberProfile/Reserve";
 import Services from "../components/barberProfile/Services";
 import Comments from "../components/comments/Comments";
 import Footer from "../components/Footer";
@@ -78,7 +77,6 @@ const BarberProfile = () => {
 
 
       <Comments 
-        userId="5"
         barberId={barber.id}
         barberName={barber.first_name + ' ' + barber.last_name}
       />
