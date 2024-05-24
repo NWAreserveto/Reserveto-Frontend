@@ -87,8 +87,8 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                 PaperProps={{
                   elevation: 0,
                   sx: {
-                    maxHeight: "500px",
-                    overflow: "auto",
+                    maxHeight: "550px",
+                    overflow: "visible",
                     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
                     mt: 1.5,
                     ml: -3,
@@ -116,9 +116,17 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                   horizontal: "left",
                 }}
               >
-                <ReserveCard />
-                <ReserveCard />
-                <ReserveCard />
+                <div
+                  style={{
+                    overflow: "scroll",
+                    maxHeight: "500px",
+                    margin: "auto",
+                  }}
+                >
+                  <ReserveCard />
+                  <ReserveCard />
+                  <ReserveCard />
+                </div>
               </Popover>
             </li>
             <li>

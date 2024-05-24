@@ -87,14 +87,20 @@ const ReserveCard = () => {
         >
           <Button
             variant="contained"
-            color="error"
+            sx={{
+              bgcolor: "var(--secondary-color)",
+              "&: hover": { bgcolor: "var(--secondary-color-lighter)" },
+            }}
             onClick={handleConfirmReserve}
           >
             <DeleteIcon />
           </Button>
           <Button
             variant="contained"
-            color="success"
+            sx={{
+              bgcolor: "var(--secondary-color)",
+              "&: hover": { bgcolor: "var(--secondary-color-lighter)" },
+            }}
             onClick={handleConfirmReserve}
           >
             تکمیل رزرو
