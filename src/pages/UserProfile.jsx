@@ -22,34 +22,7 @@ const UserProfile = () => {
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const [loading, setLoading] = useState(true);
   const[user , setUser] = useState();
-
-  // const Editprofile = ({ user }) => {
-  //   const [userData, setUserData] = useState({
-  //       username: '',
-  //       first_name: '',
-  //       last_name: '',
-  //       email: '',
-  //       address: '',
-  //       // Add other fields as needed
-  //   });
-
-  //   const fetchUserDataOnClick = async () => {
-  //       try {
-  //           const userDataFromAPI = await APIUpdateUser();
-  //           setUserData(userDataFromAPI);
-  //       } catch (error) {
-  //           console.error('Error fetching user data:', error);
-  //       }
-  //   };
-  //   const handleSubmit = async (e) => {
-  //     e.preventDefault();
-  //     try {
-  //         await updateUserProfile(user.id, userData);
-  //         console.log('Profile updated successfully');
-  //     } catch (error) {
-  //         console.error('Failed to update profile:', error);
-  //     }
-  // };
+  
 
   useEffect(()=> {
     const fetchData = async () => {
@@ -70,16 +43,6 @@ const UserProfile = () => {
     { customer: 'Jane Smith', amount: '$1500' },
     // Add more reserve objects as needed
   ];
-  // const user = {
-  //   name: 'پرهام هدایتی',
-  //   username: 'phd',
-  //   email: 'johndoe@example.com',
-  //   avatar : {profilePic},
-  //   location: 'تهران،تهران',
-  //   followers: 100,
-  //   following: 50,
-  //   posts: 20
-  // };
   const handleImageButtonClick = (index) => {
     console.log(index);
     setSelectedTab(index);

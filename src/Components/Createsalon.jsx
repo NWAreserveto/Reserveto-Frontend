@@ -11,7 +11,7 @@ import MenuItem from '@mui/material/MenuItem';
 import Stack from '@mui/material/Stack';
 import Box from '@mui/material/Box';
 import style from '../styles/EditProfile.module.scss';
-import APIUserUpdate from "../API/APIendpointUpdateUser";
+import APIsalonCreate from "../API/APIendpointCreateSalon";
 
 // const user = {
 //   firstname: 'پرهام',
@@ -28,83 +28,39 @@ import APIUserUpdate from "../API/APIendpointUpdateUser";
 const currencies = [
     {
       value: 'ML',
-      label: 'مرد',
+      label: 'مردانه',
     },
     {
       value: 'FML',
-      label: 'زن',
+      label: 'زنانه',
     },
   ];
 
- const EditProfile = ({user}) => {
+ const CreateSalon = ({barberId}) => {
   const [profilePicture, setProfilePicture] = useState(null);
   const fileInputRef = useRef();
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
     setProfilePicture(file);
   };
-
-  const [userData, setUserData] = useState({
-    username: user.user.username,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    email: user.user.email,
-    address: user.address,
-    // Add other fields as needed
-  });
-    const handleChange = (event) => {
-      setUserData({
-          ...userData,
-          [event.target.name]: event.target.value,
-      });
-    };
-    const handleApplyChanges = async () => {
-      try {
-          console.log('handleApplyChanges called -----------------------');
-          // Call the function to update user profile
-          await APIUserUpdate(user.id, userData);
-          console.log('Profile updated successfully');
-      } catch (error) {
-          console.error('Failed to update profile:', error);
-      }
-    };
-    const [username, setuserName] = useState(user.user.username);
-    const handleUsername = (e) => {
-      setuserName(e.target.value);
+    const [salonname, setsalonName] = useState([]);
+    const handlename = (e) => {
+      setsalonName(e.target.value);
     }
-    const [firstname, setfirstname] = useState(user.first_name);
-    const handleFirstname = (e) => {
-      setfirstname(e.target.value);
+    const [phone, setphone] = useState([]);
+    const handlePhone = (e) => {
+      setphone(e.target.value);
     }
-    const [lastname, setlastname] = useState(user.last_name);
-    const handleLastname = (e) => {
-      setlastname(e.target.value);
-    }
-    const [email, setemail] = useState(user.user.email);
-    const handleEmail = (e) => {
-      setemail(e.target.value);
-    }
-    const [address, setaddress] = useState(user.address);
+    const [address, setaddress] = useState([]);
     const handleAddress = (e) => {
       setaddress(e.target.value);
     }
-    const testData = {
-      user: {
-        username: username !== user.user.username ? username : undefined
-      },
-    }
-    const newMainData = {
-      username : username,
-      email : email ,
-    }
+    const salonbarbers = [barberId];
     const newData = {
-      first_name : firstname,
-      last_name : lastname,
+      name : salonname,
+      phone_number : phone,
       address : address,
-      // user: {
-      //   username: username !== user.user.username ? username : undefined,
-      //   email: email,
-      // },
+      barbers : salonbarbers,
       profile_Picture: profilePicture
     };
     const edit = () =>{
@@ -113,7 +69,7 @@ const currencies = [
         const formData = new FormData();
         formData.append('profilePicture', profilePicture); // Append the selected file
         formData.append('data', JSON.stringify(formData));
-        APIUserUpdate(user.id ,newData);
+        APIsalonCreate(newData);
       } catch (error) {
         console.error('Failed to update profile:', error);
     }
@@ -155,7 +111,7 @@ const currencies = [
                 </div>
                 <TextField
               id="outlined-basic"
-              label="نام کاربری"
+              label="نام سالن"
               variant="outlined"
               fullWidth
               required
@@ -195,17 +151,17 @@ const currencies = [
                 },
               }}
               //className={style.username}
-              value={username}
-              onChange={handleUsername}
+              //value={salonname}
+              onChange={handlename}
               //error={barberNameError}
               //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
               inputProps={{
                 pattern: "[A-Za-z ]+",
               }}
             />
-                    <TextField
+                <TextField
               id="outlined-basic"
-              label="نام"
+              label="شماره "
               variant="outlined"
               fullWidth
               required
@@ -245,112 +201,12 @@ const currencies = [
                 },
               }}
               //className={style.username}
-              value={firstname}
-              onChange={handleFirstname}
+              //value={phone}
+              onChange={handlePhone}
               //error={barberNameError}
               //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
               inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />
-                    <TextField
-              id="outlined-basic"
-              label="نام خانوادگی"
-              variant="outlined"
-              fullWidth
-              required
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                },
-              }}
-              //className={style.username}
-              value={lastname}
-              onChange={handleLastname}
-              //error={barberNameError}
-              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />
-                    <TextField
-              id="outlined-basic"
-              label="ایمیل "
-              variant="outlined"
-              fullWidth
-              required
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
-                  },
-                },
-              }}
-              //className={style.username}
-              value={email}
-              onChange={handleEmail}
-              //error={barberNameError}
-              //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[A-Za-z ]+",
+                pattern: "[0-9]+",
               }}
             />
                     <TextField
@@ -395,7 +251,7 @@ const currencies = [
                 },
               }}
               //className={style.username}
-              value={address}
+              //value={address}
               onChange={handleAddress}
               //error={barberNameError}
               //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
@@ -446,11 +302,8 @@ const currencies = [
                 </div>
                 <div className={style.changebutt}>
                 <Stack direction="row" spacing={2} gap={1}>
-                    <Button type="submit" variant="contained" onClick={edit} sx={{m :1,bgcolor : 'var(--secondary-color)'}} startIcon={<checkIcon/>}>
-                      اعمال تغییرات
-                    </Button>
-                    <Button type="submit" variant="outlined" sx={{m :1,borderColor : 'var(--secondary-color)',  color : 'var(--secondary-color)'}} startIcon={<DeleteIcon  sx={{color : 'var(--secondary-color)'}}/>}>
-                      حذف تغییرات  
+                    <Button type="button" variant="contained" onClick={edit} sx={{m :1,bgcolor : 'var(--secondary-color)'}} startIcon={<checkIcon/>}>
+                      ایجاد سالن
                     </Button>
                 </Stack>
                 </div>
@@ -459,4 +312,4 @@ const currencies = [
     );
 };
 
-export default EditProfile;
+export default CreateSalon;

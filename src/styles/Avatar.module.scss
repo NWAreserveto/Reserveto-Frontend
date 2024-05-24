@@ -49,10 +49,21 @@
       margin-bottom: -20px;
       margin-right: 70px;
     }
+    .salonicon{
+      position: absolute;
+      color : var(--primary-color);
+      margin-right: 30px;
+      margin-bottom: 40px;
+      bottom: 0;
+      //left: 0;
+      right: 0;
+      text-align: 'center';
+      opacity: 0.6
+    }
     .icon{
       position: absolute;
       color : var(--primary-color);
-      margin-right: 300px;
+      margin-right: 290px;
       margin-bottom: 40px;
       bottom: 0;
       //left: 0;
@@ -63,7 +74,7 @@
     .butt{
       position: absolute;
       margin-left: 70px;
-      margin-bottom: -20px;
+      margin-bottom: 20px;
       bottom: 0;
       left: 0;
       //right: 0;
@@ -84,6 +95,9 @@
       font-size: 30;
       margin-bottom: 10px;
     }
+}
+.barbers{
+  border: 10px;
 }
 
 

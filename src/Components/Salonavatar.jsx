@@ -13,40 +13,18 @@ import EmailIcon from "@mui/icons-material/Email";
 import ProfPic from "../images/profilePic.jpg";
 import Background from "../images/LoginBackground.jpg";
 
+// const salon = {
+//   name : 'سالن زیبایی مریم',
+//   email: 'johndoe@example.com',
+//   address:'تهران ، نیاوران',
+//   followers: 100,
+//   following: 50,
+//   posts: 20
+// };
 
-const StyledBadge = styled(Badge)(({ theme }) => ({
-  '& .MuiBadge-badge': {
-    backgroundColor: '#44b700',
-    color: '#44b700',
-    boxShadow: `0 0 0 2px ${theme.palette.background.paper}`,
-    '&::after': {
-      position: 'absolute',
-      top: 0,
-      left: 0,
-      width: '100%',
-      height: '100%',
-      borderRadius: '50%',
-      animation: 'ripple 1.2s infinite ease-in-out',
-      border: '1px solid currentColor',
-      content: '""',
-    },
-  },
-  '@keyframes ripple': {
-    '0%': {
-      transform: 'scale(.8)',
-      opacity: 1,
-    },
-    '100%': {
-      transform: 'scale(2.4)',
-      opacity: 0,
-    },
-  },
-}));
-
-const Avatar = ({ user, onClick }) => {
-  return user ? (
-    // <div className={style.container}>
-    <box
+const Salonavatar = ({salon , onClick }) => {
+  return ( 
+  <box
       className={style.back}
       // sx={{
       //   display : "grid",
@@ -57,21 +35,12 @@ const Avatar = ({ user, onClick }) => {
       //   width: {xs: 400, sm: 450, md:500, lg: 600},
       //   }}
     >
-      <span className={style.sp}>
-      <StyledBadge
-        overlap="circular"
-        anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
-        variant="dot"
-      >
-        <ProfileAvatar size='large' sx={{width : '200px' , height : '200px'}}  src={user.profile_picture}>{user.user.username.charAt(0)}</ProfileAvatar>
-            </StyledBadge>
-      </span>
-      <span className={style.icon}>
-        <h1>{user.first_name + " " + user.last_name}</h1>
+      <span className={style.salonicon}>
+        <h1>{salon.name}</h1>
         <Stack direction="row" alignItems="center">
           <LocationIcon sx={{ color: "var(--secondary-color)" }} />
           <Typography variant="body1">
-            <h4>{user.address}</h4>
+            <h4>{salon.address}</h4>
           </Typography>
         </Stack>
       </span>
@@ -82,22 +51,20 @@ const Avatar = ({ user, onClick }) => {
           endIcon={<EditIcon />}
           sx={{
             p: 2,
-            color : "var(--secondary-color)",
             borderColor : "var(--secondary-color)",
-            //bgcolor: "var(--secondary-color)",
+            color : "white",
+            color: "var(--primary-color)",
             "&:hover": {
-              bgcolor: "var(--secondary-color-lighter)",
+              borderColor : "var(--secondary-color-lighter)"
+              //bgcolor: "var(--secondary-color-lighter)",
             },
           }}
         >
-          ویرایش پروفایل
+          ویرایش مشخصات سالن
         </Button>
       </div>
     </box>
-  ) : (
-    // </div>
-    <h4>sharmandeh user nayomad bala</h4>
-  );
+  )
 };
 
-export default Avatar;
+export default Salonavatar;

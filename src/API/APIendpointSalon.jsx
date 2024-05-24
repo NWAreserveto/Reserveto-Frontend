@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const BarberProfile = async (barberID) => {
+const salonProfile = async (salonID) => {
 
   try {
     const token = localStorage.getItem("token");
@@ -11,7 +11,7 @@ const BarberProfile = async (barberID) => {
       },
     });
 
-    const response = await api.get(`/api/barbers/profiles/${barberID}/`);
+    const response = await api.get(`/api/salons/${salonID}/`);
 
     if (response.status === 200) {
       console.log(response.status);
@@ -27,4 +27,4 @@ const BarberProfile = async (barberID) => {
   }
 };
 
-export default BarberProfile;
+export default salonProfile;
