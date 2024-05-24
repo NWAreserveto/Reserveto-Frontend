@@ -1,45 +1,44 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
-import "./style.css";
 import { Avatar, Box, Typography } from "@mui/material";
-import GETCommentNameAPI from "../../API/APIendpointCommentName"
+import GETCommentNameAPI from "../../API/APIendpointCommentName";
+import GETCommentResponseAPI from "../../API/APIendpointCommentResponse";
 
 const Comment = ({
   comment,
-  replies,
   setActiveComment,
   activeComment,
-  deleteComment,
-  addComment,
   parentId = null,
   userId,
-  barberName
+  barberName,
+  commentId,
+  barberId,
+  setComments
 }) => {
-
-  const [customer, setCustomer] = useState([]);
+  const [customer, setCustomer] = useState({});
+  const [replies2, setReplies] = useState([]);
 
   useEffect(() => {
-    const fetchData = async () => {
+    const fetchData = async() => {
       try {
         const responseData = await GETCommentNameAPI(userId);
         setCustomer(responseData);
+        const replyData = await GETCommentResponseAPI(commentId)
+        setReplies(replyData)
       } catch (error) {
         console.error("Error fetching data:", error);
       }
     };
-
-    fetchData();
-  }, [userId]);
-
+    if (userId)
+      {
+        fetchData();
+      }
+  }, [userId, commentId]);
 
   const isReplying =
     activeComment &&
     activeComment.id === comment.id &&
     activeComment.type === "replying";
-  const fiveMinutes = 300000;
-  const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
-  const canDelete =
-    userId === comment.userId && replies.length === 0 && !timePassed;
   const canReply = Boolean(userId);
 
 
@@ -112,8 +111,10 @@ const Comment = ({
             }}
           >
             {!isChild ? 
-            (customer.first_name + ' ' + customer.last_name) :
-              barberName}
+              (((customer.first_name + customer.last_name) === '') ?
+                "بدون نام" :
+                (customer.first_name + ' ' + customer.last_name)) :
+                  barberName}
           </Box>
           <Box // time of comment
             sx={{
@@ -174,43 +175,34 @@ const Comment = ({
               پاسخ
             </Box>
           )}
-          {canDelete && ( // delete part
-            <Box
-              sx={{
-                mr: "8px",
-              }}
-              onClick={() => deleteComment(comment.id)}
-            >
-              حذف
-            </Box>
-          )}
         </Box>
 
         {isReplying && !isChild && ( // replay form
           <CommentForm
             submitLabel="پاسخ"
-            handleSubmit={(text) => addComment(text, userId)}
+            isComment={true}
+            barberId={barberId}
+            setComments={setComments}
+            commentId={commentId}
           />
         )}
 
-        {replies.length > 0 && ( // if there is reply comment:
+        {replies2 && replies2.length > 0 && ( // if there is reply comment:
           <Box
             sx={{
               mt: "20px",
             }}
           >
-            {replies.map((reply) => (
+            {replies2.map((reply) => (
               <Comment
                 comment={reply}
                 key={reply.id}
                 setActiveComment={setActiveComment}
                 activeComment={activeComment}
-                deleteComment={deleteComment}
-                addComment={addComment}
                 parentId={comment.id}
-                replies={[]}
                 userId={userId}
                 barberName={barberName}
+                commentId={reply.id}
               />
             ))}
           </Box>

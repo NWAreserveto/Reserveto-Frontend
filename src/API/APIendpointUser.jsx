@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const GETCommentResponseAPI = async (id) => {
+const UserProfile = async (userID) => {
+
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -10,16 +11,20 @@ const GETCommentResponseAPI = async (id) => {
       },
     });
 
-    const response = await api.get(`api/reviews/${id}/responses`);
+    const response = await api.get(`/api/customers/profiles/${userID}/`);
 
     if (response.status === 200) {
+      console.log(response.status);
       return response.data;
+      
     } else {
-      throw new Error(`Request failed with status code ${response.status}`);
+      console.log(response.status);
+      return null;
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error(error);
+    throw error;
   }
 };
 
-export default GETCommentResponseAPI;
+export default UserProfile;

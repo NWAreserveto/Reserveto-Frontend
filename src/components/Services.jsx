@@ -1,20 +1,27 @@
 import style from "../styles/Services.module.scss";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { Navigation } from "swiper/modules";
+import { useState, useEffect } from "react";
+import APIendPointLandingGifs from "../API/APIendPointLandingGifs";
 import Animation from "./Animation";
 import "swiper/css";
 import "swiper/css/navigation";
 
-import ShaveAnimationData from "../images/Shaving.json";
-import BarberAnimationData from "../images/Barber.json";
-import SpaAnimationData from "../images/Spa.json";
-import MassageAnimationData from "../images/Massage.json";
-import NailAnimationData from "../images/Nail.json";
-import MakeupAnimationData from "../images/Makeup.json";
-import EyelashAnimationData from "../images/Eyelash.json";
-import HairWashingAnimationData from "../images/HairWashing.json";
-
 const Services = () => {
+  const [apiData, setApiData] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await APIendPointLandingGifs();
+        setApiData(data);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    fetchData();
+  }, []);
+
   return (
     <div
       className={style.services}
@@ -32,54 +39,16 @@ const Services = () => {
             slidesPerView={6}
             navigation
           >
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={ShaveAnimationData}
-                title={"اصلاح صورت"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={BarberAnimationData}
-                title={"اصلاح مو"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={SpaAnimationData}
-                title={"اسپا"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={MassageAnimationData}
-                title={"ماساژ"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={NailAnimationData}
-                title={"ناخن"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={MakeupAnimationData}
-                title={"آرایش"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={EyelashAnimationData}
-                title={"مژه"}
-              />
-            </SwiperSlide>
-            <SwiperSlide className={style.swiperItem}>
-              <Animation
-                animationData={HairWashingAnimationData}
-                title={"شست وشو مو"}
-              />
-            </SwiperSlide>
+            {apiData &&
+              apiData.length > 0 &&
+              apiData.map((gif) => (
+                <SwiperSlide className={style.swiperItem}>
+                  <Animation
+                    animationData={JSON.parse(gif.gif_json)}
+                    title={gif.gif_name}
+                  />
+                </SwiperSlide>
+              ))}
           </Swiper>
         </div>
       </div>
