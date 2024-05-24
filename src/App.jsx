@@ -7,6 +7,7 @@ import Landing from "./pages/Landing";
 import UserProfile from "./pages/UserProfile";
 import BarbersLanding from "./pages/BarbersLanding";
 import BarberProfile from "./pages/BarberProfile";
+import BarberDashboard from "./pages/BarberDashboard";
 
 function App() {
   return (
@@ -15,9 +16,10 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
-        <Route path="/BarbersLanding" element={<BarbersLanding />} />
+        <Route path="/BarbersLanding/:id" element={<BarbersLanding />} />
         <Route path="/UserProfile/:id" element={<UserProfile />} />
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
+        <Route path="/Barber/Dashboard/:barberID" element={<BarberDashboard />} />
         
       </Routes>
     </Router>

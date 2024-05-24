@@ -1,7 +1,6 @@
 import axios from "axios";
 
 const UserProfile = async (userID) => {
-
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -16,7 +15,6 @@ const UserProfile = async (userID) => {
     if (response.status === 200) {
       console.log(response.status);
       return response.data;
-      
     } else {
       console.log(response.status);
       return null;
