@@ -6,7 +6,7 @@ import Services from "../components/barberProfile/Services";
 import Comments from "../components/comments/Comments";
 import Footer from "../components/Footer";
 import { useEffect, useState } from "react";
-import APIendpointBarberProfile from "../API/APIendpointBarberProfile";
+import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import BackGround from "../images/Back_1.png";
 import Sample_1 from "../images/Sample_1.jpg";
 import Sample_2 from "../images/Sample_2.jpg";
@@ -37,7 +37,7 @@ const BarberProfile = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-        const responseData = await APIendpointBarberProfile(barberId);
+        const responseData = await GETBarberProfileAPI(barberId);
         setBarber(responseData);
       } catch (error) {
         console.error("Error fetching data:", error);
