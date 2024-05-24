@@ -5,11 +5,9 @@ import Comment from "./Comment";
 import { Box, Typography, Container, Paper } from "@mui/material";
 
 import GETCommentsAPI from "../../API/APIendpointComments"
-import GETCommentResponseAPI from "../../API/APIendpointCommentResponse"
 
-const Comments = ({ userId, barberId, barberName }) => {
+const Comments = ({ barberId, barberName }) => {
   const [comments, setComments] = useState([]);
-  const [replies, setReplies] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -25,15 +23,6 @@ const Comments = ({ userId, barberId, barberName }) => {
     fetchData();
     }
     else {
-      // let tmp = [];
-      // console.log('ow', comments);
-
-      // comments.forEach(async (element, index) => {
-      //   tmp[index] = await GETCommentResponseAPI(element.id);
-
-      // });
-      // setReplies(tmp);
-
     }
 
   }, [comments]);
@@ -49,23 +38,6 @@ const Comments = ({ userId, barberId, barberName }) => {
   );
 
   const [activeComment, setActiveComment] = useState(null);
-
-
-
-
-  // const getReplies =  (reviewId) => {
-  //   const responseData =  GETCommentResponseAPI(reviewId);
-  //   return responseData;
-  // }
-
-
-  // let replies = {};
-  // rootComments.forEach(element => {
-  //   replies[element.id] = getReplies(element.id);
-  // });
-
-  // console.log(replies);
-
 
 
   return (
@@ -100,12 +72,13 @@ const Comments = ({ userId, barberId, barberName }) => {
           <Comment
             key={rootComment.id}
             comment={rootComment}
-            replies={replies[index]}
             activeComment={activeComment}
             setActiveComment={setActiveComment}
             userId={rootComment.reviewer}
             barberName={barberName}
             commentId={rootComment.id}
+            barberId={barberId}
+            setComments={setComments}
           />
         ))}
         <Box
@@ -118,6 +91,8 @@ const Comments = ({ userId, barberId, barberName }) => {
         <CommentForm 
           submitLabel="ارسال"
           isComment={false}
+          barberId={barberId}
+          setComments={setComments}
           />
       </Paper>
     </Container>

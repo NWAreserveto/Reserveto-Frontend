@@ -6,13 +6,14 @@ import GETCommentResponseAPI from "../../API/APIendpointCommentResponse";
 
 const Comment = ({
   comment,
-  replies = [],
   setActiveComment,
   activeComment,
   parentId = null,
   userId,
   barberName,
-  commentId
+  commentId,
+  barberId,
+  setComments
 }) => {
   const [customer, setCustomer] = useState({});
   const [replies2, setReplies] = useState([]);
@@ -32,7 +33,7 @@ const Comment = ({
       {
         fetchData();
       }
-  }, [userId]);
+  }, [userId, commentId]);
 
   const isReplying =
     activeComment &&
@@ -180,6 +181,8 @@ const Comment = ({
           <CommentForm
             submitLabel="پاسخ"
             isComment={true}
+            barberId={barberId}
+            setComments={setComments}
             commentId={commentId}
           />
         )}
@@ -197,9 +200,9 @@ const Comment = ({
                 setActiveComment={setActiveComment}
                 activeComment={activeComment}
                 parentId={comment.id}
-                replies={[]}
                 userId={userId}
                 barberName={barberName}
+                commentId={reply.id}
               />
             ))}
           </Box>

@@ -10,7 +10,7 @@ const POSTCommentAPI = async (data) => {
       },
     });
 
-    const response = await api.post("api/reviews/", {
+    const response = await api.post(`api/barbers/${data.barberId}/reviews/`, {
       comment: data.comment,
       rating: data.rating
     });

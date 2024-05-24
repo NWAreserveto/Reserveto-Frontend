@@ -2,11 +2,15 @@ import { useState } from "react";
 import { Button, FormControl, TextField, Box } from '@mui/material';
 import POSTCommentAPI from "../../API/APIendpointComment"
 import POSTReplyAPI from "../../API/APIendpointReply"
+import GETBarberCommentsAPI from "../../API/APIendpointComments"
+
 
 
 const CommentForm = ({
   submitLabel,
   isComment,
+  barberId,
+  setComments,
   commentId = null
 }) => {
   const [text, setText] = useState('');
@@ -18,10 +22,25 @@ const CommentForm = ({
     e.preventDefault();
     if (text.trim() !== '') {
       try {
-        if (rating === 0)
-          await POSTReplyAPI({reply: text, commentId: commentId});
-        else
-          await POSTCommentAPI({comment: text, rating: rating});
+        if (rating === 0) {
+          const input = {
+            reply : text,
+            commentId: commentId
+          };
+          await POSTReplyAPI(input);
+        }
+        else {
+          const input = {
+            comment : text,
+            rating: rating,
+            barberId: barberId
+          };
+          await POSTCommentAPI(input);
+        }
+
+        const responseData = await GETBarberCommentsAPI(barberId);
+        setComments(responseData);
+
         setText('');
         setRating(0);
       } catch (error) {
