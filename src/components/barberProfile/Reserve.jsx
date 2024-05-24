@@ -7,7 +7,7 @@ import {
   BottomNavigation,
 } from "@mui/material";
 import Calendar from "./Calendar";
-
+import ParentComponent from "./ParentPopup";
 const Reserve = () => {
   return (
     <Box
@@ -15,11 +15,9 @@ const Reserve = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-
-        marginRight: "40rem",
       }}
     >
-      <Calendar />
+      <ParentComponent />
     </Box>
   );
 };
