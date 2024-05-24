@@ -16,8 +16,6 @@ import Sample_5 from "../images/Sample_5.jpg";
 import Sample_6 from "../images/Sample_2.jpg";
 import Sample_7 from "../images/Sample_4.jpg";
 import Sample_8 from "../images/Sample_5.jpg";
-import Reserve from "../components/barberProfile/Reserve";
-
 
 const BarberProfile = () => {
   const samples = [
@@ -31,10 +29,9 @@ const BarberProfile = () => {
     { img: Sample_8 },
   ];
 
-
-  const barberIdList = window.location.href.split('/');
+  const barberIdList = window.location.href.split("/");
   const barberId = barberIdList[barberIdList.length - 1];
-  
+
   const [barber, setBarber] = useState({});
 
   useEffect(() => {
@@ -63,22 +60,19 @@ const BarberProfile = () => {
         point={barber.point}
       />
 
-      <Information 
-        bio={barber.bio}
-      />
+      <Information bio={barber.bio} />
 
-      <Samples 
+      <Samples
         // samples={barber.samples}
         samples={samples}
       />
 
       <Services />
-      <Reserve />
 
 
       <Comments 
         barberId={barber.id}
-        barberName={barber.first_name + ' ' + barber.last_name}
+        barberName={barber.first_name + " " + barber.last_name}
       />
 
       <Footer />

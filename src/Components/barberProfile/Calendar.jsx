@@ -1,9 +1,10 @@
 import React, { Component } from "react";
 import moment from "moment-jalaali";
 import { toPersianDigit } from "./helper";
-import TimeClockAmPm from "./Time";
+import Time from "./Time";
 import TextField from "@mui/material/TextField";
 import "../../styles/Calendar.scss";
+import axios from "axios"; // Import axios for API calls
 
 moment.loadPersian();
 
@@ -65,20 +66,28 @@ export default class Calendar extends Component {
       month: moment().startOf("jMonth"),
       selectedDay: null,
       selectedTime: null,
+      barberId: this.extractBarberIdFromUrl(),
+      timesData: null,
     };
   }
+
+  extractBarberIdFromUrl = () => {
+    const path = window.location.pathname;
+    const segments = path.split("/");
+    return segments[segments.length - 1];
+  };
 
   previous = () => {
     let month = this.state.month;
     month.subtract(1, "month");
-    this.setState({ month: month, selectedDay: null }); // Reset selected day
+    this.setState({ month: month, selectedDay: null });
     // this.selectFirstDayOfMonth(month);
   };
 
   next = () => {
     let month = this.state.month;
     month.add(1, "month");
-    this.setState({ month: month, selectedDay: null }); // Reset selected day
+    this.setState({ month: month, selectedDay: null });
     // this.selectFirstDayOfMonth(month);
   };
 
@@ -117,6 +126,8 @@ export default class Calendar extends Component {
     const dateTime = selectedDateTime.format("jYYYY-JMM-jDD HH:mm");
     onChange && onChange(dateTime);
     onDateTimeChange && onDateTimeChange(selectedDateTime);
+
+    this.callApi(selectedDateTime);
   };
 
   handleTimeChange = (newTime) => {
@@ -133,6 +144,23 @@ export default class Calendar extends Component {
     const dateTime = selectedDateTime.format("jYYYY-JMM-jDD HH:mm");
     onChange && onChange(dateTime);
     onDateTimeChange && onDateTimeChange(selectedDateTime);
+  };
+
+  callApi = (selectedDateTime) => {
+    const { barberId } = this.state;
+    const formattedDate = selectedDateTime.format("YYYY-MM-DD");
+    const apiUrl = `https://reserveto-back.onrender.com/api/reserve/${barberId}/day/${formattedDate}/`;
+
+    axios
+      .get(apiUrl)
+      .then((response) => {
+        console.log("API Response:", response.data);
+        this.setState({ timesData: response.data });
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+    console.log(apiUrl);
   };
 
   render() {
@@ -173,7 +201,7 @@ export default class Calendar extends Component {
                   readOnly: true,
                 }}
                 sx={{
-                  width: "18.5rem",
+                  width: "100%",
                   marginTop: "7px",
                   marginBottom: "7px",
                   "& label": {
@@ -212,8 +240,9 @@ export default class Calendar extends Component {
               />
             </div>
             <div id="time-clock">
-              <TimeClockAmPm
+              <Time
                 selectedDate={this.state.selectedDay.toDate()}
+                timesData={this.state.timesData}
                 onTimeChange={this.handleTimeChange}
               />
             </div>
