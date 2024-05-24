@@ -8,10 +8,10 @@ const LoginCOB = async (person) => {
 
     if (response.status === 200) {
       console.log(response.status);
-
       console.log(response.data.access);
 
       localStorage.setItem("token", response.data.access);
+      localStorage.setItem("role", response.data.role);
     } else {
       console.log(response.status);
     }

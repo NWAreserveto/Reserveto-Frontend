@@ -40,12 +40,16 @@ const Login = () => {
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
+  const [responseData, setResponseData] = useState();
   const navigate = useNavigate();
 
   const handleClose = () => {
     setOpen(false);
+    const role = localStorage.getItem("role");
     if (success) {
-      navigate("/BarbersLanding");
+      if (role === "customer")
+        navigate(`/BarbersLanding/${responseData.Customer.id}`);
+      else navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
     }
   };
 
@@ -58,6 +62,7 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await LoginCOB(person);
+      setResponseData(response.data);
       setOpen(true);
       setSuccess(response.status === 200);
     } catch (error) {
@@ -182,10 +187,16 @@ const Login = () => {
           />
 
           <div className={style.links}>
-            <Link to="/CreateAcc" className={style.createAcc}>
+            <Link
+              to="/CreateAcc"
+              className={style.createAcc}
+            >
               حساب کاربری نداری؟
             </Link>
-            <Link className={style.forgetPass} to="/ForgetPassword">
+            <Link
+              className={style.forgetPass}
+              to="/ForgetPassword"
+            >
               رمزتو یادت رفته؟
             </Link>
           </div>

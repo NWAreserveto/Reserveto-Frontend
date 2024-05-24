@@ -12,17 +12,36 @@ import CalendarTodayIcon from "@mui/icons-material/CalendarToday";
 import BookmarkIcon from "@mui/icons-material/Bookmark";
 import Logout from "@mui/icons-material/Logout";
 import SearchBar from "./SearchBar";
-import { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 import ReserveCard from "./ReserveCard";
 import { Popover } from "@mui/material";
+import UserProfile from "../API/APIendpointUser";
 
 const BarbersLandingNavbar = ({ setParentSearch }) => {
+  const userIdList = window.location.href.split("/");
+  const userId = userIdList[userIdList.length - 1];
   const navigate = useNavigate();
   const [accountMenuAnchorEl, setAccountMenuAnchorEl] = useState(null);
   const [reserveMenuAnchorEl, setReserveMenuAnchorEl] = useState(null);
+  const [user, setUser] = useState({ user: {} });
   const isAccountMenuOpen = Boolean(accountMenuAnchorEl);
   const isReserveMenuOpen = Boolean(reserveMenuAnchorEl);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const response = await UserProfile(userId);
+        console.log(response);
+        setUser(response);
+        console.log(user);
+      } catch (error) {
+        console.log(error);
+      }
+    };
+
+    fetchData();
+  }, []);
 
   const handleAccountMenuClick = (event) => {
     setAccountMenuAnchorEl(event.currentTarget);
@@ -38,7 +57,8 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
   };
 
   const handleLogout = () => {
-    handleMenuClose();
+    localStorage.clear();
+    navigate("/");
   };
 
   return (
@@ -126,11 +146,13 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                 aria-haspopup="true"
                 aria-expanded={isAccountMenuOpen ? "true" : undefined}
               >
-                <AccountCircleIcon
+                <Avatar
+                  src={user.profile_picture}
                   sx={{
                     color: "var(--secondary-color)",
-                    fontSize: "30px",
-                    fontWeight: "500",
+                    fontSize: "20px",
+                    bgcolor: "inherit",
+                    fontWeight: "400",
                   }}
                 />
               </IconButton>
@@ -146,7 +168,7 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                   sx: {
                     overflow: "visible",
                     filter: "drop-shadow(0px 2px 8px rgba(0,0,0,0.32))",
-                    mt: 1.5,
+                    mt: 1,
                     width: 220,
                     "&::before": {
                       content: '""',
@@ -154,7 +176,7 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                       position: "absolute",
                       flexDirection: "row",
                       top: 0,
-                      left: 17,
+                      left: 20,
                       width: 10,
                       height: 10,
                       bgcolor: "background.paper",
@@ -175,19 +197,20 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                 >
                   <ListItemIcon>
                     <Avatar
+                      src={user.profile_picture}
                       fontSize="small"
                       sx={{ width: 40, height: 40 }}
                     />
                   </ListItemIcon>
                   <div className={style.personalInfo}>
-                    <div>سجاد میرجلیلی</div>
-                    <div>sajadmirjalili</div>
+                    <div>{user.Full_Name}</div>
+                    <div>{user.user.username}</div>
                   </div>
                 </MenuItem>
                 <MenuItem
                   onClick={() => {
                     handleMenuClose();
-                    navigate("../UserProfile/5");
+                    navigate(`../UserProfile/${userId}`);
                   }}
                 >
                   <ListItemIcon>
@@ -208,7 +231,7 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                   علاقمندی ها
                 </MenuItem>
                 <Divider />
-                <MenuItem onClick={handleMenuClose}>
+                <MenuItem onClick={handleLogout}>
                   <ListItemIcon>
                     <Logout fontSize="small" />
                   </ListItemIcon>

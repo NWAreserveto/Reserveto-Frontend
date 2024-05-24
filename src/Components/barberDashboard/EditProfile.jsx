@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   Button,
   Divider,
@@ -17,19 +17,15 @@ import {
 import CloseIcon from "@mui/icons-material/Close";
 import style from "../../styles/EditBarberProfile.module.scss";
 import jsonData from "../../images/provinces_cities_counties.json";
-import { styled } from "@material-ui/core";
+import axios from "axios";
 
 const names = [
-  "Oliver Hansen",
-  "Van Henry",
-  "April Tucker",
-  "Ralph Hubbard",
-  "Omar Alexander",
-  "Carlos Abbott",
-  "Miriam Wagner",
-  "Bradley Wilkerson",
-  "Virginia Andrews",
-  "Kelly Snyder",
+  "اصلاح مو",
+  "اصلاح صورت",
+  "رنگ مو",
+  "شست و شو مو",
+  "کاشت ناخن",
+  "استایل",
 ];
 
 const extractData = (data) => {
@@ -109,37 +105,41 @@ const textfieldstyle = {
   },
 };
 
-const EditProfile = (barber) => {
+const EditProfile = ({ barber }) => {
+  const userIdList = window.location.href.split("/");
+  const userId = userIdList[userIdList.length - 1];
   const parseAddress = (address) => {
     if (typeof address !== "string") {
       return ["", "", ""];
     }
 
     const tmp = address.split(",");
-    if (tmp.length === 0) {
-      return ["", "", ""];
-    } else if (tmp.length === 1) {
-      return [tmp[0], "", ""];
-    } else if (tmp.length === 2) {
-      return [tmp[0], tmp[1], ""];
-    } else {
-      return [tmp[0], tmp[1], tmp[2]];
-    }
+    return [tmp[0] || "", tmp[1] || "", tmp[2] || ""];
   };
 
-  const addr = parseAddress(barber.barber.location);
+  const addr = parseAddress(barber.location);
 
-  const [editedBarber, setEditedBarber] = useState({
-    first_name: barber.barber.first_name,
-    last_name: barber.barber.last_name,
-    phone_number: barber.barber.phone_number,
-    bio: barber.barber.bio,
+  const initialState = {
+    first_name: barber.first_name || "",
+    last_name: barber.last_name || "",
+    phone_number: barber.phone_number || "",
+    bio: barber.bio || "",
+    email: barber.user.email || "",
     province: addr[0],
     city: addr[1],
     region: addr[2],
-  });
+  };
 
+  const [editedBarber, setEditedBarber] = useState(initialState);
   const [service, setService] = useState([]);
+  const [files, setFiles] = useState([]);
+  const [previews, setPreviews] = useState([]);
+  const [isModified, setIsModified] = useState(false);
+
+  useEffect(() => {
+    const isEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    setIsModified(!isEqual(editedBarber, initialState));
+  }, [editedBarber]);
 
   const handleSelectChange = (event) => {
     const {
@@ -147,9 +147,6 @@ const EditProfile = (barber) => {
     } = event;
     setService(typeof value === "string" ? value.split(",") : value);
   };
-
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -177,6 +174,38 @@ const EditProfile = (barber) => {
     setPreviews(newPreviews);
   };
 
+  const handleSubmit = async () => {
+    const formData = new FormData();
+    for (const key in editedBarber) {
+      if (key !== "province" || key !== "city" || key !== "region") {
+        formData.append(key, editedBarber[key]);
+      }
+      formData.append(
+        "address",
+        editedBarber.provinces +
+          "," +
+          editedBarber.city +
+          "," +
+          editedBarber.region
+      );
+    }
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.patch(
+        `https://reserveto-back.onrender.com/api/barbers/profiles/${userId}/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
   return (
     <div className={style.form}>
       <Paper
@@ -188,9 +217,15 @@ const EditProfile = (barber) => {
           gap: "15px",
         }}
       >
-        <div className={style.formItem}>
+        <div className={style.formHeader}>
           <h3>اطلاعات شخصی</h3>
-          <Button variant="outlined">ویرایش اطلاعات</Button>
+          <Button
+            variant="outlined"
+            onClick={handleSubmit}
+            disabled={!isModified}
+          >
+            ویرایش اطلاعات
+          </Button>
         </div>
         <Divider flexItem />
         <div className={style.formItem}>
@@ -259,14 +294,15 @@ const EditProfile = (barber) => {
             }}
             sx={textfieldstyle}
           >
-            {Object.keys(provinces).map((province) => (
-              <MenuItem
-                key={province}
-                value={province}
-              >
-                {province}
-              </MenuItem>
-            ))}
+            {provinces &&
+              Object.keys(provinces).map((province) => (
+                <MenuItem
+                  key={province}
+                  value={province}
+                >
+                  {province}
+                </MenuItem>
+              ))}
           </TextField>
           <TextField
             label="شهر"
@@ -288,6 +324,7 @@ const EditProfile = (barber) => {
             disabled={!editedBarber.province}
           >
             {editedBarber.province &&
+              provinces[editedBarber.province] &&
               provinces[editedBarber.province].map((city) => (
                 <MenuItem
                   key={city}
@@ -317,6 +354,7 @@ const EditProfile = (barber) => {
             disabled={!editedBarber.city}
           >
             {editedBarber.city &&
+              cities[editedBarber.city] &&
               cities[editedBarber.city].map((region) => (
                 <MenuItem
                   key={region}
@@ -434,9 +472,9 @@ const EditProfile = (barber) => {
               ))}
             </Box>
           </Box>
-          <label htmlFor="file-upload">
+          <label htmlFor="sample-upload">
             <input
-              id="file-upload"
+              id="sample-upload"
               type="file"
               multiple
               accept="image/*"
