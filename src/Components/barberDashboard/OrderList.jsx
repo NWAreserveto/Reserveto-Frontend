@@ -21,25 +21,28 @@ import FilterListIcon from "@mui/icons-material/FilterList";
 import { visuallyHidden } from "@mui/utils";
 import FormControlLabel from "@mui/material/FormControlLabel";
 import Switch from "@mui/material/Switch";
+import { useParams } from "react-router-dom";
+import { useEffect } from "react";
+import axios from "axios";
 
 function createData(id, name, service, date, time) {
   return { id, name, service, date, time };
 }
 
-const rows = [
-  createData(1, "محمدعلی خسروآبادی", "کوتاهی مو", "1403-03-31", "14:00"),
-  createData(2, "کوشا", "رنگ و کوتاهی مو", "1403-04-22", "10:00"),
-  createData(3, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(4, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(5, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(6, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(7, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(8, "قرهاد", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(9, "آتیلا", "کوتاهی و شست و شوی مو", "1403-04-22", "11:00"),
-  createData(10, "مینا", "کوتاهی و شست و شوی مو", "1403-05-22", "9:00"),
-  createData(11, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-  createData(12, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-];
+// const rows = [
+//   createData(1, "محمدعلی خسروآبادی", "کوتاهی مو", "1403-03-31", "14:00"),
+//   createData(2, "کوشا", "رنگ و کوتاهی مو", "1403-04-22", "10:00"),
+//   createData(3, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(4, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(5, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(6, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(7, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(8, "قرهاد", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(9, "آتیلا", "کوتاهی و شست و شوی مو", "1403-04-22", "11:00"),
+//   createData(10, "مینا", "کوتاهی و شست و شوی مو", "1403-05-22", "9:00"),
+//   createData(11, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+//   createData(12, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
+// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -91,7 +94,7 @@ function EnhancedTableHead(props) {
             indeterminate={numSelected > 0 && numSelected < rowCount}
             checked={rowCount > 0 && numSelected === rowCount}
             onChange={onSelectAllClick}
-            inputProps={{ "aria-label": "select all rows" }}
+            inputProps={{ "aria-label": "انتخاب تمام ردیف ها" }}
           />
         </TableCell>
         {headCells.map((headCell) => (
@@ -108,10 +111,7 @@ function EnhancedTableHead(props) {
             >
               {headCell.label}
               {orderBy === headCell.id ? (
-                <Box
-                  component="span"
-                  sx={visuallyHidden}
-                >
+                <Box component="span" sx={visuallyHidden}>
                   {order === "desc" ? "sorted descending" : "sorted ascending"}
                 </Box>
               ) : null}
@@ -194,8 +194,62 @@ export default function OrderList() {
   const [orderBy, setOrderBy] = React.useState("service");
   const [selected, setSelected] = React.useState([]);
   const [page, setPage] = React.useState(0);
-  const [dense, setDense] = React.useState();
+  const [dense, setDense] = React.useState(false);
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
+  const [rows, setRows] = React.useState([]);
+  const { barberID } = useParams();
+
+  useEffect(() => {
+    console.log("barberID:", barberID);
+
+    if (barberID) {
+      axios
+        .get(`https://reserveto-back.onrender.com/api/B_orders/${barberID}`)
+        .then((response) => {
+          console.log("API Response:", response.data);
+
+          if (response.data && response.data.Services) {
+            const servicesArray = response.data.Services.map(
+              (serviceString) => {
+                const cleanedString = serviceString.replace(
+                  /\[OrderedDict\(\[\('name',\s*'([^']+)'\)\]\)\]\s*(\S+)/,
+                  '{"name": "$1", "datetime": "$2"}'
+                );
+                let parsedService;
+                try {
+                  parsedService = JSON.parse(cleanedString);
+                  console.log(parsedService);
+                } catch (error) {
+                  console.error("Error parsing service string:", error);
+                  return null;
+                }
+
+                return parsedService;
+              }
+            ).filter((service) => service !== null);
+
+            const formattedData = servicesArray.map((service, index) => {
+              const serviceName = service.name || "";
+              const [date, time] = service.datetime.split("T");
+              return createData(
+                index + 1,
+                response.data.Name,
+                serviceName,
+                date,
+                time.split(".")[0]
+              );
+            });
+
+            setRows(formattedData);
+          } else {
+            console.error("Error: Services data is not an array");
+          }
+        })
+        .catch((error) => {
+          console.error("Error fetching data:", error);
+        });
+    }
+  }, [barberID]);
 
   const handleRequestSort = (event, property) => {
     const isAsc = orderBy === property && order === "asc";
@@ -301,10 +355,7 @@ export default function OrderList() {
                       scope="row"
                       padding="none"
                     >
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                      >
+                      <Box display="flex" flexDirection="column">
                         <Typography variant="caption">
                           {headCells[0].label}
                         </Typography>
@@ -312,10 +363,7 @@ export default function OrderList() {
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                      >
+                      <Box display="flex" flexDirection="column">
                         <Typography variant="caption">
                           {headCells[1].label}
                         </Typography>
@@ -323,10 +371,7 @@ export default function OrderList() {
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                      >
+                      <Box display="flex" flexDirection="column">
                         <Typography variant="caption">
                           {headCells[2].label}
                         </Typography>
@@ -334,10 +379,7 @@ export default function OrderList() {
                       </Box>
                     </TableCell>
                     <TableCell align="left">
-                      <Box
-                        display="flex"
-                        flexDirection="column"
-                      >
+                      <Box display="flex" flexDirection="column">
                         <Typography variant="caption">
                           {headCells[3].label}
                         </Typography>
@@ -366,12 +408,7 @@ export default function OrderList() {
         />
       </Paper>
       <FormControlLabel
-        control={
-          <Switch
-            checked={dense}
-            onChange={handleChangeDense}
-          />
-        }
+        control={<Switch checked={dense} onChange={handleChangeDense} />}
         label="تراکم بیشتر"
       />
     </Box>
