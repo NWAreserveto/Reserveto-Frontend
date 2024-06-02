@@ -69,6 +69,7 @@ const currencies = [
         const formData = new FormData();
         formData.append('profilePicture', profilePicture); // Append the selected file
         formData.append('data', JSON.stringify(formData));
+        console.log(newData);
         APIsalonCreate(newData);
       } catch (error) {
         console.error('Failed to update profile:', error);

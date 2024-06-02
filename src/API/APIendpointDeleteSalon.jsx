@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const updateSalonProfile = async (newData) => {
+const deleteSalonProfile = async (salonid) => {
     try {
         const token = localStorage.getItem("token");
         const api = axios.create({
@@ -10,21 +10,21 @@ const updateSalonProfile = async (newData) => {
           },
         });
 
-    const response = await api.post(`/api/salons/`, newData);
+    const response = await api.delete(`/api/salons/${salonid}`);
 
     if (response.status === 200) {
-      console.log("Salon Profile updated successfully");
+      console.log("Salon deleted successfully");
       return response.data;
     } else {
         console.log(response.data);
-        console.log("Failed to update profile:", response.status);
+        console.log("Failed to delete salon:", response.status);
         
       return null;
     }
   } catch (error) {
-    console.error("Error updating profile:", error);
+    console.error("Error deleting salon:", error);
     throw error;
   }
 };
 
-export default updateSalonProfile;
+export default deleteSalonProfile;

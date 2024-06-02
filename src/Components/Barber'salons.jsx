@@ -6,8 +6,10 @@ import fetchSalonById from '../API/APIendpointSalon';
 
 
 const SalonBarbers = ({salonIds,barberId}) => {
+    console.log("salonids passed are : " + salonIds);
     const [salons,setSalons] = useState([]);
     const [salonIDs, setSalonIDs] = useState([]);
+    //setSalonIDs(salonIds);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
     const [isCreateSalonActive, setIsCreateSalonActive] = useState(false);
@@ -21,7 +23,7 @@ const SalonBarbers = ({salonIds,barberId}) => {
       return [];
     }
   };
-
+  console.log("salonids passed is : "+salonIds);
   useEffect(() => {
     const fetchData = async () => {
       try {
