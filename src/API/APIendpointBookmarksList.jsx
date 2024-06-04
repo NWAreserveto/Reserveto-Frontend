@@ -11,10 +11,10 @@ const APIendpointBookmarksList = async () => {
     });
 
     const userId = localStorage.getItem("userId");
-    const response = await api.get(`/api/bookmarks/${userId}`);
+    const response = await api.get(`/api/customers/${userId}/bookmarks/`);
 
     if (response.status === 200) {
-      console.log(response.status);
+      console.log(response.data);
       return response.data;
     } else {
       console.log(response.status);
