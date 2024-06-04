@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { Button, FormControl, TextField, Box } from '@mui/material';
+import Rating from '@mui/material/Rating';
 import POSTCommentAPI from "../../API/APIendpointComment"
 import POSTReplyAPI from "../../API/APIendpointReply"
 import GETBarberCommentsAPI from "../../API/APIendpointComments"
@@ -49,7 +50,7 @@ const CommentForm = ({
     }
   };
 
-  const handleRatingChange = (e) => {
+  const handleRatingChange = (e, newValue) => {
     setRating(parseInt(e.target.value));
   };
   return (
@@ -70,7 +71,7 @@ const CommentForm = ({
           onChange={(e) => setText(e.target.value)}
           placeholder="نظرتو بنویس..."
           sx={{
-            width: {xs: 230, sm: 400, md: 500, lg: 600},
+            width: {xs: 350, sm: 450, md: 600, lg: 900},
             overflow: 'auto', // Enable scrolling for overflow
           }}
           inputProps={{
@@ -80,14 +81,15 @@ const CommentForm = ({
             }
           }}
         />
-        {!isComment && <TextField
+        {!isComment && <Rating
+          dir="rtl"
+          name="امتیاز"
           type="number"
           label="امتیاز"
-          inputProps={{ min: 1, max: 5 }}
           value={rating}
-          onChange={handleRatingChange}
-          fullWidth
-          required
+          onChange={(event, newValue) => {
+            setRating(newValue);
+          }}
           sx={{
             width: 65,
             mr: 10,
