@@ -34,7 +34,7 @@ export default function BarbersCard({ id, profilePic, name, location }) {
             marginTop: "1rem",
           }}
         >
-          <img
+          <Avatar
             src={profilePic}
             alt={typeof name === "string" && name.charAt(0)}
             style={{
