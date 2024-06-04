@@ -10,6 +10,7 @@ import { CardMedia } from "@material-ui/core";
 import ParentComponent from "./ParentPopup";
 
 const Samples = ({ samples }) => {
+  
   return (
     <Box
       sx={{

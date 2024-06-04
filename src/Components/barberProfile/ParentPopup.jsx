@@ -17,6 +17,8 @@ const ParentComponent = () => {
     <Box
       sx={{
         mt: 6,
+        display: "flex",
+        left: 0,
       }}
     >
       <Button
@@ -32,7 +34,6 @@ const ParentComponent = () => {
 
           width: "10%",
           display: "flex",
-          left: 0,
         }}
       >
         رزرو
