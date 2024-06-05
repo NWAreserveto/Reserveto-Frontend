@@ -12,7 +12,9 @@ const Header = ({
   point,
 }) => {
   return (
-    <Box>
+    <Box sx={{
+      mb: 2,
+    }}>
       <Box // background picture
         sx={{
           mt: "5%",
@@ -110,7 +112,7 @@ const Header = ({
             pr: 1.5,
           }}
         >
-          {point}
+          {point ? point : "??"}
         </Typography>
         <Box // score icon
           sx={{
