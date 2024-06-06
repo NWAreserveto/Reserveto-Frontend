@@ -41,6 +41,8 @@ const Information = ({ barber }) => {
             height: barber.bio ? barber.bio : 250,
             display: "flex",
             flexDirection: "column",
+            boxShadow: '0px 1px 1px green',
+
           }}
           >
           <Box             // Score

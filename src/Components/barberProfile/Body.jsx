@@ -28,34 +28,43 @@ const Body = ({ barber }) => {
 
   return (
     <>
+      {/* <ParentComponent /> */}
       <Box // container
         sx={{
+          // backgroundColor: 'red',
+          // mt: -15,
           display: "flex",
           justifyContent: "center",
         }}
       >
+
+        
         <Box // info + tabs
           sx={{
             display: "flex",
             width: "1260px",
             mt: 12,
+            zIndex: 1,
           }}
         >
-          <Box // info
+          <Box
             sx={{
-              width: "22%",
-              position: fix ? "fixed" : "absolute",
+              width: '22%',
+              position: fix ? 'fixed' : 'absolute',
               top: fix ? window.scrollY - 190 : null,
-              // zIndex: 1000,
             }}
           >
             <Information barber={barber} />
+            <ParentComponent />
           </Box>
 
           <Box // tabs
             sx={{
               mb: 20,
               mr: 48,
+              zIndex: 1,
+              boxShadow: '0px 1px 1px green',
+              borderRadius: 2,
             }}
           >
             <Tabs
@@ -64,6 +73,7 @@ const Body = ({ barber }) => {
               style={{
                 backgroundColor: "white",
                 padding: "10px",
+                zIndex: 1,
               }}
             >
               <Tab
@@ -84,20 +94,10 @@ const Body = ({ barber }) => {
                   color: selectedTab === 1 ? "#668F84" : "inherit",
                 }}
               />
-              <Tab
-                label="رزرو"
-                style={{
-                  textTransform: "none",
-                  fontWeight: "bold",
-                  fontSize: "1.2rem",
-                  color: selectedTab === 2 ? "#668F84" : "inherit",
-                }}
-              />
             </Tabs>
 
             {selectedTab === 0 && <Samples />}
             {selectedTab === 1 && <Services />}
-            {selectedTab === 2 && <ParentComponent />}
           </Box>
         </Box>
       </Box>

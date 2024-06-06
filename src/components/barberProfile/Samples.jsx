@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
     width: "100%",
     margin: "0 auto",
     padding: "40px 20px",
+    xIndex: 0,
   },
   imageBox: {
     position: "relative",
@@ -34,21 +35,25 @@ const useStyles = makeStyles((theme) => ({
     width: 250,
     borderRadius: 6,
     overflow: "hidden",
+    zIndex: 1,
   },
   images: {
     width: "100%",
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap",
+    zIndex: 1,
   },
   imageItem: {
     margin: 8,
+    zIndex: 1,
   },
   image: {
     height: "100%",
     width: "100%",
     borderRadius: 6,
     transition: "transform 0.2s linear",
+    zIndex: 1,
   },
   imageText: {
     position: "absolute",
@@ -58,6 +63,7 @@ const useStyles = makeStyles((theme) => ({
     fontSize: 12,
     fontWeight: 400,
     textTransform: "capitalize",
+    zIndex: 1,
   },
 }));
 
