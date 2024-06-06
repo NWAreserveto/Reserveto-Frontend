@@ -3,6 +3,8 @@ import Card from './SalonBarberCard';
 import style from '../styles/salon.module.scss'
 import APIgetSalon from "../API/APIendpointSalon"
 import fetchBarberById from '../API/APIendpointBarberProfile';
+import {Divider} from "@material-ui/core";
+import tempPpicture from "../images/LoginBackground.jpg"
 
 
 const SalonBarbers = ({salonid , barberIDs}) => {
@@ -44,9 +46,19 @@ const SalonBarbers = ({salonid , barberIDs}) => {
   return (
     <div className={style.barber_list}>
       <h1>آرایشگران</h1>
-      <div className={style.grid_container}>
+      <Divider
+            flexItem
+            variant="middle"
+            sx={{
+              borderBottomWidth: "1px",
+              borderBottomColor: "var(--primary-color)",
+              mt : '10px',
+              mb : '10px'
+            }}
+          />
+      <div className={style.grid_containerr}>
       {barbers.map((barber) => (
-        <Card key={barber.id} barberIDs={barberIDs} salonid={salonid} id={barber.id} name={barber.first_name + " " + barber.last_name} location={barber.address} />
+        <Card key={barber.id} barberIDs={barberIDs} profilePic={barber.profilePic} salonid={salonid} id={barber.id} name={barber.first_name + " " + barber.last_name} location={barber.address} />
       ))}
       </div>
     </div>

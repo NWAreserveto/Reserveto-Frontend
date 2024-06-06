@@ -1,0 +1,88 @@
+.container{
+    display: flex;  
+    //flex-direction: row;
+    height: 100vh;
+
+
+
+    .menu{
+        height: 100vh;
+        width: 300px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+        justify-content: space-between;
+        padding: 30px 5px; 
+        background-color: var(--secondary-color);
+        color: var(--primary-color);
+
+
+        .menuItem{
+            display: flex;
+            flex-direction: column;
+            gap: 10px;
+            align-items: center;
+            justify-content: flex-start;
+
+
+            .name{
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                justify-content: center;
+                h3{
+                    padding: 8px 3px;
+                }
+
+                button{
+                    width: auto;
+                }
+            }
+
+            h2{
+                font-size: 18px;
+            }
+        }
+
+        .button{
+            color: var(--primary-color);
+            width: 258px;
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            justify-content: flex-start;
+            gap: 10px;
+        }
+    }
+    
+.avatarContainer {
+    position: relative;
+    display: inline-block;
+  }
+  
+  .fileInput {
+    display: none;
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}
+  
+  .uploadButton {
+    position: absolute;
+    color: var(--secondary-color);
+    top: 40%;
+    left: 50%;
+    transform: translateX(-50%);
+    display: none;
+  }
+  
+  .avatarContainer:hover .uploadButton {
+    display: block;
+  }
+
+
+    .main{
+        height: 100vh;
+    }
+
+}

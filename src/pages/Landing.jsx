@@ -5,6 +5,7 @@ import Navbar from "../components/Navbar";
 import Services from "../components/Services";
 import About from "../components/About";
 import Tutorial from "../components/Tutorial";
+  
 const Landing = () => {
   const [isLoginHovered, setIsLoginHovered] = useState(false);
   return (

@@ -1,30 +1,49 @@
+import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
-import "./style.css";
 import { Avatar, Box, Typography } from "@mui/material";
+import GETCommentNameAPI from "../../API/APIendpointCommentName";
+import GETCommentResponseAPI from "../../API/APIendpointCommentResponse";
 
 const Comment = ({
   comment,
-  replies,
   setActiveComment,
   activeComment,
-  deleteComment,
-  addComment,
   parentId = null,
   userId,
-  pic,
+  barberName,
+  commentId,
+  barberId,
+  setComments
 }) => {
+  const [customer, setCustomer] = useState({});
+  const [replies2, setReplies] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async() => {
+      try {
+        const responseData = await GETCommentNameAPI(userId);
+        setCustomer(responseData);
+        const replyData = await GETCommentResponseAPI(commentId)
+        setReplies(replyData)
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+    if (userId)
+      {
+        fetchData();
+      }
+  }, [userId, commentId]);
+
   const isReplying =
     activeComment &&
     activeComment.id === comment.id &&
     activeComment.type === "replying";
-  const fiveMinutes = 300000;
-  const timePassed = new Date() - new Date(comment.createdAt) > fiveMinutes;
-  const canDelete =
-    userId === comment.userId && replies.length === 0 && !timePassed;
   const canReply = Boolean(userId);
-  const replyId = parentId ? parentId : comment.id;
 
-  const milliSeconds = new Date() - new Date(comment.createdAt);
+
+  const parsedDate = new Date(comment.created_at).toISOString();
+  const milliSeconds = new Date() - new Date(parsedDate);
   const seconds = parseInt(milliSeconds / 1000);
   const minutes = parseInt(seconds / 60);
   const hours = parseInt(minutes / 60);
@@ -62,7 +81,7 @@ const Comment = ({
         }}
       >
         <Avatar
-          src={pic}
+          src={customer.profile_picture}
           sx={{
             border: "solid 1px white",
             height: { xs: 40, md: 50, lg: 65 },
@@ -91,7 +110,11 @@ const Comment = ({
               color: "#668F84",
             }}
           >
-            {comment.username}
+            {!isChild ? 
+              (((customer.first_name + customer.last_name) === '') ?
+                "بدون نام" :
+                (customer.first_name + ' ' + customer.last_name)) :
+                  barberName}
           </Box>
           <Box // time of comment
             sx={{
@@ -113,7 +136,7 @@ const Comment = ({
               wordWrap: "break-word", // For older browsers
             }}
           >
-            {comment.body}
+            {comment.reply}
           </Typography>
         )}
 
@@ -127,7 +150,7 @@ const Comment = ({
               wordWrap: "break-word", // For older browsers
             }}
           >
-            {comment.body}
+            {comment.comment}
           </Typography>
         )}
 
@@ -140,7 +163,7 @@ const Comment = ({
             color: "rgb(51, 51, 51)",
           }}
         >
-          {canReply && ( // reply part
+          {canReply && !isChild && ( // reply part
             <Box
               sx={{
                 mr: "8px",
@@ -152,43 +175,34 @@ const Comment = ({
               پاسخ
             </Box>
           )}
-          {canDelete && ( // delete part
-            <Box
-              sx={{
-                mr: "8px",
-              }}
-              onClick={() => deleteComment(comment.id)}
-            >
-              حذف
-            </Box>
-          )}
         </Box>
 
-        {isReplying && ( // replay form
+        {isReplying && !isChild && ( // replay form
           <CommentForm
             submitLabel="پاسخ"
-            handleSubmit={(text) => addComment(text, replyId)}
+            isComment={true}
+            barberId={barberId}
+            setComments={setComments}
+            commentId={commentId}
           />
         )}
 
-        {replies.length > 0 && ( // if there is reply comment:
+        {replies2 && replies2.length > 0 && ( // if there is reply comment:
           <Box
             sx={{
               mt: "20px",
             }}
           >
-            {replies.map((reply) => (
+            {replies2.map((reply) => (
               <Comment
                 comment={reply}
                 key={reply.id}
                 setActiveComment={setActiveComment}
                 activeComment={activeComment}
-                deleteComment={deleteComment}
-                addComment={addComment}
                 parentId={comment.id}
-                replies={[]}
                 userId={userId}
-                pic={pic}
+                barberName={barberName}
+                commentId={reply.id}
               />
             ))}
           </Box>

@@ -7,12 +7,12 @@ import "swiper/css/pagination";
 import "swiper/css/scrollbar";
 import { Navigation } from "swiper/modules";
 import { CardMedia } from "@material-ui/core";
+import ParentComponent from "./ParentPopup";
 
 const Samples = ({ samples }) => {
   return (
     <Box
       sx={{
-        mt: 6,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -37,6 +37,7 @@ const Samples = ({ samples }) => {
         >
           نمونه کار ها
         </Typography>
+        <p>جهت رزرو سرویس از دکمه زیر استفاده کنید</p>
         <Box
           sx={{
             display: "flex",
@@ -68,6 +69,7 @@ const Samples = ({ samples }) => {
                 />
               </SwiperSlide>
             ))}
+            <ParentComponent />
           </Swiper>
         </Box>
       </Box>

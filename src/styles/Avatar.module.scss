@@ -30,16 +30,9 @@
     // background-color: rgb(105, 14, 14);
     height: 550px;
     width: auto;
-    //border-bottom-left-radius: 20px;
-    //border-bottom-right-radius: 20px;
-    // margin-top: 4%;
     margin: 4% 0% 4% 0%;
-    //align-items: center;
     flex-direction: column;
     position: relative;
-    // h1{
-    //   color : white
-    // }
     .sp{
       position: absolute;
       bottom: 0;
@@ -80,6 +73,7 @@
       //right: 0;
       text-align: 'center';
     }
+    
     .avatar {
       //width: 300px; /* Adjust the width and height as needed */
       height: 200px ;
@@ -99,6 +93,8 @@
 .barbers{
   border: 10px;
 }
+
+
 
 
   // .mainhead{

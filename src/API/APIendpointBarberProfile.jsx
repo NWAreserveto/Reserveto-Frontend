@@ -1,30 +1,23 @@
 import axios from "axios";
 
-const BarberProfile = async (barberID) => {
-
+const GETBarberProfileAPI = async (barberId) => {
   try {
-    const token = localStorage.getItem("token");
     const api = axios.create({
       baseURL: "https://reserveto-back.onrender.com/",
-      headers: {
-        Authorization: `Bearer ${token}`,
-      },
+      proxy: true,
     });
 
-    const response = await api.get(`/api/barbers/profiles/${barberID}/`);
+    const response = await api.get(`api/barbers/profiles/${barberId}/`);
 
     if (response.status === 200) {
-      console.log(response.status);
       return response.data;
-      
     } else {
       console.log(response.status);
-      return null;
+      throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {
-    console.error(error);
-    throw error;
+    console.error("Error fetching data:", error);
   }
 };
 
-export default BarberProfile;
+export default GETBarberProfileAPI;
