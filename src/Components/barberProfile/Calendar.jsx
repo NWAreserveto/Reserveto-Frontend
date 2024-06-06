@@ -4,7 +4,7 @@ import { toPersianDigit } from "./helper";
 import Time from "./Time";
 import TextField from "@mui/material/TextField";
 import "../../styles/Calendar.scss";
-import axios from "axios"; // Import axios for API calls
+import axios from "axios";
 
 moment.loadPersian();
 
@@ -192,54 +192,17 @@ export default class Calendar extends Component {
         ) : null}
         {this.state.selectedDay && (
           <div>
-            <div>
-              <TextField
-                id="date-text"
-                label="تاریخ"
-                value={this.state.selectedDay.format("jYYYY-jMM-jDD")}
-                InputProps={{
-                  readOnly: true,
-                }}
-                sx={{
-                  width: "100%",
-                  marginTop: "7px",
-                  marginBottom: "7px",
-                  "& label": {
-                    transformOrigin: "right !important",
-                    left: "inherit !important",
-                    right: "1.75rem !important",
-                    fontSize: "small",
-                    color: "#807D7B",
-                    fontWeight: 400,
-                    overflow: "unset",
-                  },
-                  "& legend": {
-                    textAlign: "right",
-                    display: "flex",
-                    justifyContent: "center",
-                    fontSize: "10px",
-                  },
-                  "& label.Mui-focused": {
-                    color: "var(--secondary-color) !important",
-                  },
-                  "& .MuiInput-underline:after": {
-                    borderBottomColor: "yellow",
-                  },
-                  "& .MuiOutlinedInput-root": {
-                    "& fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                    "&:hover fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                    "&.Mui-focused fieldset": {
-                      borderColor: "var(--secondary-color) !important",
-                    },
-                  },
-                }}
-              />
-            </div>
             <div id="time-clock">
+              <p
+                style={{
+                  display: "flex",
+                  alignItems: "center",
+                  justifyContent: "center",
+                }}
+              >
+                {this.state.selectedDay.format("jYYYY/jMM/jDD")}
+              </p>
+
               <Time
                 selectedDate={this.state.selectedDay.toDate()}
                 timesData={this.state.timesData}

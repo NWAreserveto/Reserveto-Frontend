@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Popup from "./Popup";
-import { Box, Typography } from "@mui/material";
+import { Box, Typography, Button } from "@mui/material";
 
 const ParentComponent = () => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
@@ -17,22 +17,27 @@ const ParentComponent = () => {
     <Box
       sx={{
         mt: 6,
+        display: "flex",
+        left: 0,
       }}
     >
-      <button
+      <Button
         variant="contained"
         onClick={() => {
           setIsPopupOpen(!isPopupOpen);
         }}
-        style={{
+        sx={{
           backgroundColor: "var(--secondary-color)",
-          borderRadius: 8,
+          "&:hover": {
+            backgroundColor: "var(--secondary-color-lighter)",
+          },
+
           width: "10%",
-          height: "20%",
+          display: "flex",
         }}
       >
         رزرو
-      </button>
+      </Button>
       {isPopupOpen && <Popup onClose={closePopup} />}
     </Box>
   );

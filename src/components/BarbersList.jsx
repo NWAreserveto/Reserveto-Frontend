@@ -4,9 +4,8 @@ import APIendpointBarbersList from "../API/APIendpointBarbersList";
 import APIendpointSearchBarber from "../API/APIendpointSearchBarber";
 import style from "../styles/BarbersList.module.scss";
 import CircularProgress from "@mui/material/CircularProgress";
-import Image from "../images/Back.png";
 
-const BarbersList = ({ searchQuery }) => {
+const BarbersList = ({ searchQuery, customerId }) => {
   const [barbers, setBarbers] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -38,14 +37,18 @@ const BarbersList = ({ searchQuery }) => {
       {loading ? (
         <CircularProgress />
       ) : (
-        barbers.slice(0, 10).map((barber) => (
-          <BarbersCard
-            id={barber.id}
-            name={barber.first_name + " " + barber.last_name}
-            location={barber.location}
-            profilePic={barber.profile_picture}
-          />
-        ))
+        barbers
+          .slice(0, 10)
+          .map((barber) => (
+            <BarbersCard
+              key={barber.id}
+              id={barber.id}
+              name={barber.first_name + " " + barber.last_name}
+              location={barber.location}
+              profilePic={barber.profile_picture}
+              customerId={customerId}
+            />
+          ))
       )}
     </div>
   );
