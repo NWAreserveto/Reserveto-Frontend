@@ -7,7 +7,6 @@ const BarbersLandingButton = () => {
   return (
     <Box
       sx={{
-        pb: 15,
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
@@ -19,8 +18,8 @@ const BarbersLandingButton = () => {
         variant="contained"
         color="primary"
         sx={{
-          height: 200,
-          width: 500,
+          height: 100,
+          width: 400,
           justifyContent: "center",
           alignItems: "center",
           background:
@@ -35,7 +34,7 @@ const BarbersLandingButton = () => {
           },
         }}
       >
-        <Typography variant="h4">همه آرایشگران</Typography>
+        <Typography variant="h4">برای رزرو کلیک کنید</Typography>
       </Button>
     </Box>
   );
