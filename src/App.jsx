@@ -16,11 +16,16 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
-        <Route path="/BarbersLanding/:id" element={<BarbersLanding />} />
+        <Route
+          path="/BarbersLanding/:customerId"
+          element={<BarbersLanding />}
+        />
         <Route path="/UserProfile/:id" element={<UserProfile />} />
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
-        <Route path="/Barber/Dashboard/:barberID" element={<BarberDashboard />} />
-        
+        <Route
+          path="/Barber/Dashboard/:barberID"
+          element={<BarberDashboard />}
+        />
       </Routes>
     </Router>
   );
