@@ -1,79 +1,100 @@
 import React from "react";
-import { Box, Typography } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Navigation } from "swiper/modules";
-import { CardMedia } from "@material-ui/core";
-import ParentComponent from "./ParentPopup";
+import { makeStyles } from "@material-ui/styles";
+import Sample_1 from "../../images/Sample_1.jpg";
+import Sample_2 from "../../images/Sample_2.jpg";
+import Sample_3 from "../../images/Sample_3.jpg";
+import Sample_4 from "../../images/Sample_4.jpg";
+import Sample_5 from "../../images/Sample_5.jpg";
+import Sample_6 from "../../images/Sample_2.jpg";
+import Sample_7 from "../../images/Sample_4.jpg";
+import Sample_8 from "../../images/Sample_5.jpg";
 
-const Samples = ({ samples }) => {
+const images = [
+  { name: "Bob Cut", url: Sample_1 },
+  { name: "Pixie Cut", url: Sample_2 },
+  { name: "Layered Cut", url: Sample_3 },
+  { name: "Cornrows", url: Sample_4 },
+  { name: "Long Waves", url: Sample_5 },
+  { name: "Fade Cut", url: Sample_6 },
+  { name: "Shaggy Cut", url: Sample_7 },
+  { name: "French Braid", url: Sample_8 },
+];
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    position: "relative",
+    minHeight: "100vh",
+    width: "100%",
+    margin: "0 auto",
+    padding: "40px 20px",
+    xIndex: 0,
+  },
+  imageBox: {
+    position: "relative",
+    height: 210,
+    width: 250,
+    borderRadius: 6,
+    overflow: "hidden",
+    zIndex: 1,
+  },
+  images: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    zIndex: 1,
+  },
+  imageItem: {
+    margin: 8,
+    zIndex: 1,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 6,
+    transition: "transform 0.2s linear",
+    zIndex: 1,
+  },
+  imageText: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 400,
+    textTransform: "capitalize",
+    zIndex: 1,
+  },
+}));
+
+const Samples = () => {
+  const classes = useStyles();
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        sx={{
-          margin: "0 20px",
-          backgroundColor: "#e8dbc4",
-          borderRadius: 8,
-          width: "1260px",
-          padding: 4,
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 26,
-            padding: 2,
-            mt: -2,
-            mr: 1,
-          }}
-        >
-          نمونه کار ها
-        </Typography>
-        <p>جهت رزرو سرویس از دکمه زیر استفاده کنید</p>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "100%",
-            position: "relative",
-          }}
-        >
-          <Swiper
-            modules={[Navigation]}
-            slidesPerView={3.7}
-            spaceBetween={0}
-            navigation
-            pagination
-          >
-            {samples.map((item, index) => (
-              <SwiperSlide key={index}>
-                <CardMedia
-                  component={"img"}
-                  style={{
-                    height: 230,
-                    width: 230,
-                    borderRadius: 20,
-                  }}
-                  image={item.img}
-                />
-              </SwiperSlide>
-            ))}
-            <ParentComponent />
-          </Swiper>
-        </Box>
-      </Box>
-    </Box>
+    <div className={classes.container}>
+      <div className={classes.images}>
+        {images.map((image) => (
+          <div key={image.url} className={classes.imageItem}>
+            <div
+              className={classes.imageBox}
+              style={{ backgroundColor: "#f0f0f0" }}
+            >
+              <img
+                src={image.url}
+                alt={image.name}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  borderRadius: 6,
+                  objectFit: "cover",
+                }}
+              />
+              <h6 className={classes.imageText}>{image.name}</h6>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

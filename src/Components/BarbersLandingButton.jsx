@@ -1,38 +1,25 @@
-import React, { useState } from "react";
-import Popup from "./Popup";
+import React from "react";
 import { Box, Typography, Button } from "@mui/material";
 import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
 
-const ParentComponent = () => {
-  const [isPopupOpen, setIsPopupOpen] = useState(false);
 
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
-
-  const closePopup = () => {
-    setIsPopupOpen(false);
-  };
-
+const BarbersLandingButton = () => {
   return (
     <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      mt: 4,
-      // pr: 70,
-    }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+      }}
     >
       <Button
+        component={Link}
+        to="/BarbersLanding/:id"
         variant="contained"
         color="primary"
-        onClick={() => {
-          setIsPopupOpen(!isPopupOpen);
-        }}
         sx={{
-          height: 80,
-          width: 250,
+          height: 100,
+          width: 400,
           justifyContent: "center",
           alignItems: "center",
           background:
@@ -47,11 +34,10 @@ const ParentComponent = () => {
           },
         }}
       >
-        <Typography variant="h4" fontSize={22} >برای رزرو کلیک کنید</Typography>
+        <Typography variant="h4">برای رزرو کلیک کنید</Typography>
       </Button>
-      {isPopupOpen && <Popup onClose={closePopup} />}
     </Box>
   );
 };
 
-export default ParentComponent;
+export default BarbersLandingButton;
