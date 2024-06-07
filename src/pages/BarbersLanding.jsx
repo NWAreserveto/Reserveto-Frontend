@@ -2,7 +2,6 @@ import { useState } from "react";
 import { useParams } from "react-router-dom";
 import Navbar from "../components/BarbersLandingNavbar";
 import Footer from "../components/Footer";
-import style from "../styles/BarbersLanding.module.scss";
 import BarbersList from "../components/BarbersList";
 import ChatWidget from "../components/ChatWidget";
 
