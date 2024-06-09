@@ -4,8 +4,7 @@ import APIendpointBookmarksList from "../../API/APIendpointBookmarksList";
 import APIendpointBarbersList from "../../API/APIendpointBarbersList";
 import style from "../../styles/BarbersList.module.scss";
 import CircularProgress from "@mui/material/CircularProgress";
-import { Avatar, Box, Typography, Button } from "@mui/material";
-
+import { Box } from "@mui/material";
 
 const BookmarksList = () => {
   const [barbers, setBarbers] = useState([]);
@@ -33,9 +32,9 @@ const BookmarksList = () => {
   useEffect(() => {
     const fetchData = async () => {
       try {
-          const responseData = await APIendpointBookmarksList();
-          setBookmarks(responseData);
-          setLoading2(false);
+        const responseData = await APIendpointBookmarksList();
+        setBookmarks(responseData);
+        setLoading2(false);
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -44,8 +43,10 @@ const BookmarksList = () => {
     fetchData();
   }, [loading2]);
 
-  const barberIds = bookmarks.map(bookmark => bookmark.barber);
-  const bookmarkBarbers = barbers.filter(barber => barberIds.includes(barber.id));
+  const barberIds = bookmarks.map((bookmark) => bookmark.barber);
+  const bookmarkBarbers = barbers.filter((barber) =>
+    barberIds.includes(barber.id)
+  );
 
   return (
     <Box className={loading1 && loading2 ? style.flex : style.barbersList}>

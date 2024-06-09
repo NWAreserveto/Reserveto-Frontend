@@ -7,16 +7,14 @@ import { useEffect, useState } from "react";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import BackGround from "../images/Back_2.png";
 import CircularProgress from "@mui/material/CircularProgress";
-import style from "../styles/BarbersList.module.scss";
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box } from "@mui/material";
 
 
 
 
 const BarberProfile = () => {
-
   const barberIdList = window.location.href.split("/");
-  const barberId = barberIdList[barberIdList.length - 1];
+  const barberId = Number(barberIdList[barberIdList.length - 1]);
 
   const [barber, setBarber] = useState({});
   const [loading, setLoading] = useState(true);
@@ -69,7 +67,7 @@ const BarberProfile = () => {
       {!loading && <Body barber={barber}/>}
 
       <Comments 
-        barberId={barber.id}
+        barberId={barberId}
         barberName={barber.first_name + " " + barber.last_name}
       />
 
