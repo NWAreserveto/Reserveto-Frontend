@@ -12,6 +12,10 @@ const LoginCOB = async (person) => {
 
       localStorage.setItem("token", response.data.access);
       localStorage.setItem("role", response.data.role);
+      if (response.data.role === "barber")
+        localStorage.setItem("barberId", response.data.Barber.id);
+      else
+        localStorage.setItem("userId", response.data.Customer.id);
     } else {
       console.log(response.status);
     }

@@ -8,16 +8,16 @@ import style from "../styles/Chatwidget.module.scss";
 
 const ChatWidget = () => {
   const [showChat, setShowChat] = useState(false);
-  const [messages, setMessages] = useState([]);
+  const [chats, setChats] = useState({});
+  const [currentChatId, setCurrentChatId] = useState(null);
   const [input, setInput] = useState("");
   const [botTyping, setBotTyping] = useState(false);
-  const [chatId, setChatId] = useState(null);
   const chatBodyRef = useRef(null);
 
   const token = localStorage.getItem("token");
 
   useEffect(() => {
-    if (showChat && !chatId) {
+    if (showChat && !currentChatId) {
       createChat();
     }
   }, [showChat]);
@@ -26,7 +26,7 @@ const ChatWidget = () => {
     if (chatBodyRef.current) {
       chatBodyRef.current.scrollTop = chatBodyRef.current.scrollHeight;
     }
-  }, [messages, botTyping]);
+  }, [chats, currentChatId, botTyping]);
 
   const createChat = async () => {
     try {
@@ -41,7 +41,12 @@ const ChatWidget = () => {
           },
         }
       );
-      setChatId(response.data.chat_id);
+      const newChatId = response.data.chat_id;
+      setChats((prevChats) => ({
+        ...prevChats,
+        [newChatId]: [],
+      }));
+      setCurrentChatId(newChatId);
     } catch (error) {
       console.error("Error creating chat:", error);
     }
@@ -52,17 +57,20 @@ const ChatWidget = () => {
   };
 
   const sendMessage = async () => {
-    if (!input.trim() || !chatId) return;
+    if (!input.trim() || !currentChatId) return;
 
     const newMessage = { user: "You", text: input };
-    setMessages((prevMessages) => [...prevMessages, newMessage]);
+    setChats((prevChats) => ({
+      ...prevChats,
+      [currentChatId]: [...prevChats[currentChatId], newMessage],
+    }));
     setInput("");
 
     setBotTyping(true);
 
     try {
       const response = await axios.post(
-        `https://reserveto-back.onrender.com/api/chats/${chatId}/messages/`,
+        `https://reserveto-back.onrender.com/api/chats/${currentChatId}/messages/`,
         { text: input },
         {
           headers: {
@@ -72,14 +80,20 @@ const ChatWidget = () => {
       );
 
       const botMessage = { user: "Bot", text: response.data.reply };
-      setMessages((prevMessages) => [...prevMessages, botMessage]);
+      setChats((prevChats) => ({
+        ...prevChats,
+        [currentChatId]: [...prevChats[currentChatId], botMessage],
+      }));
     } catch (error) {
       console.error("Error sending message:", error);
       const errorMessage = {
         user: "Bot",
         text: "مشکلی پیش آمده. دوباره تلاش کنید.",
       };
-      setMessages((prevMessages) => [...prevMessages, errorMessage]);
+      setChats((prevChats) => ({
+        ...prevChats,
+        [currentChatId]: [...prevChats[currentChatId], errorMessage],
+      }));
     } finally {
       setBotTyping(false);
     }
@@ -95,6 +109,10 @@ const ChatWidget = () => {
     setInput(label);
   };
 
+  const switchChat = (chatId) => {
+    setCurrentChatId(chatId);
+  };
+
   return (
     <div className={style.chatWidgetContainer}>
       <button className={style.chatToggleButton} onClick={toggleChat}>
@@ -102,63 +120,86 @@ const ChatWidget = () => {
       </button>
       {showChat && (
         <div className={style.chatWidget}>
-          <div className={style.chatHeader}>
-            <Stack direction="row" spacing={0}>
-              <Chip
-                label="رزرو چیجوریه؟"
-                onClick={() => handleClick("رزرو چیجوریه؟")}
-                sx={{ color: "white" }}
-              />
-              <Chip
-                label="لغو رزرو"
-                onClick={() => handleClick("شرایط لغو رزرو")}
-                sx={{ color: "white" }}
-              />
-              <Chip
-                label="نحوه پرداخت"
-                onClick={() => handleClick("نحوه پرداخت")}
-                sx={{ color: "white" }}
-              />
-            </Stack>
-          </div>
-          <div className={style.chatBody} ref={chatBodyRef}>
-            {messages.map((msg, index) => (
-              <div
-                key={index}
-                className={`${style.chatMessage} ${
-                  msg.user === "You" ? style.user : style.bot
-                }`}
-              >
-                <div className={style.messageBox}>
-                  <strong>{msg.user}:</strong> {msg.text}
-                </div>
-              </div>
-            ))}
-            {botTyping && (
-              <div className={style.chatMessageBot}>
-                <div className={style.messageBox}>
-                  <strong>Bot:</strong>
-                  <span className={style.typingIndicator}>
-                    <span>.</span>
-                    <span>.</span>
-                    <span>.</span>
-                  </span>
-                </div>
-              </div>
-            )}
-          </div>
-          <div className={style.chatFooter}>
-            <input
-              type="text"
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              onKeyPress={handleKeyPress}
-              placeholder="پیام خود را بنویسید..."
-            />
-            <button onClick={sendMessage}>
-              <SendIcon sx={{ transform: "rotate(180deg)" }} />
+          <div className={style.chatSidebar}>
+            <button onClick={createChat} className={style.newChatButton}>
+              چت جدید
             </button>
+            <div className={style.chatList}>
+              {Object.keys(chats).map((chatId) => (
+                <div
+                  key={chatId}
+                  onClick={() => switchChat(chatId)}
+                  className={`${style.chatListItem} ${
+                    currentChatId === chatId ? style.activeChat : ""
+                  }`}
+                >
+                  چت {chatId}
+                </div>
+              ))}
+            </div>
           </div>
+          {currentChatId && (
+            <>
+              <div className={style.chatHeader}>
+                <Stack direction="row" spacing={1}>
+                  <Chip
+                    label="رزرو چیجوریه؟"
+                    onClick={() => handleClick("رزرو چیجوریه؟")}
+                    className={style.chip}
+                  />
+                  <Chip
+                    label="لغو رزرو"
+                    onClick={() => handleClick("شرایط لغو رزرو")}
+                    className={style.chip}
+                  />
+                  <Chip
+                    label="نحوه پرداخت"
+                    onClick={() => handleClick("نحوه پرداخت")}
+                    className={style.chip}
+                  />
+                </Stack>
+              </div>
+              <div className={style.chatBody} ref={chatBodyRef}>
+                {chats[currentChatId]?.map((msg, index) => (
+                  <div
+                    key={index}
+                    className={`${style.chatMessage} ${
+                      msg.user === "You" ? style.user : style.bot
+                    }`}
+                  >
+                    <div className={style.messageBox}>
+                      <strong>{msg.user}:</strong> {msg.text}
+                    </div>
+                  </div>
+                ))}
+                {botTyping && (
+                  <div className={style.chatMessageBot}>
+                    <div className={style.messageBox}>
+                      <strong>Bot:</strong>
+                      <span className={style.typingIndicator}>
+                        <span>.</span>
+                        <span>.</span>
+                        <span>.</span>
+                      </span>
+                    </div>
+                  </div>
+                )}
+              </div>
+              <div className={style.chatFooter}>
+                <input
+                  type="text"
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  onKeyPress={handleKeyPress}
+                  placeholder="پیام خود را بنویسید..."
+                  className={style.chatInput}
+                />
+                <button onClick={sendMessage} className={style.sendButton}>
+                  <SendIcon sx={{ transform: "rotate(180deg)" }} />
+                </button>
+              </div>
+            </>
+          )}
         </div>
       )}
     </div>

@@ -1,22 +1,15 @@
+import React, { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { React, useState } from "react";
-import { InputAdornment, TextField } from "@mui/material";
-import { Visibility } from "@mui/icons-material";
-import { VisibilityOff } from "@mui/icons-material";
-import IconButton from "@mui/material/IconButton";
+import { TextField, InputAdornment, IconButton } from "@mui/material";
+import { Visibility, VisibilityOff } from "@mui/icons-material";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 import LoginCOB from "../API/APIendpointLogin";
 import style from "../styles/Login.module.scss";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import Button from "@mui/material/Button";
 
 const Login = () => {
   const [username, setUsername] = useState("");
-  const [usernameError, setUsernameError] = useState("");
-
+  const [usernameError, setUsernameError] = useState(false);
   const handleUsername = (e) => {
     setUsername(e.target.value);
     if (e.target.validity.valid) {
@@ -27,7 +20,7 @@ const Login = () => {
   };
 
   const [password, setPassword] = useState("");
-  const [passwordError, setPasswordError] = useState("");
+  const [passwordError, setPasswordError] = useState(false);
   const handlePassword = (e) => {
     setPassword(e.target.value);
     if (e.target.validity.valid) {
@@ -36,6 +29,7 @@ const Login = () => {
       setPasswordError(true);
     }
   };
+
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
   const [open, setOpen] = useState(false);
@@ -47,9 +41,11 @@ const Login = () => {
     setOpen(false);
     const role = localStorage.getItem("role");
     if (success) {
-      if (role === "customer")
+      if (role === "customer") {
         navigate(`/BarbersLanding/${responseData.Customer.id}`);
-      else navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
+      } else {
+        navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
+      }
     }
   };
 
@@ -63,20 +59,23 @@ const Login = () => {
     try {
       const response = await LoginCOB(person);
       setResponseData(response.data);
-      setOpen(true);
       setSuccess(response.status === 200);
+      if (response.status === 200) {
+        toast.success("به حساب کاربری خود وارد شدید.");
+        handleClose();
+      }
     } catch (error) {
       console.error(error);
-      setOpen(true);
-      setSuccess(false);
+      toast.error("اطلاعات وارد شده اشتباه است");
     }
   };
 
   return (
     <div className={style.body}>
+      <ToastContainer />
       <div className={style.container} />
       <div className={style.login}>
-        <form className={style.loginForm}>
+        <form className={style.loginForm} onSubmit={loginButt}>
           <h1>ورود به حساب کاربری</h1>
           <TextField
             id="outlined-basic"
@@ -119,7 +118,7 @@ const Login = () => {
             className={style.email}
             value={username}
             onChange={handleUsername}
-            // error={usernameError}
+            error={usernameError}
           />
           <TextField
             label="رمز"
@@ -175,53 +174,26 @@ const Login = () => {
             className={style.password}
             value={password}
             onChange={handlePassword}
-            // error={passwordError}
+            error={passwordError}
           />
 
           <input
             type="submit"
             className={style.loginButton}
             id="loginbutto"
-            onClick={loginButt}
             value="ورود"
           />
 
           <div className={style.links}>
-            <Link
-              to="/CreateAcc"
-              className={style.createAcc}
-            >
+            <Link to="/CreateAcc" className={style.createAcc}>
               حساب کاربری نداری؟
             </Link>
-            <Link
-              className={style.forgetPass}
-              to="/ForgetPassword"
-            >
+            <Link className={style.forgetPass} to="/ForgetPassword">
               رمزتو یادت رفته؟
             </Link>
           </div>
         </form>
       </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {success ? "موفقیت" : "ارور"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {success
-              ? "به حساب کاربری خود وارد شدید."
-              : "اطلاعات وارد شده اشتباه است"}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>بستن</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
