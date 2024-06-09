@@ -3,7 +3,7 @@ import Navbar from "../components/BarbersLandingNavbar";
 import Navbox from "../components/NavBox";
 import SalonAvatar from "../components/salon/Salonavatar";
 import SalonServices from "../components/salon/salonservices";
-import SalonBarbers from "../components/salon/SalonBarbers";
+import SalonBarbers from "../components/salonpage/SalonPageBarbers";
 import Background from "../images/LoginBackground.jpg";
 import style from "../styles/salon.module.scss";
 import Usernavbar from "../components/Usernavbar";
@@ -23,6 +23,7 @@ import APIgetSalon from "../API/APIendpointSalon";
 import Face5Icon from "@mui/icons-material/Face5";
 import AddPhotoIcon from "@mui/icons-material/AddAPhoto";
 import { Avatar, Divider } from "@material-ui/core";
+//import style from "../styles/BarberDashboard.module.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -32,11 +33,75 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
 import axios from "axios";
-import SalonDashboard from "../components/salon/SalonDashboard";
+import SalonDashboard from "../components/salonpage/SalonPageDashboard";
+import SalonComments from "../components/salonpage/Saloncomments";
 import EditProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
-import { Navigate, useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
+// const SalonProfile = () => {
+//   const [salon,setSalon] = useState([]);
+//   const [barberIDs, setBarberIDs] = useState([]);
+//   const [loading, setLoading] = useState(true);
+//   const [error, setError] = useState(null);
+//   const [selectedTab, setSelectedTab] = useState(null);
+//   const [isEditProfileActive, setIsEditProfileActive] = useState(false);
+//   const [isHovered, setIsHoverd] = useState(false);
+//   const [isMenuHovered, setIsMenuHovered] = useState(false);
+
+//   useEffect(() => {
+//     const fetchBarberData = async () => {
+//       try {
+//         const salonList = window.location.href.split("/");
+//         const salonid = salonList[salonList.length - 1];
+//         const data = await APIgetSalon(salonid);
+//         setSalon(data);
+//         console.log("data is : " + data);
+//         console.log("data.babers is : " + data.barbers);
+//         if (data && data.barbers) {
+//           setBarberIDs(String(data.barbers).split(','));
+//           console.log("ids : " + String(data.barbers).split(','));
+//           //setBarberIDs(ids);
+//         }
+//       } catch (err) {
+//         setError(err);
+//       } finally {
+//         setLoading(false);
+//       }
+//     };
+
+//     fetchBarberData();
+//   }, []);
+//   const handleImageButtonClick = (index) => {
+//     console.log(index);
+//     setSelectedTab(index);
+//   };
+//   const toggleEditProfile = () => {
+//     setIsEditProfileActive(!isEditProfileActive); // Toggle edit profile mode
+//   };
+//   console.log("salon id is : " + salon.id);
+//   console.log("salon name is : " + salon.name);
+
+//   return (
+//     <div className={style.userpage}>
+//         <SalonAvatar salon={salon} onClick={toggleEditProfile}/>
+//         {isEditProfileActive ? (
+//         <div className={style.editcontainer}>
+//         <EditSalonprofile salon={salon} />
+//         </div>
+//         ) : (
+//         <div className={style.barbers}>
+//           <SalonBarbers salonid={salon.id} barberIDs={barberIDs}/>
+//       </div>
+//       )
+//       }
+//         {/* <SalonServices/> */}
+//     </div>
+// )
+// };
+
+// export default SalonProfile;
+
 
 const SalonProfile = ({ barberid }) => {
   const [salon, setSalon] = useState([]);
@@ -50,7 +115,6 @@ const SalonProfile = ({ barberid }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [salonprof, setsalonprof] = useState({});
   const navigate = useNavigate();
-
   useEffect(() => {
     const fetchBarberData = async () => {
       try {
@@ -78,52 +142,26 @@ const SalonProfile = ({ barberid }) => {
   console.log("salon name is : " + salon.name);
   const barbers = [1, 12, 9, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11];
   const [index, setIndex] = useState(1);
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    handleUpload();
-  };
-
-  const handleUpload = async () => {
-    const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
-
-    const token = localStorage.getItem("token");
-    try {
-      const response = await axios.patch(
-        `https://reserveto-back.onrender.com/api/salons/${salon.id}/`,
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            "Content-Type": "multipart/form-data",
-          },
-        }
-      );
-      setsalonprof((prevsalon) => ({
-        ...prevsalon,
-        profile_picture: response.data.profile_picture,
-      }));
-    } catch (error) {
-      console.error("Error uploading file:", error);
-    }
-  };
+  const navig = ()=>{
+    navigate(-1)
+  }
 
   const main = () => {
     switch (index) {
       case 0:
         return <EditSalonprofile salon={salon} barberId={barberid} />;
       case 1:
-        return <SalonDashboard />;
-      case 5:
+        return <SalonDashboard salon={salon}/>;
+      case 2:
+        return <SalonComments />
+      case 3:
         return <SalonBarbers salonid={salon.id} barberIDs={barberIDs} />;
-      // case2: Reserves
-      // case3: Comments
-      // case4: Notifications
       default:
-        return <SalonDashboard />;
+        return <SalonDashboard salon={salon}/>;
     }
   };
   return (
+    <>
     <div
       className={style.container}
       style={{
@@ -135,41 +173,6 @@ const SalonProfile = ({ barberid }) => {
     >
       <div className={style.menu}>
         <div className={style.menuItem}>
-          <div className={style.avatarContainer}>
-            <label htmlFor="file-upload">
-              <input
-                id="file-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                className={style.fileInput}
-              />
-              <IconButton
-                //sx={{m:"20px"}}
-                variant="contained"
-                color="primary"
-                component="span"
-                className={style.uploadButton}
-              >
-                <AddPhotoIcon />
-              </IconButton>
-            </label>
-          </div>
-          <Divider
-            flexItem
-            variant="middle"
-            sx={{
-              borderBottomWidth: "1px",
-              borderBottomColor: "var(--primary-color)",
-            }}
-          />
-          <div className={style.name}>
-            <h3>{"سالن " + salon.name}</h3>
-            <IconButton className={style.button} onClick={() => setIndex(0)}>
-              <EditIcon />
-            </IconButton>
-          </div>
-
           <Divider
             flexItem
             variant="middle"
@@ -190,7 +193,7 @@ const SalonProfile = ({ barberid }) => {
           <Button
             className={style.button}
             sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(3)}
+            onClick={() => setIndex(2)}
           >
             <CommentIcon fontSize="medium" />
             نظرات
@@ -199,22 +202,29 @@ const SalonProfile = ({ barberid }) => {
             className={style.button}
             tabIndex={0}
             sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(5)}
+            onClick={() => setIndex(3)}
           >
             <Face5Icon fontSize="medium" />
-            آرایشگران
+            آرایشگر ها
           </Button>
+          <Divider
+            flexItem
+            variant="middle"
+            sx={{
+              borderBottomWidth: "1px",
+              borderBottomColor: "var(--primary-color)",
+            }}
+          />
         </div>
         <div className={style.menuItem}>
-          <Button onClick={()=>navigate(`/`)} className={style.button} sx={{ fontSize: "20px" }}>
-            <LogoutIcon fontSize="medium" />
-            خروج
+          <Button onClick={navig} sx={{ fontSize : "20px",width:'auto', color: "var(--primary-color)"}}>
+            رزروتو
           </Button>
-          <h2>رزروتو</h2>
         </div>
       </div>
       <div className={style.main}>{main()}</div>
     </div>
+    </>
   );
 };
 

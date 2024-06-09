@@ -9,12 +9,15 @@ import BarbersLanding from "./pages/BarbersLanding";
 import BarberProfile from "./pages/BarberProfile";
 import BarberDashboard from "./pages/BarberDashboard";
 import SalonProfile from "./pages/SalonProfile"
+import SalonPage from './pages/SalonPage'
+import UserBookmarks from './pages/UserBookmarks'
 
 function App() {
   return (
     <Router>
       <Routes>
         <Route path="/salonProfile/:id" element={<SalonProfile />} />
+        <Route path="/salonPage/:id" element={<SalonPage />} />
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
@@ -23,6 +26,7 @@ function App() {
           element={<BarbersLanding />}
         />
         <Route path="/UserProfile/:id" element={<UserProfile />} />
+        <Route path="/UserProfile/Bookmarks/:id" element={<UserBookmarks />}/>
         <Route path="/BarberProfile/:barberId" element={<BarberProfile />} />
         <Route
           path="/Barber/Dashboard/:barberID"

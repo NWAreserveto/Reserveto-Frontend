@@ -22,12 +22,14 @@ const UserProfile = () => {
   const [isMenuHovered, setIsMenuHovered] = useState(false);
   const [loading, setLoading] = useState(true);
   const[user , setUser] = useState();
+  const [userid,setuserid] = useState();
   
 
   useEffect(()=> {
     const fetchData = async () => {
       const userList = window.location.href.split("/");
       const id = userList[userList.length - 1];
+      setuserid(id);
       setLoading(true);
       var temp = await APIendpointUser(id);
       setUser(temp);
@@ -51,6 +53,7 @@ const UserProfile = () => {
   const toggleEditProfile = () => {
     setIsEditProfileActive(!isEditProfileActive); // Toggle edit profile mode
   };
+  
 
   return (
     <div className={style.userpage}>
@@ -64,7 +67,7 @@ const UserProfile = () => {
         </div>
       ) : (
         <div>
-        <Navbox handleImageButtonClick={handleImageButtonClick}/>
+        <Navbox userid={userid} handleImageButtonClick={handleImageButtonClick}/>
         {/* <CustomerReservesList reserves={reserves} /> */}
         {/* {selectedTab === 0 && <ReservesComponent/> }
         {selectedTab === 1 && <InterestsComponent />} 

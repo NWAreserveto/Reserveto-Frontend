@@ -1,5 +1,5 @@
 import * as React from "react";
-import { useState,useEffect } from "react";
+import { useState, useEffect } from "react";
 import Card from "@mui/material/Card";
 import CardHeader from "@mui/material/CardHeader";
 import CardMedia from "@mui/material/CardMedia";
@@ -12,37 +12,44 @@ import { CardActionArea } from "@mui/material";
 import { useNavigate } from "react-router-dom";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
-import APISalonUpdate from "../API/APIendpointSalonUpdate";
+import APISalonUpdate from "../../API/APIendpointSalonUpdate";
 
-export default function SalonBarbersCard({barberIDs,salonid, id, profilePic, name, location }) {
+export default function SalonBarbersCard({
+  barberIDs,
+  salonid,
+  id,
+  profilePic,
+  name,
+  location,
+}) {
   const [barberIds, setBarberIds] = useState(barberIDs);
   const navigate = useNavigate();
   const gotoOtherPage = () => {
     navigate(`/BarberProfile/${id}`);
   };
-  const removeBarberID =() => {
+  const removeBarberID = () => {
     const confirmed = window.confirm("آیا از حذف این آرایشگر مطمئن هستید؟");
     if (confirmed) {
-    console.log("salonid is :"+ salonid);
+      console.log("salonid is :" + salonid);
       console.log("removed id is : " + id);
-       setBarberIds(prevIDs => {const updatedIds = prevIDs.filter(barberID => barberID != id);
+      setBarberIds((prevIDs) => {
+        const updatedIds = prevIDs.filter((barberID) => barberID != id);
         Updatesalon(updatedIds);
         console.log(updatedIds);
-       });
+      });
     }
   };
   const Updatesalon = async (updatedIds) => {
-    try{
-        const newdata = {
-            barbers : updatedIds
-          }
-        console.log('hasalonndleApplyChanges called -----------------------'); 
-        await APISalonUpdate(salonid,newdata)
+    try {
+      const newdata = {
+        barbers: updatedIds,
+      };
+      console.log("hasalonndleApplyChanges called -----------------------");
+      await APISalonUpdate(salonid, newdata);
+    } catch (error) {
+      console.error(error);
     }
-    catch(error){
-        console.error(error);
-    }
-  }; 
+  };
   return (
     <Card
       sx={{
@@ -52,12 +59,8 @@ export default function SalonBarbersCard({barberIDs,salonid, id, profilePic, nam
         flexDirection: "column",
       }}
     >
-      <CardMedia
-        sx={{ height: 210 }}
-        image={profilePic}
-        title="green iguana"
-      />
-      <CardActionArea style={{ flex: "1" }}>
+      <CardMedia sx={{ height: 210 }} image={profilePic} title="green iguana" />
+      <CardActionArea onClick={gotoOtherPage} style={{ flex: "1" }}>
         {/* <div
           style={{
             //backgroundImage: `url(${profilePic})`,
@@ -94,22 +97,15 @@ export default function SalonBarbersCard({barberIDs,salonid, id, profilePic, nam
           <p>{location}</p>
         </div>
       </CardActionArea>
-      <CardActions disableSpacing style={{ justifyContent: "space-between" }}>
-        <Rating name="rating" defaultValue={0} max={5} />
+      <CardActions sx={{opacity:'0.8'}} disableSpacing style={{ justifyContent: "space-between" }}>
+        <Rating name="rating" defaultValue={0} max={5} sx={{ direction: "ltr" }} />
         <Button
           variant="outlined"
           onClick={removeBarberID}
-          color='error'
-          sx={{m:0}}
+          color="error"
+          sx={{ m: 0 }}
         >
           حذف
-        </Button>
-        <Button
-          variant="outlined"
-          onClick={gotoOtherPage}
-          sx={{ m:0, color: "var(--secondary-color)" }}
-        >
-          برو
         </Button>
       </CardActions>
     </Card>

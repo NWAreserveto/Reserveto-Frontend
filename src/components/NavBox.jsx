@@ -20,6 +20,7 @@ import style from "../styles/info.module.scss"
 import reservesImage from '../images/reserves.jpg';
 import commentImage from '../images/comments.jpg';
 import interestsImage from '../images/interests.jpg';
+import { Link, useNavigate } from "react-router-dom";
 
 
 const images = [
@@ -105,12 +106,17 @@ const ImageMarked = styled('span')(({ theme }) => ({
 }));
 
 
-export default function SimpleBottomNavigation() {
+export default function SimpleBottomNavigation({userid}) {
   const [selectedTab, setSelectedTab] = React.useState(0);
+  const navigate = useNavigate();
 
-  const handleTabChange = (event, newValue) => {
-    setSelectedTab(newValue);
-  };
+  const handlebookmark = () => {
+    navigate(`/UserProfile/Bookmarks/${userid}`);
+  }
+
+  // const handleTabChange = (event, newValue) => {
+  //   setSelectedTab(newValue);
+  // };
 
   return (
     <>
@@ -118,7 +124,8 @@ export default function SimpleBottomNavigation() {
       {/* <div> */}
       <Box sx={{border:'5px', borderBlockColor: 'red', margin:'50px',borderRadius:'5px' , display: 'flex',justifyContent: 'center', flexWrap: 'wrap', minWidth: 300, width: '90%' }}>
       {images.map((image , index) => (
-        <ImageButton onClick={()=>setSelectedTab(index)}
+        <ImageButton 
+          onClick={index === 1 ? handlebookmark : undefined}
           focusRipple
           key={image.title}
           style={{

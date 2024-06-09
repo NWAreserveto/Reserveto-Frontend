@@ -19,7 +19,7 @@ import CommentIcon from "@mui/icons-material/Comment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
-import SalonDashboard from "../components/SalonDashboard";
+import SalonDashboard from "./salon/SalonDashboard";
 import editProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import { useEffect, useState } from "react";
@@ -130,7 +130,7 @@ const EditProfile = ({ user }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [salonprof, setsalonprof] = useState({});
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[1]);
+    setSelectedFile(event.target.files[0]);
     handleUpload();
   };
 
@@ -150,8 +150,8 @@ const EditProfile = ({ user }) => {
           },
         }
       );
-      setsalonprof((prevBarber) => ({
-        ...prevBarber,
+      setsalonprof((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {
@@ -178,19 +178,18 @@ const EditProfile = ({ user }) => {
         autoComplete="off"
         //onSubmit={(e) => { e.preventDefault(); }}
       >
-                
         <div style={{ margin: "25px" }}>
-        <div className={style.changebutt}>
-          <label htmlFor="file-upload">
+          <div className={style.changebutt}>
+            <label htmlFor="file-upload">
               <input
                 id="file-upload"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
-                style={{display:'none'}}
+                style={{ display: "none" }}
               />
               <IconButton
-                sx={{color:'var(--secondary-color)'}}
+                sx={{ color: "var(--secondary-color)" }}
                 variant="contained"
                 component="span"
                 className={style.uploadbutton}
@@ -242,7 +241,7 @@ const EditProfile = ({ user }) => {
             }}
             //className={style.username}
             value={username}
-            //onChange={handleUsername}
+            onChange={handleUsername}
             //error={barberNameError}
             //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
             inputProps={{
@@ -292,7 +291,7 @@ const EditProfile = ({ user }) => {
             }}
             //className={style.username}
             value={firstname}
-            //onChange={handleFirstname}
+            onChange={handleFirstname}
             //error={barberNameError}
             //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
             inputProps={{
@@ -342,7 +341,7 @@ const EditProfile = ({ user }) => {
             }}
             //className={style.username}
             value={lastname}
-            //onChange={handleLastname}
+            onChange={handleLastname}
             //error={barberNameError}
             //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
             inputProps={{
@@ -392,7 +391,7 @@ const EditProfile = ({ user }) => {
             }}
             //className={style.username}
             value={email}
-            //onChange={handleEmail}
+            onChange={handleEmail}
             //error={barberNameError}
             //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
             inputProps={{
@@ -442,7 +441,7 @@ const EditProfile = ({ user }) => {
             }}
             //className={style.username}
             value={address}
-            //onChange={handleAddress}
+            onChange={handleAddress}
             //error={barberNameError}
             //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
             // inputProps={{

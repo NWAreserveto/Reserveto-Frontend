@@ -3,9 +3,9 @@ import { Navigation, Pagination, Autoplay } from 'swiper/modules';
 import SwiperCore from 'swiper';
 import { Swiper, SwiperSlide } from 'swiper/react';
 import 'swiper/swiper-bundle.css';
-import servicesNail from "../images/services_nail.jpg"
-import servicesDye from "../images/services_dye.jpg"
-import style from "../styles/salon.module.scss"
+import servicesNail from "../../images/services_nail.jpg"
+import servicesDye from "../../images/services_dye.jpg"
+import style from "../../styles/salon.module.scss"
 
 // Install Swiper modules
 SwiperCore.use([Navigation, Pagination, Autoplay]);
