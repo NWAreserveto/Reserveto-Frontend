@@ -233,7 +233,7 @@ const EditProfile = ({ barber }) => {
             label="نام"
             name="first_name"
             value={editedBarber.first_name}
-            onChange={handleChange}
+            //onChange={handleChange}
             fullWidth
             sx={textfieldstyle}
           />
@@ -241,7 +241,7 @@ const EditProfile = ({ barber }) => {
             label="نام خانوادگی"
             name="last_name"
             value={editedBarber.last_name}
-            onChange={handleChange}
+            //onChange={handleChange}
             fullWidth
             sx={textfieldstyle}
           />
@@ -251,7 +251,7 @@ const EditProfile = ({ barber }) => {
             label="شماره تلفن"
             name="phone_number"
             value={editedBarber.phone_number}
-            onChange={handleChange}
+            //onChange={handleChange}
             fullWidth
             sx={textfieldstyle}
           />
@@ -259,7 +259,7 @@ const EditProfile = ({ barber }) => {
             label="ایمیل"
             name="email"
             value={editedBarber.email}
-            onChange={handleChange}
+            //onChange={handleChange}
             fullWidth
             disabled
             sx={textfieldstyle}
@@ -269,7 +269,7 @@ const EditProfile = ({ barber }) => {
           label="بیوگرافی"
           name="bio"
           value={editedBarber.bio}
-          onChange={handleChange}
+          //onChange={handleChange}
           multiline
           rows={4}
           fullWidth
@@ -280,7 +280,7 @@ const EditProfile = ({ barber }) => {
             label="استان"
             name="province"
             value={editedBarber.province}
-            onChange={handleChange}
+            //onChange={handleChange}
             select
             fullWidth
             SelectProps={{
@@ -296,10 +296,7 @@ const EditProfile = ({ barber }) => {
           >
             {provinces &&
               Object.keys(provinces).map((province) => (
-                <MenuItem
-                  key={province}
-                  value={province}
-                >
+                <MenuItem key={province} value={province}>
                   {province}
                 </MenuItem>
               ))}
@@ -308,7 +305,7 @@ const EditProfile = ({ barber }) => {
             label="شهر"
             name="city"
             value={editedBarber.city}
-            onChange={handleChange}
+            //onChange={handleChange}
             select
             fullWidth
             SelectProps={{
@@ -326,10 +323,7 @@ const EditProfile = ({ barber }) => {
             {editedBarber.province &&
               provinces[editedBarber.province] &&
               provinces[editedBarber.province].map((city) => (
-                <MenuItem
-                  key={city}
-                  value={city}
-                >
+                <MenuItem key={city} value={city}>
                   {city}
                 </MenuItem>
               ))}
@@ -338,7 +332,7 @@ const EditProfile = ({ barber }) => {
             label="منطقه"
             name="region"
             value={editedBarber.region}
-            onChange={handleChange}
+            //onChange={handleChange}
             select
             fullWidth
             SelectProps={{
@@ -356,10 +350,7 @@ const EditProfile = ({ barber }) => {
             {editedBarber.city &&
               cities[editedBarber.city] &&
               cities[editedBarber.city].map((region) => (
-                <MenuItem
-                  key={region}
-                  value={region}
-                >
+                <MenuItem key={region} value={region}>
                   {region}
                 </MenuItem>
               ))}
@@ -385,19 +376,11 @@ const EditProfile = ({ barber }) => {
               fullWidth
               value={service}
               onChange={handleSelectChange}
-              input={
-                <OutlinedInput
-                  id="select-multiple-chip"
-                  label="خدمات"
-                />
-              }
+              input={<OutlinedInput id="select-multiple-chip" label="خدمات" />}
               renderValue={(selected) => (
                 <Box sx={{ display: "flex", flexWrap: "wrap", gap: 0.5 }}>
                   {selected.map((value) => (
-                    <Chip
-                      key={value}
-                      label={value}
-                    />
+                    <Chip key={value} label={value} />
                   ))}
                 </Box>
               )}
@@ -412,10 +395,7 @@ const EditProfile = ({ barber }) => {
               sx={textfieldstyle}
             >
               {names.map((name) => (
-                <MenuItem
-                  key={name}
-                  value={name}
-                >
+                <MenuItem key={name} value={name}>
                   {name}
                 </MenuItem>
               ))}
@@ -438,10 +418,7 @@ const EditProfile = ({ barber }) => {
 
             <Box sx={{ display: "flex", flexWrap: "wrap", mb: 2, mt: 2 }}>
               {previews.map((preview, index) => (
-                <Box
-                  key={index}
-                  sx={{ m: 1, position: "relative" }}
-                >
+                <Box key={index} sx={{ m: 1, position: "relative" }}>
                   <img
                     src={preview}
                     alt={`Preview ${index}`}
@@ -486,10 +463,7 @@ const EditProfile = ({ barber }) => {
                 left: "0",
               }}
             />
-            <Button
-              variant="outlined"
-              component="span"
-            >
+            <Button variant="outlined" component="span">
               افزودن تصویر
             </Button>
           </label>
