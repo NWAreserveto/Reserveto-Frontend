@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import { TextField, InputAdornment, IconButton } from "@mui/material";
 import { Visibility, VisibilityOff } from "@mui/icons-material";
@@ -12,42 +12,34 @@ const Login = () => {
   const [usernameError, setUsernameError] = useState(false);
   const handleUsername = (e) => {
     setUsername(e.target.value);
-    if (e.target.validity.valid) {
-      setUsernameError(false);
-    } else {
-      setUsernameError(true);
-    }
+    setUsernameError(!e.target.validity.valid);
   };
 
   const [password, setPassword] = useState("");
   const [passwordError, setPasswordError] = useState(false);
   const handlePassword = (e) => {
     setPassword(e.target.value);
-    if (e.target.validity.valid) {
-      setPasswordError(false);
-    } else {
-      setPasswordError(true);
-    }
+    setPasswordError(!e.target.validity.valid);
   };
 
   const [showPassword, setShowPassword] = useState(false);
   const handleClickShowPassword = () => setShowPassword(!showPassword);
-  const [open, setOpen] = useState(false);
   const [success, setSuccess] = useState(false);
-  const [responseData, setResponseData] = useState();
+  const [responseData, setResponseData] = useState(null);
   const navigate = useNavigate();
 
-  const handleClose = () => {
-    setOpen(false);
-    const role = localStorage.getItem("role");
-    if (success) {
-      if (role === "customer") {
-        navigate(`/BarbersLanding/${responseData.Customer.id}`);
-      } else {
-        navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
-      }
+  useEffect(() => {
+    if (success && responseData) {
+      const role = localStorage.getItem("role");
+      setTimeout(() => {
+        if (role === "customer") {
+          navigate(`/BarbersLanding/${responseData.Customer.id}`);
+        } else {
+          navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
+        }
+      }, 4000);
     }
-  };
+  }, [success, responseData, navigate]);
 
   const person = {
     username: username,
@@ -62,7 +54,6 @@ const Login = () => {
       setSuccess(response.status === 200);
       if (response.status === 200) {
         toast.success("به حساب کاربری خود وارد شدید.");
-        handleClose();
       }
     } catch (error) {
       console.error(error);

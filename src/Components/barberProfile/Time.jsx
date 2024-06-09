@@ -13,28 +13,36 @@ import {
   Typography,
   Checkbox,
   FormControlLabel,
+  Button,
 } from "@mui/material";
 import moment from "moment";
-
-const servicesData = {
-  "08:00": ["کوتاهی مو", "کوتاهی ریش"],
-  "09:00": ["کوتاهی مو", "کوتاهی ریش"],
-  "10:00": ["کوتاهی مو", "رنگ مو"],
-  "11:00": ["کوتاهی ریش", "رنگ مو"],
-  "12:00": ["کوتاهی مو"],
-  "13:00": ["کوتاهی ریش", "رنگ ریش"],
-  "14:00": ["کوتاهی مو", "کوتاهی ریش"],
-  "15:00": ["رنگ ریش", "رنگ مو"],
-  "16:00": ["کوتاهی ریش", "رنگ ریش"],
-};
+import axios from "axios";
 
 export default function Time({ selectedDate, timesData, onTimeChange }) {
   const [open, setOpen] = useState(true);
   const [selectedTime, setSelectedTime] = useState(null);
   const [availableTimes, setAvailableTimes] = useState([]);
   const [isBarberWorking, setIsBarberWorking] = useState(true);
+  const [services, setServices] = useState([]);
+  const [selectedServices, setSelectedServices] = useState([]);
 
   const timezoneOffset = 210;
+  const token = localStorage.getItem("token");
+
+  useEffect(() => {
+    axios
+      .get("https://reserveto-back.onrender.com/api/allservices/", {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        setServices(response.data);
+      })
+      .catch((error) => {
+        console.error("API Error:", error);
+      });
+  }, []);
 
   useEffect(() => {
     if (timesData) {
@@ -56,7 +64,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
       const timeslots = generateTimeslots();
 
       const filteredTimeslots = timeslots.map((timeslot) => {
-        const isBlocked = timesData.blocked_times.some((block) => {
+        const isBlocked = timesData.blocked_times?.some((block) => {
           const blockStart = moment(selectedDate)
             .hour(0)
             .minute(0)
@@ -85,48 +93,51 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
           );
         });
 
-        const isAppointed = timesData.appointment_times.some((appointment) => {
-          const appointmentStart = moment(appointment.start_time).subtract(
-            timezoneOffset,
-            "minutes"
-          );
-          const appointmentEnd = moment(appointment.end_time).subtract(
-            timezoneOffset,
-            "minutes"
-          );
+        const appointment = timesData.appointment_times_with_service_name?.find(
+          (appointment) => {
+            const appointmentStart = moment(appointment.start_time).subtract(
+              timezoneOffset,
+              "minutes"
+            );
+            const appointmentEnd = moment(appointment.end_time).subtract(
+              timezoneOffset,
+              "minutes"
+            );
 
-          return (
-            timeslot.startTime.isBetween(
-              appointmentStart,
-              appointmentEnd,
-              null,
-              "[)"
-            ) ||
-            timeslot.endTime.isBetween(
-              appointmentStart,
-              appointmentEnd,
-              null,
-              "(]"
-            ) ||
-            appointmentStart.isBetween(
-              timeslot.startTime,
-              timeslot.endTime,
-              null,
-              "[)"
-            ) ||
-            appointmentEnd.isBetween(
-              timeslot.startTime,
-              timeslot.endTime,
-              null,
-              "(]"
-            )
-          );
-        });
+            return (
+              timeslot.startTime.isBetween(
+                appointmentStart,
+                appointmentEnd,
+                null,
+                "[)"
+              ) ||
+              timeslot.endTime.isBetween(
+                appointmentStart,
+                appointmentEnd,
+                null,
+                "(]"
+              ) ||
+              appointmentStart.isBetween(
+                timeslot.startTime,
+                timeslot.endTime,
+                null,
+                "[)"
+              ) ||
+              appointmentEnd.isBetween(
+                timeslot.startTime,
+                timeslot.endTime,
+                null,
+                "(]"
+              )
+            );
+          }
+        );
 
         return {
           ...timeslot,
           isBlocked,
-          isAppointed,
+          isAppointed: !!appointment,
+          services: appointment ? appointment.services : [],
         };
       });
 
@@ -152,6 +163,35 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
           second: time.startTime.second(),
         })
       );
+  };
+
+  const handleServiceChange = (event) => {
+    const serviceId = event.target.value;
+    setSelectedServices((prevSelected) =>
+      prevSelected.includes(serviceId)
+        ? prevSelected.filter((id) => id !== serviceId)
+        : [...prevSelected, serviceId]
+    );
+  };
+
+  const handlePost = () => {
+    const postData = {
+      time: selectedTime,
+      services: selectedServices,
+    };
+
+    axios
+      .post("https://reserveto-back.onrender.com/api/appointments/", postData, {
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      })
+      .then((response) => {
+        console.log("Appointment posted:", response.data);
+      })
+      .catch((error) => {
+        console.error("Post Error:", error);
+      });
   };
 
   return (
@@ -192,13 +232,13 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
                         textAlign: "center",
                         backgroundColor:
                           time.isBlocked || time.isAppointed
-                            ? "#var(--primary-color)"
-                            : "#var(--primary-color-lighter)",
+                            ? "var(--primary-color)"
+                            : "var(--primary-color-lighter)",
                         "&:hover": {
                           backgroundColor:
                             time.isBlocked || time.isAppointed
-                              ? "#var(--primary-color)"
-                              : "#var(--primary-colorlighter)",
+                              ? "var(--primary-color)"
+                              : "var(--primary-color-lighter)",
                         },
                         borderRadius: "4px",
                         boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.1)",
@@ -233,24 +273,20 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
             <Typography variant="h6" style={styles.time}>
               سرویس ها
             </Typography>
-            {servicesData[selectedTime.startTime.format("HH:mm")] ? (
-              servicesData[selectedTime.startTime.format("HH:mm")].map(
-                (service, index) => (
-                  <FormControlLabel
-                    key={index}
-                    control={<Checkbox name={service} />}
-                    label={service}
-                    sx={{
-                      width: "100%",
-                      marginBottom: "7px",
-                      "& .MuiFormControlLabel-label": {
-                        fontSize: "14px",
-                        color: "#var(--primary-color)",
-                      },
-                    }}
-                  />
-                )
-              )
+            {services.length ? (
+              services.map((service) => (
+                <FormControlLabel
+                  key={service.id}
+                  control={
+                    <Checkbox
+                      checked={selectedServices.includes(service.id)}
+                      onChange={handleServiceChange}
+                      value={service.id}
+                    />
+                  }
+                  label={service.name}
+                />
+              ))
             ) : (
               <Typography variant="body2" sx={{ color: "#999" }}>
                 هیچ سرویسی برای این تایم وجود ندارد.
@@ -289,14 +325,14 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
                   color: "var(--secondary-color) !important",
                 },
                 "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
+                  borderBottomColor: "var(--secondary-color) !important",
                 },
                 "& .MuiOutlinedInput-root": {
                   "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                    borderColor: "#807D7B !important",
                   },
                   "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                    borderColor: "#807D7B !important",
                   },
                   "&.Mui-focused fieldset": {
                     borderColor: "var(--secondary-color) !important",
@@ -304,6 +340,14 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
                 },
               }}
             />
+            <Button
+              variant="contained"
+              color="primary"
+              onClick={handlePost}
+              sx={{ marginTop: "10px" }}
+            >
+              ارسال
+            </Button>
           </div>
         )}
     </div>
@@ -315,21 +359,25 @@ const styles = {
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    justifyContent: "center",
-    padding: "20px",
+    width: "100%",
+    paddingBottom: "20px",
   },
   container: {
-    fontFamily: "Arial, sans-serif",
-    padding: "20px",
-    borderRadius: "10px",
-    boxShadow: "0px 0px 10px rgba(0, 0, 0, 0.1)",
+    display: "flex",
+    flexDirection: "column",
+    alignItems: "center",
+    width: "90%",
     backgroundColor: "var(--primary-color)",
-    width: "100%",
-    maxWidth: "360px",
+    boxShadow: "0px 1px 3px rgba(0, 0, 0, 0.2)",
+    borderRadius: "4px",
+    padding: "10px 15px",
+    boxSizing: "border-box",
+    margin: "20px 0",
   },
   time: {
-    fontSize: "18px",
-    fontWeight: "bold",
-    marginBottom: "10px",
+    color: "#1A1D1F",
+    fontSize: "small",
+    width: "100%",
+    textAlign: "right",
   },
 };
