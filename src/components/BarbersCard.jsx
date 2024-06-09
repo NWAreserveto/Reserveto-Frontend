@@ -77,7 +77,7 @@ export default function BarbersCard({
             marginTop: "1rem",
           }}
         >
-          <Avatar
+          <img
             src={profilePic}
             alt={typeof name === "string" && name.charAt(0)}
             style={{
