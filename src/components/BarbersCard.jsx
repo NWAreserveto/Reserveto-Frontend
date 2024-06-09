@@ -3,7 +3,7 @@ import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
-import { CardActionArea } from "@mui/material";
+import { CardActionArea, Avatar } from "@mui/material";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
