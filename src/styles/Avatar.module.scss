@@ -30,16 +30,9 @@
     // background-color: rgb(105, 14, 14);
     height: 550px;
     width: auto;
-    //border-bottom-left-radius: 20px;
-    //border-bottom-right-radius: 20px;
-    // margin-top: 4%;
     margin: 4% 0% 4% 0%;
-    //align-items: center;
     flex-direction: column;
     position: relative;
-    // h1{
-    //   color : white
-    // }
     .sp{
       position: absolute;
       bottom: 0;
@@ -49,10 +42,21 @@
       margin-bottom: -20px;
       margin-right: 70px;
     }
+    .salonicon{
+      position: absolute;
+      color : var(--primary-color);
+      margin-right: 30px;
+      margin-bottom: 40px;
+      bottom: 0;
+      //left: 0;
+      right: 0;
+      text-align: 'center';
+      opacity: 0.6
+    }
     .icon{
       position: absolute;
       color : var(--primary-color);
-      margin-right: 300px;
+      margin-right: 290px;
       margin-bottom: 40px;
       bottom: 0;
       //left: 0;
@@ -63,12 +67,13 @@
     .butt{
       position: absolute;
       margin-left: 70px;
-      margin-bottom: -20px;
+      margin-bottom: 20px;
       bottom: 0;
       left: 0;
       //right: 0;
       text-align: 'center';
     }
+    
     .avatar {
       //width: 300px; /* Adjust the width and height as needed */
       height: 200px ;
@@ -85,6 +90,11 @@
       margin-bottom: 10px;
     }
 }
+.barbers{
+  border: 10px;
+}
+
+
 
 
   // .mainhead{

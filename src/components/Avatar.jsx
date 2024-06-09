@@ -1,4 +1,5 @@
 import React from "react";
+import { useState,useEffect } from "react";
 import Stack from "@mui/material/Stack";
 import Typography from "@mui/material/Typography";
 import style from "../styles/Avatar.module.scss";
@@ -7,21 +8,16 @@ import Button from "@mui/material/Button";
 import { styled } from '@mui/material/styles';
 import Badge from '@mui/material/Badge';
 import Card from "./BarbersCard";
+import AddPhotoIcon from "@mui/icons-material/AddAPhoto";
+import { IconButton } from "@mui/material";
 import LocationIcon from "@mui/icons-material/LocationOn";
 import ProfileAvatar from "@mui/material/Avatar";
 import EmailIcon from "@mui/icons-material/Email";
 import ProfPic from "../images/profilePic.jpg";
 import Background from "../images/LoginBackground.jpg";
+import axios from "axios";
 
-// const user = {
-//   name: 'پرهام هدایتی',
-//   username: 'phd',
-//   email: 'johndoe@example.com',
-//   location:'تهران ، نیاوران',
-//   followers: 100,
-//   following: 50,
-//   posts: 20
-// };
+
 const StyledBadge = styled(Badge)(({ theme }) => ({
   '& .MuiBadge-badge': {
     backgroundColor: '#44b700',
@@ -52,6 +48,41 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
 }));
 
 const Avatar = ({ user, onClick }) => {
+  const [selectedFile, setSelectedFile] = useState(null);
+  const [salonprof, setsalonprof] = useState({});
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[1]);
+    handleUpload();
+  };
+
+  const handleUpload = async () => {
+    const formData = new FormData();
+    formData.append("profile_picture", selectedFile);
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.patch(
+        `https://reserveto-back.onrender.com/api/customers/profiles/${user.id}/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setsalonprof((prevBarber) => ({
+        ...prevBarber,
+        profile_picture: response.data.profile_picture,
+      }));
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
+
+
+
+
   return user ? (
     // <div className={style.container}>
     <box
@@ -71,7 +102,9 @@ const Avatar = ({ user, onClick }) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <ProfileAvatar size='large' sx={{width : '200px' , height : '200px'}}  src={user.profile_picture}>{user.user.username.charAt(0)}</ProfileAvatar>
+        <ProfileAvatar size='large' sx={{width : '200px' , height : '200px'}}  src={user.profile_picture}>
+          {user.user.username.charAt(0)}
+          </ProfileAvatar>
             </StyledBadge>
       </span>
       <span className={style.icon}>
@@ -85,12 +118,14 @@ const Avatar = ({ user, onClick }) => {
       </span>
       <div className={style.butt}>
         <Button
-          variant="contained"
+          variant="outlined"
           onClick={onClick}
           endIcon={<EditIcon />}
           sx={{
             p: 2,
-            bgcolor: "var(--secondary-color)",
+            color : "var(--secondary-color)",
+            borderColor : "var(--secondary-color)",
+            //bgcolor: "var(--secondary-color)",
             "&:hover": {
               bgcolor: "var(--secondary-color-lighter)",
             },
@@ -102,7 +137,7 @@ const Avatar = ({ user, onClick }) => {
     </box>
   ) : (
     // </div>
-    <h4>kit khar</h4>
+    <h4>sharmandeh user nayomad bala</h4>
   );
 };
 
