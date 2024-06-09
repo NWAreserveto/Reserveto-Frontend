@@ -1,7 +1,7 @@
 import React from "react";
 import { Box, Typography, Avatar } from "@mui/material";
 import GradeIcon from "@mui/icons-material/Grade";
-import Divider from '@material-ui/core/Divider';
+import Divider from "@material-ui/core/Divider";
 
 const Information = ({ barber }) => {
   return (
@@ -9,7 +9,7 @@ const Information = ({ barber }) => {
       <Box //   profile picture of barber
         sx={{
           mb: "-160px",
-          pr : 4,
+          pr: 4,
           // pr: { xs: 9, lg: 15, xl: 32 },
         }}
       >
@@ -25,7 +25,7 @@ const Information = ({ barber }) => {
         />
       </Box>
 
-      <Box 
+      <Box
         sx={{
           mt: 15,
           display: "flex",
@@ -41,11 +41,10 @@ const Information = ({ barber }) => {
             height: barber.bio ? barber.bio : 250,
             display: "flex",
             flexDirection: "column",
-            boxShadow: '0px 1px 1px green',
-
+            boxShadow: "0px 1px 1px green",
           }}
-          >
-          <Box             // Score
+        >
+          <Box // Score
             sx={{
               direction: "ltr",
               display: "flex",
@@ -65,41 +64,45 @@ const Information = ({ barber }) => {
               }}
             >
               {/* 2.3 */}
-              {barber.point ? barber.point : "??"}
+              {barber.point ? barber.point : 3.5}
             </Typography>
-              <Box // score icon
-                sx={{
-                  color: "#212daa",
-                }}
-              >
-                <GradeIcon />
-              </Box>
+            <Box // score icon
+              sx={{
+                color: "#212daa",
+              }}
+            >
+              <GradeIcon />
+            </Box>
           </Box>
 
-          <Typography      // name
+          <Typography // name
             sx={{
               display: "inline",
               pr: 5,
               fontSize: 22,
               mt: 2,
-            }} >
+            }}
+          >
             {barber.first_name + " " + barber.last_name}
           </Typography>
 
-          <Divider sx={{   // line
-            mt: 1, 
-            pb: 1,
-            // mb: ,
-          }}/>
+          <Divider
+            sx={{
+              // line
+              mt: 1,
+              pb: 1,
+              // mb: ,
+            }}
+          />
 
-          <Typography      // bio
+          <Typography // bio
             sx={{
               mt: -1,
               padding: "30px 50px",
               fontSize: 18,
             }}
-            >
-              {barber.bio ? barber.bio : "سلام به آرایشگاه من خوش اومدید"}
+          >
+            {barber.bio ? barber.bio : "سلام به آرایشگاه من خوش اومدید"}
           </Typography>
         </Box>
       </Box>

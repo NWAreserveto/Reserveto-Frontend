@@ -10,16 +10,16 @@ const POSTReplyAPI = async (data) => {
       },
     });
 
-
-    const response = await api.post(`api/reviews/${data.commentId}/responses/`, {
-      reply: data.reply
-    });
-
+    const response = await api.post(
+      `api/reviews/${data.commentId}/responses/`,
+      {
+        reply: data.reply,
+      }
+    );
 
     if (response.status !== 201) {
       throw new Error("Failed to post comment");
     }
-
   } catch (error) {
     console.error(error);
   }
