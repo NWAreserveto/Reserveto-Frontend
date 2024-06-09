@@ -19,23 +19,37 @@ import { Box } from "@mui/material";
 const Services = () => {
   return (
     <Box>
-      <div className={style.services} id="services">
-        <div className={style.container}>
-          <div
-            className={style.swiper}
+      <Box
+        className={style.services}
+        id="services"
+        sx={{
+          width: 880,
+          height: 400,
+        }}
+      >
+        <Box
+          className={style.container}
+          sx={{
+            width: 880,
+          }}
+        >
+          <Box
+            sx={{
+              width: 880,
+            }}
             style={{
-              backgroundColor: "#e8dbc4",
               borderRadius: 20,
               padding: 25,
             }}
           >
             <Swiper
               style={{
+                width: "100%",
                 "--swiper-theme-color": "var(--secondary-color)",
                 "--swiper-navigation-size": "32px",
               }}
               modules={[Navigation]}
-              slidesPerView={6}
+              slidesPerView={4}
               navigation
             >
               <SwiperSlide className={style.swiperItem}>
@@ -78,9 +92,9 @@ const Services = () => {
                 />
               </SwiperSlide>
             </Swiper>
-          </div>
-        </div>
-      </div>
+          </Box>
+        </Box>
+      </Box>
     </Box>
   );
 };
