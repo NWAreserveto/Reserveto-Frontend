@@ -24,6 +24,10 @@ import Switch from "@mui/material/Switch";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
+import { toPersianDigit } from "../barberProfile/helper";
+// import "moment-jalaali";
+// import moment from "moment";
+import * as moment from "jalali-moment";
 
 function createData(id, name, service, date, time) {
   return { id, name, service, date, time };
@@ -375,7 +379,10 @@ export default function OrderList() {
                         <Typography variant="caption">
                           {headCells[2].label}
                         </Typography>
-                        <Typography>{row.date}</Typography>
+                        <Typography>
+                          {/* {moment(row.date).format("jYYYY/jMM/jDD")} */}
+                          {moment(row.date).locale("fa").format("YYYY/M/D")}
+                        </Typography>
                       </Box>
                     </TableCell>
                     <TableCell align="left">
