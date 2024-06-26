@@ -115,7 +115,14 @@ export default function BarbersCard({
         <Button
           variant="outlined"
           onClick={gotoOtherPage}
-          sx={{ color: "var(--secondary-color)" }}
+          sx={{
+            color: "var(--secondary-color)",
+            border: "1px solid var(--secondary-color)",
+            "&:hover": {
+              border: "1px solid var(--secondary-color-lighter)",
+            },
+          }}
+          // color="secondary"
         >
           برو
         </Button>

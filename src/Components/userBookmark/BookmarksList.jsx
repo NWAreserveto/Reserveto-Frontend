@@ -51,7 +51,7 @@ const BookmarksList = () => {
   return (
     <Box className={loading1 && loading2 ? style.flex : style.barbersList}>
       {loading1 && loading2 ? (
-        <CircularProgress />
+        <CircularProgress color="success" />
       ) : (
         bookmarkBarbers
           .slice(0, 5)
