@@ -166,6 +166,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
   };
 
   const handleServiceChange = (event) => {
+    console.log(event.target.value);
     const serviceId = event.target.value;
     setSelectedServices((prevSelected) =>
       prevSelected.includes(serviceId)
@@ -173,10 +174,37 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
         : [...prevSelected, serviceId]
     );
   };
+  const customerId = localStorage.getItem("userId");
+  const barberId = localStorage.getItem("barberId");
 
   const handlePost = () => {
+    if (!selectedTime) return;
+
+    const timezoneOffsetMinutes = -(3 * 60 + 30);
+    const adjustedStartTime = moment(selectedDate)
+      .set({
+        hour: selectedTime.startTime.hour(),
+        minute: selectedTime.startTime.minute(),
+        second: selectedTime.startTime.second(),
+      })
+      .subtract(timezoneOffsetMinutes, "minutes")
+      .toISOString();
+
+    const adjustedEndTime = moment(selectedDate)
+      .set({
+        hour: selectedTime.endTime.hour(),
+        minute: selectedTime.endTime.minute(),
+        second: selectedTime.endTime.second(),
+      })
+      .subtract(timezoneOffsetMinutes, "minutes")
+      .toISOString();
+
     const postData = {
-      time: selectedTime,
+      customer: customerId,
+      barber: barberId,
+      day: moment(selectedDate).format("YYYY-MM-DD"),
+      start_time: adjustedStartTime,
+      end_time: adjustedEndTime,
       services: selectedServices,
     };
 
@@ -188,6 +216,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
       })
       .then((response) => {
         console.log("Appointment posted:", response.data);
+        console.log(response.status);
       })
       .catch((error) => {
         console.error("Post Error:", error);
@@ -279,9 +308,14 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
                   key={service.id}
                   control={
                     <Checkbox
-                      checked={selectedServices.includes(service.id)}
                       onChange={handleServiceChange}
                       value={service.id}
+                      sx={{
+                        color: "var(--secondary-color)",
+                        "&.Mui-checked": {
+                          color: "var(--secondary-color)",
+                        },
+                      }}
                     />
                   }
                   label={service.name}

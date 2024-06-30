@@ -23,9 +23,9 @@ const ReserveCard = () => {
   });
 
   const handleDelete = (index) => {
-    const newServices = [...reserve.services]; // Create a new array
-    newServices.splice(index, 1); // Remove the item
-    setReserve({ ...reserve, services: newServices }); // Update the state
+    const newServices = [...reserve.services]; 
+    newServices.splice(index, 1);
+    setReserve({ ...reserve, services: newServices });
   };
 
   const handleConfirmReserve = () => {
