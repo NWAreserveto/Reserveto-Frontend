@@ -112,12 +112,8 @@ export default function BarbersCard({
           max={5}
           sx={{ direction: "ltr" }}
         />
-        <Button
-          variant="outlined"
-          onClick={gotoOtherPage}
-          sx={{ color: "var(--secondary-color)" }}
-        >
-          برو
+        <Button variant="outlined" onClick={gotoOtherPage} color="success">
+          ورود
         </Button>
       </CardActions>
     </Card>

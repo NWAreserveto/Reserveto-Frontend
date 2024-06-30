@@ -35,7 +35,7 @@ const BarbersList = ({ searchQuery, customerId }) => {
   return (
     <div className={loading ? style.flex : style.barbersList}>
       {loading ? (
-        <CircularProgress />
+        <CircularProgress color="success" />
       ) : (
         barbers
           .slice(0, 10)

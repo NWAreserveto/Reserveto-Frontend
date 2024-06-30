@@ -9,9 +9,6 @@ import BackGround from "../images/Back_2.png";
 import CircularProgress from "@mui/material/CircularProgress";
 import { Box } from "@mui/material";
 
-
-
-
 const BarberProfile = () => {
   const barberIdList = window.location.href.split("/");
   const barberId = Number(barberIdList[barberIdList.length - 1]);
@@ -37,36 +34,38 @@ const BarberProfile = () => {
     <>
       <Navbar />
 
-      {loading && 
+      {loading && (
         <Box
           sx={{
-            display: 'flex',
-            justifyContent: 'center',
-            alignItems: 'center',
-            height: '100vh'
+            display: "flex",
+            justifyContent: "center",
+            alignItems: "center",
+            height: "100vh",
           }}
         >
           <CircularProgress
             sx={{
-              color: 'primary.main',
               size: 60,
             }}
+            color="success"
           />
         </Box>
-      }
+      )}
 
-      {!loading && <Header
-        first_name={barber.first_name}
-        last_name={barber.last_name}
-        location={barber.location}
-        profileImg={barber.profile_picture}
-        backgroundImg={BackGround}
-        point={barber.point}
-      />}
+      {!loading && (
+        <Header
+          first_name={barber.first_name}
+          last_name={barber.last_name}
+          location={barber.location}
+          profileImg={barber.profile_picture}
+          backgroundImg={BackGround}
+          point={barber.point}
+        />
+      )}
 
-      {!loading && <Body barber={barber}/>}
+      {!loading && <Body barber={barber} />}
 
-      <Comments 
+      <Comments
         barberId={barberId}
         barberName={barber.first_name + " " + barber.last_name}
       />

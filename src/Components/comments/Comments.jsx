@@ -69,9 +69,9 @@ const Comments = ({ barberId, barberName, barberPic }) => {
           >
             <CircularProgress
               sx={{
-                color: "primary.main",
                 size: 60,
               }}
+              color="success"
             />
           </Box>
         )}
