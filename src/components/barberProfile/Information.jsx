@@ -1,9 +1,13 @@
 import React from "react";
-import { Box, Typography, Avatar } from "@mui/material";
+import { Box, Typography, Avatar, Button } from "@mui/material";
 import GradeIcon from "@mui/icons-material/Grade";
 import Divider from "@material-ui/core/Divider";
+import { Navigate, useNavigate } from "react-router-dom";
+import BarberShopIcon from "../../images/barber-shop-icon.png"
 
-const Information = ({ barber }) => {
+const Information = ({ barber, salonName }) => {
+  const navigate = useNavigate();
+
   return (
     <>
       <Box //   profile picture of barber
@@ -85,6 +89,38 @@ const Information = ({ barber }) => {
           >
             {barber.first_name + " " + barber.last_name}
           </Typography>
+
+          <Box
+            sx={{
+              pl: 2, 
+              pr: 2,
+              mr: 3,
+              borderRadius: 2,
+            }}>
+            <Button
+              onClick={() => navigate(`/salonPage/${barber.salons}`)}
+              sx={{
+                justifyContent: 'right',
+              }}>
+                <Box
+                  component="img"
+                  sx={{
+                    height: 30,
+                    width: 30,
+                  }}
+                  alt="icon"
+                  src={BarberShopIcon}
+                />
+                
+              <Typography
+                sx={{
+                  mr: 1.7,
+                  color: 'black',
+                }}>
+                  {salonName}
+              </Typography>
+            </Button>
+          </Box>
 
           <Divider
             sx={{
