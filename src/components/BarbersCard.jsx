@@ -112,6 +112,7 @@ export default function BarbersCard({
           max={5}
           sx={{ direction: "ltr" }}
         />
+
         <Button
           variant="outlined"
           onClick={gotoOtherPage}

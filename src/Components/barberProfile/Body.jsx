@@ -81,14 +81,12 @@ const Body = ({ barber }) => {
       {/* <ParentComponent /> */}
       <Box // container
         sx={{
-          // backgroundColor: 'red',
+          // backgroundColor: 'red' ,
           // mt: -15,
           display: "flex",
           justifyContent: "center",
         }}
       >
-
-        
         <Box // info + tabs
           sx={{
             display: "flex",
@@ -113,7 +111,7 @@ const Body = ({ barber }) => {
               mb: 20,
               mr: 48,
               zIndex: 1,
-              boxShadow: '0px 1px 1px green',
+              boxShadow: "0px 1px 1px green",
               borderRadius: 2,
             }}
           >
@@ -124,6 +122,14 @@ const Body = ({ barber }) => {
                 backgroundColor: "white",
                 padding: "10px",
                 zIndex: 1,
+                ".Mui-selected": {
+                  color: "#668F8494",
+                },
+              }}
+              TabIndicatorProps={{
+                style: {
+                  backgroundColor: "#668F84",
+                },
               }}
             >
               <Tab

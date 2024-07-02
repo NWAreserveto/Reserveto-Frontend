@@ -43,7 +43,13 @@ const BarberProfile = () => {
             height: "100vh",
           }}
         >
-          <CircularProgress color="success" />
+          <CircularProgress
+            sx={{
+              size: 60,
+            }}
+            color="success"
+          />
+
         </Box>
       )}
 

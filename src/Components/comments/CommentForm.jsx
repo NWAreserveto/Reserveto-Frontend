@@ -88,7 +88,7 @@ const CommentForm = ({
   return (
     <Box>
       {!isComment &&
-        !cantReply && ( // reply part
+        !cantReply && (
           <Button
             sx={{
               height: 25,
@@ -96,16 +96,16 @@ const CommentForm = ({
               fontSize: 10,
               mr: "8px",
               padding: "8px 16px",
-              backgroundColor: "#668F84", // Secondary color
-              color: "white", // Primary color for text
+              backgroundColor: "#668F84",
+              color: "white",
               borderRadius: "8px",
-              textTransform: "none", // Keeps the text as it is, not all uppercase
-              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)", // Subtle shadow for depth
+              textTransform: "none",
+              boxShadow: "0px 4px 12px rgba(0, 0, 0, 0.1)",
               "&:hover": {
-                backgroundColor: "#8CB69B", // Slightly lighter shade on hover
-                boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)", // More pronounced shadow on hover
+                backgroundColor: "#8CB69B",
+                boxShadow: "0px 4px 16px rgba(0, 0, 0, 0.2)",
               },
-              transition: "all 0.3s ease", // Smooth transition
+              transition: "all 0.3s ease",
             }}
             onClick={() => {
               setIsReplying(true);
@@ -132,6 +132,38 @@ const CommentForm = ({
                 width: isComment ? 650 : 700,
                 mt: !isComment ? 2 : 0,
                 overflow: "auto",
+                "& label": {
+                  transformOrigin: "right !important",
+                  left: "inherit !important",
+                  right: "1.75rem !important",
+                  fontSize: "small",
+                  color: "#807D7B",
+                  fontWeight: 400,
+                  overflow: "unset",
+                },
+                "& legend": {
+                  textAlign: "right",
+                  display: "flex",
+                  justifyContent: "center",
+                  fontSize: "10px",
+                },
+                "& label.Mui-focused": {
+                  color: "var(--secondary-color) !important",
+                },
+                "& .MuiInput-underline:after": {
+                  borderBottomColor: "yellow",
+                },
+                "& .MuiOutlinedInput-root": {
+                  "& fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&:hover fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                  "&.Mui-focused fieldset": {
+                    borderColor: "var(--secondary-color) !important",
+                  },
+                },
               }}
               inputProps={{
                 style: {
