@@ -49,6 +49,7 @@ const BarberProfile = () => {
             }}
             color="success"
           />
+
         </Box>
       )}
 

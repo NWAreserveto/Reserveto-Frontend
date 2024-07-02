@@ -112,8 +112,20 @@ export default function BarbersCard({
           max={5}
           sx={{ direction: "ltr" }}
         />
-        <Button variant="outlined" onClick={gotoOtherPage} color="success">
-          ورود
+
+        <Button
+          variant="outlined"
+          onClick={gotoOtherPage}
+          sx={{
+            color: "var(--secondary-color)",
+            border: "1px solid var(--secondary-color)",
+            "&:hover": {
+              border: "1px solid var(--secondary-color-lighter)",
+            },
+          }}
+          // color="secondary"
+        >
+          برو
         </Button>
       </CardActions>
     </Card>
