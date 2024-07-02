@@ -1,17 +1,23 @@
 import axios from "axios";
 
-const GETBarberProfileAPI = async (barberId) => {
+const GETBarberGalleryAPI = async (barberId) => {
   try {
+    const token = localStorage.getItem("token");
     const api = axios.create({
       baseURL: "https://reserveto-back.onrender.com/",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
       proxy: true,
     });
 
-    const response = await api.get(`api/barbers/profiles/${barberId}/`);
+    const response = await api.get(`api/barbers/${barberId}/gallery/`);
 
     if (response.status === 200) {
+      console.log(response.data);
       return response.data;
     } else {
+      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {
@@ -19,4 +25,4 @@ const GETBarberProfileAPI = async (barberId) => {
   }
 };
 
-export default GETBarberProfileAPI;
+export default GETBarberGalleryAPI;

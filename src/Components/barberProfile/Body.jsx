@@ -4,9 +4,31 @@ import Services from "./Services";
 import ParentComponent from "./ParentPopup";
 import { Tabs, Tab, Box } from "@mui/material";
 import { useState, useEffect } from "react";
+import GETBarberGalleryAPI from "../../API/APIendpointBarberGallery";
+import ShaveAnimationData from "../../images/Shaving.json";
+import BarberAnimationData from "../../images/Barber.json";
+import SpaAnimationData from "../../images/Spa.json";
+import MassageAnimationData from "../../images/Massage.json";
+import NailAnimationData from "../../images/Nail.json";
+import MakeupAnimationData from "../../images/Makeup.json";
+import EyelashAnimationData from "../../images/Eyelash.json";
+import HairWashingAnimationData from "../../images/HairWashing.json";
+import salonProfile from "../../API/APIendpointSalon";
+
+const animations = [
+  {id: 1, animationData: ShaveAnimationData,  title:"اصلاح صورت"},
+  {id: 2, animationData: BarberAnimationData,  title:"اصلاح مو"},
+  {id: 3, animationData: SpaAnimationData,  title:"اسپا"},
+  {id: 4, animationData: MassageAnimationData,  title:"ماساژ"},
+  {id: 5, animationData: NailAnimationData,  title:"ناخن"},
+  {id: 6, animationData: MakeupAnimationData,  title:"آرایش"},
+  {id: 7, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 8, animationData: HairWashingAnimationData,  title:"شست وشو مو"}
+]
+
 
 const Body = ({ barber }) => {
-  const [selectedTab, setSelectedTab] = useState(0);
+  const [selectedTab, setSelectedTab] = useState(1);
 
   const handleTabChange = (event, newValue) => {
     setSelectedTab(newValue);
@@ -25,6 +47,34 @@ const Body = ({ barber }) => {
       window.removeEventListener("scroll", setFixed);
     };
   }, []);
+
+  const [images, setImages] = useState([]);
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await GETBarberGalleryAPI(barber.id);
+        setImages(data);
+      } catch (error) {
+        console.log("Error fetching images:", error);
+      }
+    };
+    fetchData();
+  }, [barber]);
+
+  const [salon, setSalon] = useState({});
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await salonProfile(barber.salons);
+        setSalon(data);
+      } catch (error) {
+        console.log("Error fetching images:", error);
+      }
+    };
+    fetchData();
+  }, [barber]);
 
   return (
     <>
@@ -51,10 +101,10 @@ const Body = ({ barber }) => {
             sx={{
               width: '22%',
               position: fix ? 'fixed' : 'absolute',
-              top: fix ? window.scrollY - 190 : null,
+              top: fix ? window.scrollY - 200 : null,
             }}
           >
-            <Information barber={barber} />
+            <Information barber={barber} salonName={salon.name} />
             <ParentComponent />
           </Box>
 
@@ -96,8 +146,8 @@ const Body = ({ barber }) => {
               />
             </Tabs>
 
-            {selectedTab === 0 && <Samples />}
-            {selectedTab === 1 && <Services />}
+            {selectedTab === 0 && <Samples images={images} />}
+            {selectedTab === 1 && <Services animations={animations} />}
           </Box>
         </Box>
       </Box>

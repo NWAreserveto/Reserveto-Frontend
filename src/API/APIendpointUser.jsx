@@ -13,7 +13,6 @@ const UserProfile = async (userID) => {
     const response = await api.get(`/api/customers/profiles/${userID}/`);
 
     if (response.status === 200) {
-      console.log(response.status);
       return response.data;
     } else {
       console.log(response.status);

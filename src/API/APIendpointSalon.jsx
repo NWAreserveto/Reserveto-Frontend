@@ -14,7 +14,6 @@ const salonProfile = async (salonID) => {
     const response = await api.get(`/api/salons/${salonID}/`);
 
     if (response.status === 200) {
-      console.log(response.status);
       return response.data;
       
     } else {

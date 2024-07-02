@@ -13,7 +13,6 @@ const GETBarberCommentsAPI = async (barberId) => {
     const response = await api.get(`api/barbers/${barberId}/reviews`);
 
     if (response.status === 200) {
-      console.log(response.data);
       return response.data;
     } else {
       throw new Error(`Request failed with status code ${response.status}`);
