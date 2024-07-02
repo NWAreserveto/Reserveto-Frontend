@@ -94,9 +94,9 @@ const Comment = ({
         >
           <CircularProgress
             sx={{
-              color: "primary.main",
               size: 60,
             }}
+            color="success"
           />
         </Box>
       )}
