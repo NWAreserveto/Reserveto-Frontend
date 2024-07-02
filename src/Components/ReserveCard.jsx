@@ -113,7 +113,7 @@ const ReserveCard = () => {
   };
 
   if (reservations.length === 0) {
-    return <Typography variant="h6">رزروی موجود نیست</Typography>;
+    return <Typography variant="h6"></Typography>;
   }
 
   return (
@@ -151,7 +151,7 @@ const ReserveCard = () => {
             <CardContent>
               <Typography variant="body1" gutterBottom>
                 {`${
-                  mom(reservation.appointments[0]?.day)
+                  mom(reservation.appointments[0]?.start_time)
                     .locale("fa")
                     .format("YYYY/M/D") || "No Date"
                 } - ${
