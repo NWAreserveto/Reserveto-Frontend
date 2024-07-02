@@ -166,7 +166,6 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
   };
 
   const handleServiceChange = (event) => {
-    console.log(event.target.value);
     const serviceId = event.target.value;
     setSelectedServices((prevSelected) =>
       prevSelected.includes(serviceId)
@@ -177,7 +176,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
   const customerId = localStorage.getItem("userId");
   const barberId = localStorage.getItem("barberId");
 
-  const handlePost = () => {
+  const handlePost = async () => {
     if (!selectedTime) return;
 
     const timezoneOffsetMinutes = -(3 * 60 + 30);
@@ -208,19 +207,50 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
       services: selectedServices,
     };
 
-    axios
-      .post("https://reserveto-back.onrender.com/api/appointments/", postData, {
-        headers: {
-          Authorization: `Bearer ${token}`,
-        },
-      })
-      .then((response) => {
-        console.log("Appointment posted:", response.data);
-        console.log(response.status);
-      })
-      .catch((error) => {
-        console.error("Post Error:", error);
-      });
+    try {
+      const response = await axios.post(
+        "https://reserveto-back.onrender.com/api/appointments/",
+        postData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      const appointmentId = response.data.id;
+      localStorage.setItem("cartId", appointmentId);
+      console.log("Appointment posted:", response.data);
+
+      const cartData = {
+        customer: customerId,
+        appointments: [
+          {
+            id: appointmentId,
+            customer: customerId,
+            barber: barberId,
+            day: moment(selectedDate).format("YYYY-MM-DD"),
+            start_time: adjustedStartTime,
+            end_time: adjustedEndTime,
+            services: selectedServices,
+          },
+        ],
+      };
+
+      const cartResponse = await axios.post(
+        "https://reserveto-back.onrender.com/api/cart/",
+        cartData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+          },
+        }
+      );
+
+      console.log("Cart updated with the appointment:", cartResponse.status);
+    } catch (error) {
+      console.error("Post Error:", error);
+    }
   };
 
   return (
@@ -380,7 +410,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
               onClick={handlePost}
               sx={{ marginTop: "10px" }}
             >
-              ارسال
+              اضافه به سبد خرید
             </Button>
           </div>
         )}
