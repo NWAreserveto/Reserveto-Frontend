@@ -14,10 +14,8 @@ const APIendpointBookmarksList = async () => {
     const response = await api.get(`/api/customers/${userId}/bookmarks/`);
 
     if (response.status === 200) {
-      console.log(response.data);
       return response.data;
     } else {
-      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {

@@ -1,101 +1,82 @@
 import React from "react";
-import style from "../../styles/Services.module.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
 import Animation from "../Animation";
-import "swiper/css";
-import "swiper/css/navigation";
+import { makeStyles } from "@material-ui/styles";
 
-import ShaveAnimationData from "../../images/Shaving.json";
-import BarberAnimationData from "../../images/Barber.json";
-import SpaAnimationData from "../../images/Spa.json";
-import MassageAnimationData from "../../images/Massage.json";
-import NailAnimationData from "../../images/Nail.json";
-import MakeupAnimationData from "../../images/Makeup.json";
-import EyelashAnimationData from "../../images/Eyelash.json";
-import HairWashingAnimationData from "../../images/HairWashing.json";
-import { Box } from "@mui/material";
+const useStyles = makeStyles((theme) => ({
+  container: {
+    position: "relative",
+    minHeight: "40vh",
+    width: "100%",
+    margin: "0 auto",
+    padding: "40px 20px",
+    xIndex: 0,
+  },
+  imageBox: {
+    position: "relative",
+    height: 210,
+    width: 250,
+    borderRadius: 6,
+    overflow: "hidden",
+    zIndex: 1,
+  },
+  images: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    zIndex: 1,
+  },
+  imageItem: {
+    margin: 8,
+    zIndex: 1,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 6,
+    transition: "transform 0.2s linear",
+    zIndex: 1,
+  },
+  imageText: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 400,
+    textTransform: "capitalize",
+    zIndex: 1,
+  },
+}));
 
-const Services = () => {
+const Services = ({ animations }) => {
+  const classes = useStyles();
+
   return (
-    <Box>
-      <Box
-        className={style.services}
-        id="services"
-        sx={{
-          width: 880,
-          height: 400,
-        }}
-      >
-        <Box
-          className={style.container}
-          sx={{
-            width: 880,
-          }}
-        >
-          <Box
-            sx={{
-              width: 880,
-            }}
-            style={{
-              borderRadius: 20,
-              padding: 25,
-            }}
-          >
-            <Swiper
-              style={{
-                width: "100%",
-                "--swiper-theme-color": "var(--secondary-color)",
-                "--swiper-navigation-size": "32px",
-              }}
-              modules={[Navigation]}
-              slidesPerView={4}
-              navigation
+    <div className={classes.container}>
+      <div className={classes.images}>
+
+        {animations.map((animation) => (
+          <div key={animation.id} className={classes.imageItem}>
+            <div
+              className={classes.imageBox}
+              // style={{ backgroundColor: "#f0f0f0" }}
             >
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={ShaveAnimationData}
-                  title={"اصلاح صورت"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={BarberAnimationData}
-                  title={"اصلاح مو"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={SpaAnimationData} title={"اسپا"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={MassageAnimationData}
-                  title={"ماساژ"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={NailAnimationData} title={"ناخن"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={MakeupAnimationData}
-                  title={"آرایش"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={EyelashAnimationData} title={"مژه"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={HairWashingAnimationData}
-                  title={"شست وشو مو"}
-                />
-              </SwiperSlide>
-            </Swiper>
-          </Box>
-        </Box>
-      </Box>
-    </Box>
+            <Animation 
+              animationData={animation.animationData}
+              title={animation.title}
+              style={{
+                height: "100%",
+                width: "100%",
+                borderRadius: 6,
+                objectFit: "cover",
+              }}
+            />
+            </div>
+          </div>
+          ))}
+      </div>
+    </div>
   );
 };
 
