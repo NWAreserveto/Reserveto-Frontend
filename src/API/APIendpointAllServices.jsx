@@ -1,6 +1,6 @@
 import axios from "axios";
 
-const GETBarberGalleryAPI = async (barberId) => {
+const GETAllServicesAPI = async () => {
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -8,20 +8,19 @@ const GETBarberGalleryAPI = async (barberId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      proxy: true,
     });
 
-    const response = await api.get(`api/barbers/${barberId}/gallery/`);
+    const response = await api.get(`api/allservices/`);
 
     if (response.status === 200) {
+      console.log(response.data);
       return response.data;
     } else {
-      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error(error);
   }
 };
 
-export default GETBarberGalleryAPI;
+export default GETAllServicesAPI;

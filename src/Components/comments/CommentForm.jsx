@@ -14,7 +14,7 @@ const CommentForm = ({
   setComments,
 }) => {
   const [text, setText] = useState("");
-  const [rating, setRating] = useState(1);
+  const [rating, setRating] = useState(5);
   const [isReplying, setIsReplying] = useState(true);
   const isTextareaDisabled = text.length === 0;
   const [cantReply, setCantReply] = useState(true);
@@ -40,11 +40,6 @@ const CommentForm = ({
           await POSTCommentAPI(input);
         }
 
-        console.log(
-          barberId,
-          localStorage.getItem("barberId"),
-          barberId != localStorage.getItem("barberId")
-        );
         if (
           localStorage.getItem("role") != "barber" ||
           barberId != localStorage.getItem("barberId")
@@ -57,7 +52,7 @@ const CommentForm = ({
         }
 
         setText("");
-        setRating(1);
+        setRating(5);
       } catch (error) {
         console.error(error);
       }
@@ -75,7 +70,7 @@ const CommentForm = ({
       ) {
         setIsReplying(false);
         setCantReply(false);
-        setRating(1);
+        setRating(5);
       }
     };
 
@@ -129,6 +124,7 @@ const CommentForm = ({
               onChange={(e) => setText(e.target.value)}
               placeholder="نظرتو بنویس..."
               sx={{
+                zIndex: 0,
                 width: isComment ? 650 : 700,
                 mt: !isComment ? 2 : 0,
                 overflow: "auto",
@@ -181,6 +177,7 @@ const CommentForm = ({
                   setRating(newValue);
                 }}
                 sx={{
+                  zindex: 0,
                   mr: 3.5,
                   mt: 2.5,
                   direction: "ltr",

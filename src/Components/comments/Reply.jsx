@@ -45,12 +45,11 @@ const Reply = ({ reply, barberName, barberPic }) => {
         <Avatar
           src={barberPic}
           sx={{
+            zIndex: -1,
             border: "solid 1px white",
             height: 45,
             width: 45,
             mt: -0.5,
-            // height: { xs: 40, md: 50, lg: 65 },
-            // width: { xs: 40, md: 50, lg: 65 },
             borderRadius: "50%",
             boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
           }}
