@@ -34,7 +34,7 @@ const Login = () => {
       setTimeout(() => {
         if (role === "customer") {
           navigate(`/BarbersLanding/${responseData.Customer.id}`);
-        } else if (role === "barber") {
+        } else {
           navigate(`/Barber/Dashboard/${responseData.Barber.id}`);
         }
       }, 4000);
@@ -50,13 +50,10 @@ const Login = () => {
     event.preventDefault();
     try {
       const response = await LoginCOB(person);
-      if (response && response.status === 200) {
-        setResponseData(response.data);
-        setSuccess(true);
+      setResponseData(response.data);
+      setSuccess(response.status === 200);
+      if (response.status === 200) {
         toast.success("به حساب کاربری خود وارد شدید.");
-      } else {
-        setSuccess(false);
-        toast.error("اطلاعات وارد شده اشتباه است");
       }
     } catch (error) {
       console.error(error);

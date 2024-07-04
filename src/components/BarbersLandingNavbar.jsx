@@ -64,10 +64,7 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
     <>
       <div className={style.header}>
         <nav className={style.navbar}>
-          <a
-            href="/"
-            className={style.logo}
-          >
+          <a href="/" className={style.logo}>
             <h2>رزروتو</h2>
           </a>
           <SearchBar setParentSearch={setParentSearch} />
