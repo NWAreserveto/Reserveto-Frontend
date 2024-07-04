@@ -16,7 +16,7 @@ const LoginCOB = async (person) => {
       );
       localStorage.setItem("token", response.data.access);
       localStorage.setItem("role", response.data.role);
-      if (response.data.role === "barber")
+      if (response.data.role === "barber"){
         localStorage.setItem("barberId", response.data.Barber.id);
         localStorage.setItem("barberName", response.data.Barber.user.username);
       } else if (response.data.role === "customer") {
