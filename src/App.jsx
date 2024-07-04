@@ -21,6 +21,8 @@ function App() {
         <Route path="/" element={<Landing />} />
         <Route path="/Login" element={<Login />} />
         <Route path="/CreateAcc" element={<CreateAcc />} />
+        <Route path="/ForgetPassword" element={<ForgetPassword />} />
+        <Route path="/password_reset/:tempToken" element={<NewPassword />} />
         <Route
           path="/BarbersLanding/:customerId"
           element={<BarbersLanding />}
