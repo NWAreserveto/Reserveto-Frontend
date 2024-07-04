@@ -22,6 +22,7 @@ const LoginCOB = async (person) => {
           "customerName",
           response.data.Customer.user.username
         );
+        console.log("Hallo");
       }
     } else {
       console.log("response.status");
