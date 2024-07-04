@@ -14,6 +14,7 @@ const UserProfile = async (userID) => {
 
     if (response.status === 200) {
       console.log(response.status);
+      console.log(response.data);
       localStorage.setItem("barberId", response.data.id);
       console.log(response.data.id);
       return response.data;

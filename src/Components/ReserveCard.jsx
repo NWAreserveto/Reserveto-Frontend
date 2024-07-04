@@ -18,22 +18,17 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const ReserveCard = ({ onConfirmReservation }) => {
+const ReserveCard = () => {
   const token = localStorage.getItem("token");
   const [reservations, setReservations] = useState([]);
   const [barbers, setBarbers] = useState({});
   const [services, setServices] = useState({});
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
 
   const customerIdFromUrl = window.location.href.split("/").pop();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
-        setLoading(true);
-        setError(null);
-
         const response = await axios.get(
           "https://reserveto-back.onrender.com/api/cart/list/",
           {
@@ -85,18 +80,10 @@ const ReserveCard = ({ onConfirmReservation }) => {
         setServices(serviceData);
       } catch (error) {
         console.error(error);
-        setError("Failed to fetch reservations. Please try again later.");
-      } finally {
-        setLoading(false);
       }
     };
 
-    if (token) {
-      fetchReservations();
-    } else {
-      setError("You must be logged in to view reservations.");
-      setLoading(false);
-    }
+    fetchReservations();
   }, [token, customerIdFromUrl]);
 
   const handleDeleteAppointment = (reservationId) => {
@@ -105,10 +92,10 @@ const ReserveCard = ({ onConfirmReservation }) => {
     );
   };
 
-  const handleConfirmReserve = (reservation) => {
+  const handleConfirmReserve = (reservationId) => {
     axios
       .post(
-        `https://reserveto-back.onrender.com/api/cart/${reservation.id}/confirm/`,
+        `https://reserveto-back.onrender.com/api/cart/${reservationId}/confirm/`,
         {},
         {
           headers: {
@@ -118,24 +105,15 @@ const ReserveCard = ({ onConfirmReservation }) => {
       )
       .then((response) => {
         console.log("Reservation confirmed:", response.data);
-        setReservations(reservations.filter((r) => r.id !== reservation.id));
-        onConfirmReservation(reservation); // Add this line to pass the confirmed reservation to the parent component
+        setReservations(reservations.filter((r) => r.id !== reservationId));
       })
       .catch((error) => {
         console.error("Error confirming reservation:", error);
       });
   };
 
-  if (loading) {
-    return <Typography variant="h6">Loading...</Typography>;
-  }
-
-  if (error) {
-    return <Typography variant="h6">{error}</Typography>;
-  }
-
   if (reservations.length === 0) {
-    return <Typography variant="h6">No Reservations</Typography>;
+    return <Typography variant="h6"></Typography>;
   }
 
   return (
@@ -172,13 +150,15 @@ const ReserveCard = ({ onConfirmReservation }) => {
             )}
             <CardContent>
               <Typography variant="body1" gutterBottom>
-                {mom(reservation.appointments[0]?.start_time)
-                  .locale("fa")
-                  .format("YYYY/M/D") || "No Date"}{" "}
-                -{" "}
-                {moment(reservation.appointments[0]?.start_time).format(
-                  "HH:mm"
-                ) || "تایم موجود نیست"}
+                {`${
+                  mom(reservation.appointments[0]?.start_time)
+                    .locale("fa")
+                    .format("YYYY/M/D") || "No Date"
+                } - ${
+                  moment(reservation.appointments[0]?.start_time)
+                    .subtract(210, "minutes")
+                    .format("HH:mm") || "No Time"
+                }`}
               </Typography>
               <Paper
                 sx={{
@@ -200,7 +180,7 @@ const ReserveCard = ({ onConfirmReservation }) => {
                           backgroundColor: "var(--primary-color-lighter)",
                           "& .MuiChip-deleteIcon": { margin: "0 -6px 0 5px" },
                         }}
-                        label={services[serviceId] || "سرویس مشخص نیست"}
+                        label={services[serviceId] || "Unknown Service"}
                       />
                     </ListItem>
                   )
@@ -230,7 +210,7 @@ const ReserveCard = ({ onConfirmReservation }) => {
                     bgcolor: "var(--secondary-color)",
                     "&: hover": { bgcolor: "var(--secondary-color-lighter)" },
                   }}
-                  onClick={() => handleConfirmReserve(reservation)}
+                  onClick={() => handleConfirmReserve(reservation.id)}
                 >
                   تکمیل رزرو
                 </Button>
