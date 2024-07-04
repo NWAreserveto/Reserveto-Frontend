@@ -106,12 +106,12 @@ export default function BarbersCard({
         <IconButton onClick={handleBookmark}>
           {bookmarked ? <BookmarkIcon /> : <BookmarkBorderIcon />}
         </IconButton>
-        <Rating
+        {/* <Rating
           name="rating"
           defaultValue={0}
           max={5}
           sx={{ direction: "ltr" }}
-        />
+        /> */}
 
         <Button
           variant="outlined"

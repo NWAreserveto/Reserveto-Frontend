@@ -18,17 +18,22 @@ const ListItem = styled("li")(({ theme }) => ({
   margin: theme.spacing(0.5),
 }));
 
-const ReserveCard = () => {
+const ReserveCard = ({ onConfirmReservation }) => {
   const token = localStorage.getItem("token");
   const [reservations, setReservations] = useState([]);
   const [barbers, setBarbers] = useState({});
   const [services, setServices] = useState({});
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
 
   const customerIdFromUrl = window.location.href.split("/").pop();
 
   useEffect(() => {
     const fetchReservations = async () => {
       try {
+        setLoading(true);
+        setError(null);
+
         const response = await axios.get(
           "https://reserveto-back.onrender.com/api/cart/list/",
           {
@@ -80,10 +85,18 @@ const ReserveCard = () => {
         setServices(serviceData);
       } catch (error) {
         console.error(error);
+        setError("Failed to fetch reservations. Please try again later.");
+      } finally {
+        setLoading(false);
       }
     };
 
-    fetchReservations();
+    if (token) {
+      fetchReservations();
+    } else {
+      setError("You must be logged in to view reservations.");
+      setLoading(false);
+    }
   }, [token, customerIdFromUrl]);
 
   const handleDeleteAppointment = (reservationId) => {
@@ -92,10 +105,10 @@ const ReserveCard = () => {
     );
   };
 
-  const handleConfirmReserve = (reservationId) => {
+  const handleConfirmReserve = (reservation) => {
     axios
       .post(
-        `https://reserveto-back.onrender.com/api/cart/${reservationId}/confirm/`,
+        `https://reserveto-back.onrender.com/api/cart/${reservation.id}/confirm/`,
         {},
         {
           headers: {
@@ -105,15 +118,24 @@ const ReserveCard = () => {
       )
       .then((response) => {
         console.log("Reservation confirmed:", response.data);
-        setReservations(reservations.filter((r) => r.id !== reservationId));
+        setReservations(reservations.filter((r) => r.id !== reservation.id));
+        onConfirmReservation(reservation); // Add this line to pass the confirmed reservation to the parent component
       })
       .catch((error) => {
         console.error("Error confirming reservation:", error);
       });
   };
 
+  if (loading) {
+    return <Typography variant="h6">Loading...</Typography>;
+  }
+
+  if (error) {
+    return <Typography variant="h6">{error}</Typography>;
+  }
+
   if (reservations.length === 0) {
-    return <Typography variant="h6"></Typography>;
+    return <Typography variant="h6">No Reservations</Typography>;
   }
 
   return (
@@ -150,15 +172,13 @@ const ReserveCard = () => {
             )}
             <CardContent>
               <Typography variant="body1" gutterBottom>
-                {`${
-                  mom(reservation.appointments[0]?.start_time)
-                    .locale("fa")
-                    .format("YYYY/M/D") || "No Date"
-                } - ${
-                  moment(reservation.appointments[0]?.start_time).format(
-                    "HH:mm"
-                  ) || "No Time"
-                }`}
+                {mom(reservation.appointments[0]?.start_time)
+                  .locale("fa")
+                  .format("YYYY/M/D") || "No Date"}{" "}
+                -{" "}
+                {moment(reservation.appointments[0]?.start_time).format(
+                  "HH:mm"
+                ) || "تایم موجود نیست"}
               </Typography>
               <Paper
                 sx={{
@@ -180,7 +200,7 @@ const ReserveCard = () => {
                           backgroundColor: "var(--primary-color-lighter)",
                           "& .MuiChip-deleteIcon": { margin: "0 -6px 0 5px" },
                         }}
-                        label={services[serviceId] || "Unknown Service"}
+                        label={services[serviceId] || "سرویس مشخص نیست"}
                       />
                     </ListItem>
                   )
@@ -210,7 +230,7 @@ const ReserveCard = () => {
                     bgcolor: "var(--secondary-color)",
                     "&: hover": { bgcolor: "var(--secondary-color-lighter)" },
                   }}
-                  onClick={() => handleConfirmReserve(reservation.id)}
+                  onClick={() => handleConfirmReserve(reservation)}
                 >
                   تکمیل رزرو
                 </Button>

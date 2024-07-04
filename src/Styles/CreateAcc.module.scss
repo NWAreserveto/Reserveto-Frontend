@@ -165,13 +165,14 @@
       .SignUpCustomer {
         width: 22rem;
         background-color: var(--secondary-color);
-        border-radius: 5px;
+        border-radius: 10px;
         height: 3rem;
         border: 0;
         cursor: pointer;
       }
       .SignUpCustomer:hover {
-        border: 2px solid black;
+        border: 1px solid black;
+        background-color: var(--secondary-color-lighter);
       }
 
       // .SignUpCustomer:hover {
@@ -183,12 +184,12 @@
         width: 22rem;
         background-color: var(--secondary-color);
         height: 3rem;
-        border-radius: 5px;
+        border-radius: 10px;
         border: 0;
         cursor: pointer;
       }
       .SignUpBarber:hover {
-        border: 2px solid black;
+        border: 1px solid black;
         background-color: var(--secondary-color-lighter);
 
       }
