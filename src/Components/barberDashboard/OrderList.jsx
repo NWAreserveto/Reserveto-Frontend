@@ -24,29 +24,35 @@ import Switch from "@mui/material/Switch";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import axios from "axios";
-import { toPersianDigit } from "../barberProfile/helper";
-// import "moment-jalaali";
-// import moment from "moment";
 import * as moment from "jalali-moment";
+
+async function UserProfile(userID) {
+  try {
+    const token = localStorage.getItem("token");
+    const api = axios.create({
+      baseURL: "https://reserveto-back.onrender.com/",
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+
+    const response = await api.get(`/api/customers/profiles/${userID}/`);
+
+    if (response.status === 200) {
+      return response.data.user.username;
+    } else {
+      console.log(response.status);
+      return null;
+    }
+  } catch (error) {
+    console.error(error);
+    throw error;
+  }
+}
 
 function createData(id, name, service, date, time) {
   return { id, name, service, date, time };
 }
-
-// const rows = [
-//   createData(1, "محمدعلی خسروآبادی", "کوتاهی مو", "1403-03-31", "14:00"),
-//   createData(2, "کوشا", "رنگ و کوتاهی مو", "1403-04-22", "10:00"),
-//   createData(3, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(4, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(5, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(6, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(7, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(8, "قرهاد", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(9, "آتیلا", "کوتاهی و شست و شوی مو", "1403-04-22", "11:00"),
-//   createData(10, "مینا", "کوتاهی و شست و شوی مو", "1403-05-22", "9:00"),
-//   createData(11, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-//   createData(12, "آتیلا", "کوتاهی و شست و شوی مو", "1403-05-22", "11:00"),
-// ];
 
 function descendingComparator(a, b, orderBy) {
   if (b[orderBy] < a[orderBy]) return -1;
@@ -202,57 +208,49 @@ export default function OrderList() {
   const [rowsPerPage, setRowsPerPage] = React.useState(8);
   const [rows, setRows] = React.useState([]);
   const { barberID } = useParams();
+  const token = localStorage.getItem("token");
 
   useEffect(() => {
-    console.log("barberID:", barberID);
+    const fetchData = async () => {
+      try {
+        const response = await axios.get(
+          `https://reserveto-back.onrender.com/api/B_orders/${barberID}`
+        );
 
-    if (barberID) {
-      axios
-        .get(`https://reserveto-back.onrender.com/api/B_orders/${barberID}`)
-        .then((response) => {
-          console.log("API Response:", response.data);
-
-          if (response.data && response.data.Services) {
-            const servicesArray = response.data.Services.map(
-              (serviceString) => {
-                const cleanedString = serviceString.replace(
-                  /\[OrderedDict\(\[\('name',\s*'([^']+)'\)\]\)\]\s*(\S+)/,
-                  '{"name": "$1", "datetime": "$2"}'
-                );
-                let parsedService;
-                try {
-                  parsedService = JSON.parse(cleanedString);
-                  console.log(parsedService);
-                } catch (error) {
-                  console.error("Error parsing service string:", error);
-                  return null;
-                }
-
-                return parsedService;
-              }
-            ).filter((service) => service !== null);
-
-            const formattedData = servicesArray.map((service, index) => {
-              const serviceName = service.name || "";
-              const [date, time] = service.datetime.split("T");
-              return createData(
-                index + 1,
-                response.data.Name,
-                serviceName,
-                date,
-                time.split(".")[0]
-              );
-            });
-
-            setRows(formattedData);
-          } else {
-            console.error("Error: Services data is not an array");
+        const serviceResponse = await axios.get(
+          "https://reserveto-back.onrender.com/api/allservices/",
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
           }
-        })
-        .catch((error) => {
-          console.error("Error fetching data:", error);
+        );
+
+        const serviceMap = {};
+        serviceResponse.data.forEach((service) => {
+          serviceMap[service.id] = service.name;
         });
-    }
+
+        const formattedData = await Promise.all(
+          response.data.Appointments.map(async (appointment, index) => {
+            const serviceName = serviceMap[appointment.services[0]] || "";
+            const date = appointment.day;
+            const time = appointment.start_time
+              .split("T")[1]
+              .split(".")[0]
+              .replace("Z", "");
+            const username = await UserProfile(appointment.customer);
+            return createData(index + 1, username, serviceName, date, time);
+          })
+        );
+
+        setRows(formattedData);
+      } catch (error) {
+        console.error("Error fetching data:", error);
+      }
+    };
+
+    fetchData();
   }, [barberID]);
 
   const handleRequestSort = (event, property) => {
@@ -304,15 +302,6 @@ export default function OrderList() {
   const emptyRows =
     page > 0 ? Math.max(0, (1 + page) * rowsPerPage - rows.length) : 0;
 
-  const visibleRows = React.useMemo(
-    () =>
-      stableSort(rows, getComparator(order, orderBy)).slice(
-        page * rowsPerPage,
-        page * rowsPerPage + rowsPerPage
-      ),
-    [order, orderBy, page, rowsPerPage]
-  );
-
   return (
     <Box sx={{ width: "100%" }}>
       <Paper sx={{ width: "100%", mb: 2 }}>
@@ -332,70 +321,45 @@ export default function OrderList() {
               rowCount={rows.length}
             />
             <TableBody>
-              {visibleRows.map((row, index) => {
-                const isItemSelected = isSelected(row.id);
-                const labelId = `enhanced-table-checkbox-${index}`;
+              {stableSort(rows, getComparator(order, orderBy))
+                .slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage)
+                .map((row, index) => {
+                  const isItemSelected = isSelected(row.id);
+                  const labelId = `enhanced-table-checkbox-${index}`;
 
-                return (
-                  <TableRow
-                    hover
-                    onClick={(event) => handleClick(event, row.id)}
-                    role="checkbox"
-                    aria-checked={isItemSelected}
-                    tabIndex={-1}
-                    key={row.id}
-                    selected={isItemSelected}
-                  >
-                    <TableCell padding="checkbox">
-                      <Checkbox
-                        color="primary"
-                        checked={isItemSelected}
-                        inputProps={{ "aria-labelledby": labelId }}
-                      />
-                    </TableCell>
-                    <TableCell
-                      component="th"
-                      id={labelId}
-                      scope="row"
-                      padding="none"
+                  return (
+                    <TableRow
+                      hover
+                      onClick={(event) => handleClick(event, row.id)}
+                      role="checkbox"
+                      aria-checked={isItemSelected}
+                      tabIndex={-1}
+                      key={row.id}
+                      selected={isItemSelected}
                     >
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">
-                          {headCells[0].label}
-                        </Typography>
-                        <Typography>{row.name}</Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">
-                          {headCells[1].label}
-                        </Typography>
-                        <Typography>{row.service}</Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">
-                          {headCells[2].label}
-                        </Typography>
-                        <Typography>
-                          {/* {moment(row.date).format("jYYYY/jMM/jDD")} */}
-                          {moment(row.date).locale("fa").format("YYYY/M/D")}
-                        </Typography>
-                      </Box>
-                    </TableCell>
-                    <TableCell align="left">
-                      <Box display="flex" flexDirection="column">
-                        <Typography variant="caption">
-                          {headCells[3].label}
-                        </Typography>
-                        <Typography>{row.time}</Typography>
-                      </Box>
-                    </TableCell>
-                  </TableRow>
-                );
-              })}
+                      <TableCell padding="checkbox">
+                        <Checkbox
+                          color="primary"
+                          checked={isItemSelected}
+                          inputProps={{ "aria-labelledby": labelId }}
+                        />
+                      </TableCell>
+                      <TableCell
+                        component="th"
+                        id={labelId}
+                        scope="row"
+                        padding="none"
+                      >
+                        {row.name}
+                      </TableCell>
+                      <TableCell align="center">{row.service}</TableCell>
+                      <TableCell align="center">
+                        {moment(row.date).locale("fa").format("YYYY/MM/DD")}
+                      </TableCell>
+                      <TableCell align="center">{row.time}</TableCell>
+                    </TableRow>
+                  );
+                })}
               {emptyRows > 0 && (
                 <TableRow style={{ height: (dense ? 33 : 53) * emptyRows }}>
                   <TableCell colSpan={6} />
@@ -405,7 +369,7 @@ export default function OrderList() {
           </Table>
         </TableContainer>
         <TablePagination
-          rowsPerPageOptions={[8, 16, 24]}
+          rowsPerPageOptions={[5, 8, 10]}
           component="div"
           count={rows.length}
           rowsPerPage={rowsPerPage}
@@ -416,7 +380,7 @@ export default function OrderList() {
       </Paper>
       <FormControlLabel
         control={<Switch checked={dense} onChange={handleChangeDense} />}
-        label="تراکم بیشتر"
+        label="تراکم کم"
       />
     </Box>
   );
