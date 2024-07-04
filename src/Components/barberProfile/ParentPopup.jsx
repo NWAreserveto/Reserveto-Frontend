@@ -1,14 +1,30 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import Popup from "./Popup";
 import { Box, Typography, Button } from "@mui/material";
-import { BrowserRouter as Router, Route, Link } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
-const ParentComponent = () => {
+const ParentComponent = ({ barber }) => {
   const [isPopupOpen, setIsPopupOpen] = useState(false);
+  const [isMe, setIsMe] = useState(false);
 
-  const openPopup = () => {
-    setIsPopupOpen(true);
-  };
+  useEffect(() => {
+    const fetchData = async () => {
+      console.log(
+        localStorage.getItem("role"),
+        localStorage.getItem("barberId"),
+        barber.id
+      );
+      if (
+        localStorage.getItem("role") == "barber" &&
+        localStorage.getItem("barberId") == barber.id
+      )
+        setIsMe(true);
+      else setIsMe(false);
+    };
+    fetchData();
+  }, [barber]);
+
+  const navigate = useNavigate();
 
   const closePopup = () => {
     setIsPopupOpen(false);
@@ -16,19 +32,19 @@ const ParentComponent = () => {
 
   return (
     <Box
-    sx={{
-      display: "flex",
-      justifyContent: "center",
-      alignItems: "center",
-      mt: 4,
-      // pr: 70,
-    }}
+      sx={{
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        mt: 4,
+      }}
     >
       <Button
         variant="contained"
         color="primary"
         onClick={() => {
-          setIsPopupOpen(!isPopupOpen);
+          if (isMe) navigate(`/Barber/Dashboard/${barber.id}`);
+          else setIsPopupOpen(!isPopupOpen);
         }}
         sx={{
           height: 80,
@@ -47,7 +63,9 @@ const ParentComponent = () => {
           },
         }}
       >
-        <Typography variant="h4" fontSize={22} >برای رزرو کلیک کنید</Typography>
+        <Typography variant="h4" fontSize={22}>
+          {isMe ? "داشبورد من" : "برای رزرو کلیک کنید"}
+        </Typography>
       </Button>
       {isPopupOpen && <Popup onClose={closePopup} />}
     </Box>

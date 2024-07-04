@@ -144,7 +144,7 @@ const BarberDashboard = () => {
             onClick={() => setIndex(2)}
           >
             <EventIcon fontSize="medium" />
-            رزورها
+            رزرو ها
           </Button>
           <Button
             className={style.button}

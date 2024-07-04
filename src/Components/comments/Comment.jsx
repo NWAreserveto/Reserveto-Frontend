@@ -1,5 +1,6 @@
 import { useState, useEffect } from "react";
 import CommentForm from "./CommentForm";
+import GradeIcon from "@mui/icons-material/Grade";
 import {
   Avatar,
   Box,
@@ -111,12 +112,11 @@ const Comment = ({
           <Avatar
             src={customer.profile_picture}
             sx={{
+              zIndex: -1,
               border: "solid 1px white",
               height: 45,
               width: 45,
               mt: -0.5,
-              // height: { xs: 40, md: 50, lg: 65 },
-              // width: { xs: 40, md: 50, lg: 65 },
               borderRadius: "50%",
               boxShadow: "0 2px 4px rgba(0, 0, 0, 0.3)",
             }}
@@ -128,7 +128,6 @@ const Comment = ({
         <Box // front of profile picture
           sx={{
             width: "100%",
-            // backgroundColor: 'red',
           }}
         >
           <Box // header of comment (name + time)
@@ -138,10 +137,8 @@ const Comment = ({
           >
             <Typography // name of user
               sx={{
-                // ml: { xs: 1, lg: 2 },
                 ml: 1.3,
                 fontSize: 16,
-                // fontSize: { xs: 18, md: 19, lg: 21 },
                 color: "#668F84",
               }}
             >
@@ -153,11 +150,22 @@ const Comment = ({
               sx={{
                 pt: 0.5,
                 fontSize: 10,
-                // pt: { xs: 0.5, lg: 0.7 },
-                // fontSize: { xs: 13, md: 14, lg: 15 },
               }}
             >
               {time}
+            </Typography>
+            <GradeIcon
+              sx={{
+                color: 'green',
+                mr: 4,
+              }}/>
+            <Typography
+              sx={{
+                color: 'green',
+                mt: 0.1,
+                mr: 0.4,
+              }}>
+              {comment.rating}
             </Typography>
           </Box>
 

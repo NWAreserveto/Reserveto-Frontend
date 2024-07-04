@@ -14,7 +14,6 @@ const Information = ({ barber, salonName }) => {
         sx={{
           mb: "-160px",
           pr: 4,
-          // pr: { xs: 9, lg: 15, xl: 32 },
         }}
       >
         <Avatar
@@ -60,19 +59,16 @@ const Information = ({ barber, salonName }) => {
             <Typography
               sx={{
                 mt: -0.3,
-                // mt: { xs: -0.3, lg: -1 },
-                color: "#212daa",
-                fontSize: 22,
-                // fontSize: { xs: 20, lg: 28 },
-                pr: 1,
+                color: "green",
+                fontSize: 21,
+                pr: 0.8,
               }}
             >
-              {/* 2.3 */}
               {barber.point ? barber.point : 3.5}
             </Typography>
             <Box // score icon
               sx={{
-                color: "#212daa",
+                color: "green",
               }}
             >
               <GradeIcon />
