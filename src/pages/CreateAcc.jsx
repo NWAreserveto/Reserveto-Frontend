@@ -787,9 +787,6 @@ const CreateAcc = () => {
                 onChange={handleBarberFirstName}
                 error={barberFirstNameError}
                 helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
-                inputProps={{
-                  pattern: "[A-Za-z ]+",
-                }}
               />
               <TextField
                 label="نام خانوادگی"
@@ -836,9 +833,7 @@ const CreateAcc = () => {
                 helperText={
                   barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""
                 }
-                inputProps={{
-                  pattern: "[A-Za-z ]+",
-                }}
+                
               />
               <TextField
                 label="تلفن همراه"

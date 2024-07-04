@@ -1,13 +1,11 @@
 import TextField from "@mui/material/TextField";
-import { useState, Fragment } from "react";
+import { useState, Fragment, useEffect } from "react";
 import ResetPassword from "../API/APIendpointForgetPassword";
-import Dialog from "@mui/material/Dialog";
-import DialogActions from "@mui/material/DialogActions";
-import DialogContent from "@mui/material/DialogContent";
-import DialogContentText from "@mui/material/DialogContentText";
-import DialogTitle from "@mui/material/DialogTitle";
-import { Link } from "react-router-dom";
 import style from "../styles/ForgetPassword.module.scss";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { Navigate, useNavigate } from "react-router-dom";
+
 const ForgetPassword = () => {
   const [email, setEmail] = useState("");
   const [emailError, setEmailError] = useState("");
@@ -20,24 +18,49 @@ const ForgetPassword = () => {
     }
   };
 
+  const navigate = useNavigate();
   const person2 = {
     email: email,
   };
 
-  const [open, setOpen] = useState(false);
+  // const [open, setOpen] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
-  const forgetPasswordButton = (event) => {
+  // const handleClose = () => {
+  //   setOpen(false);
+  // };
+
+  const [success, setSuccess] = useState(false);
+  const [responseData, setResponseData] = useState(null);
+
+  useEffect(() => {
+    if (success && responseData) {
+      setTimeout(() => {
+        navigate("/");
+      }, 4000);
+    }
+  }, [success, responseData, navigate]);
+  const forgetPasswordButton = async (event) => {
     event.preventDefault();
-    ResetPassword(person2);
-    setOpen(true);
+    try {
+      const response = await ResetPassword(person2);
+      // console.log(response.data);
+      setResponseData(response.data);
+      setSuccess(response.status === 200);
+      if (response.status === 200) {
+        toast.success("ایمیل برای شما ارسال خواهد شد");
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("این ایمیل وجود ندارد");
+    }
+    // ResetPassword(person2);
+    // setOpen(true);
   };
 
   return (
     <body>
       <div className={style.container}>
+        <ToastContainer />
         <div className={style.forgetPassword}>
           <form className={style.forgetPassForm}>
             <h1 className={style.text}>بازیابی رمز عبور</h1>
@@ -95,26 +118,7 @@ const ForgetPassword = () => {
               >
                 تایید
               </button>
-              <div className={style.msgBox}>
-                <Dialog
-                  open={open}
-                  onClose={handleClose}
-                  aria-labelledby="alert-dialog-title"
-                  aria-describedby="alert-dialog-description"
-                >
-                  <DialogTitle id="alert-dialog-title">{"موفقیت"}</DialogTitle>
-                  <DialogContent>
-                    <DialogContentText id="alert-dialog-description">
-                      ایمیل برات ارسال میشه :)
-                    </DialogContentText>
-                  </DialogContent>
-                  <DialogActions>
-                    <Link to="/">
-                      <button onClick={handleClose}>بستن</button>
-                    </Link>
-                  </DialogActions>
-                </Dialog>
-              </div>
+              <div className={style.msgBox}></div>
             </Fragment>
           </form>
         </div>

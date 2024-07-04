@@ -144,8 +144,6 @@ const BarbersLandingNavbar = ({ setParentSearch }) => {
                   }}
                 >
                   <ReserveCard />
-                  <ReserveCard />
-                  <ReserveCard />
                 </div>
               </Popover>
             </li>

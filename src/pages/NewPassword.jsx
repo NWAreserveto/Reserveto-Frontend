@@ -16,6 +16,8 @@ import axios from "axios";
 import { useNavigate, useParams } from "react-router-dom";
 import newPass from "../API/APIendpointNewPassword";
 import Button from "@mui/material/Button";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
 
 const NewPassword = () => {
   const { tempToken } = useParams();
@@ -54,12 +56,14 @@ const NewPassword = () => {
   const [success, setSuccess] = useState(false);
   const navigate = useNavigate();
 
-  const handleClose = () => {
-    setOpen(false);
-    if (success) {
-      navigate("/");
+  const [responseData, setResponseData] = useState(null);
+  useEffect(() => {
+    if (success && responseData) {
+      setTimeout(() => {
+        navigate("/Login");
+      }, 4000);
     }
-  };
+  }, [success, responseData, navigate]);
   const handlePasswordReset = async (event) => {
     event.preventDefault();
     const person12 = {
@@ -69,17 +73,20 @@ const NewPassword = () => {
     console.log("Token:", tempToken);
     try {
       const response = await newPass(person12, tempToken);
-      setOpen(true);
+      setResponseData(response.data);
       setSuccess(response.status === 200);
+      if (response.status === 200) {
+        toast.success("رمز با موفقیت تعویض گردید");
+      }
     } catch (error) {
       console.error(error);
-      setOpen(true);
-      setSuccess(false);
+      toast.error("مشکلی پیش آمده");
     }
   };
 
   return (
     <div className={style.body}>
+      <ToastContainer />
       <div className={style.container} />
       <div className={style.newPassword}>
         <form className={style.newPasswordForm}>
@@ -211,26 +218,6 @@ const NewPassword = () => {
           </button>
         </form>
       </div>
-      <Dialog
-        open={open}
-        onClose={handleClose}
-        aria-labelledby="alert-dialog-title"
-        aria-describedby="alert-dialog-description"
-      >
-        <DialogTitle id="alert-dialog-title">
-          {success ? "موفقیت" : "ارور"}
-        </DialogTitle>
-        <DialogContent>
-          <DialogContentText id="alert-dialog-description">
-            {success
-              ? "رمز با موفقیت عوض شد."
-              : "رمز عبور شما بازنشانی نشد. لطفا دوباره تلاش کنید"}
-          </DialogContentText>
-        </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>بستن</Button>
-        </DialogActions>
-      </Dialog>
     </div>
   );
 };
