@@ -5,13 +5,7 @@ const ResetPassword = async (person2) => {
 
   try {
     const response = await api.post("/api/password_reset_request/", person2);
-
-    if (response.status === 200) {
-      console.log(response.status);
-    } else {
-      console.log(response.status);
-      alert("fill the fields");
-    }
+    return response;
   } catch (error) {
     console.error(error);
     throw error;
