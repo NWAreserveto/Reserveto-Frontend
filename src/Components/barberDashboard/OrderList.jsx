@@ -42,6 +42,7 @@ async function UserProfile(userID) {
       return response.data.user.username;
     } else {
       console.log(response.status);
+
       return null;
     }
   } catch (error) {
