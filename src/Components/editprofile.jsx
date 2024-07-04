@@ -107,9 +107,11 @@ const EditProfile = ({ user }) => {
     email: email,
   };
   const newData = {
+    Full_Name: firstname +" "+ lastname,
     first_name: firstname,
     last_name: lastname,
     address: address,
+
     // user: {
     //   username: username !== user.user.username ? username : undefined,
     //   email: email,
@@ -489,7 +491,7 @@ const EditProfile = ({ user }) => {
         <div className={style.changebutt}>
           <Stack direction="row" spacing={2} gap={1}>
             <Button
-              type="submit"
+              type="button"
               variant="contained"
               onClick={edit}
               sx={{ m: 1, bgcolor: "var(--secondary-color)" }}

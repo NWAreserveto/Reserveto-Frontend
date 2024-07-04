@@ -113,25 +113,25 @@ const SalonProfile = ({ barberid }) => {
       case 0:
         return <EditSalonprofile salon={salon} barberId={barberid} />;
       case 1:
-        return <SalonDashboard />;
+        return <SalonDashboard salon={salon}/>;
       case 5:
         return <SalonBarbers salonid={salon.id} barberIDs={barberIDs} />;
       // case2: Reserves
       // case3: Comments
       // case4: Notifications
       default:
-        return <SalonDashboard />;
+        return <SalonDashboard salon={salon}/>;
     }
   };
   return (
     <div
       className={style.container}
-      style={{
-        backgroundImage: `url(${salon.profile_picture})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
+      // style={{
+      //   backgroundImage: `url(${salon.profile_picture})`,
+      //   backgroundSize: "cover",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundPosition: "center",
+      // }}
     >
       <div className={style.menu}>
         <div className={style.menuItem}>
@@ -186,14 +186,6 @@ const SalonProfile = ({ barberid }) => {
           >
             <DashboardIcon fontSize="medium" />
             پیشخوان
-          </Button>
-          <Button
-            className={style.button}
-            sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(3)}
-          >
-            <CommentIcon fontSize="medium" />
-            نظرات
           </Button>
           <Button
             className={style.button}

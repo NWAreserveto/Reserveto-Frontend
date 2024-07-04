@@ -49,7 +49,9 @@ const BookmarksList = () => {
   );
 
   return (
-    <Box className={loading1 && loading2 ? style.flex : style.barbersList}>
+    <div className={style.container}>
+      <h1>علاقه‌مندی‌ها</h1>
+    <Box className={loading1 && loading2 ? style.bookmarks : style.bookmarks}>
       {loading1 && loading2 ? (
         <CircularProgress color="success" />
       ) : (
@@ -65,6 +67,7 @@ const BookmarksList = () => {
           ))
       )}
     </Box>
+    </div>
   );
 };
 

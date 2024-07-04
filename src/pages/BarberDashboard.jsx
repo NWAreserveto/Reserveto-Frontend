@@ -13,9 +13,11 @@ import Dashboard from "../components/barberDashboard/Dashboard";
 import EditProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const BarberDashboard = () => {
   const [index, setIndex] = useState(1);
+  const navigate = useNavigate();
 
   const barberIdList = window.location.href.split("/");
   const barberId = barberIdList[barberIdList.length - 1];
@@ -79,6 +81,7 @@ const BarberDashboard = () => {
         return <Dashboard />;
     }
   };
+  console.log(barber);
   return (
     <div className={style.container}>
       <div className={style.menu}>
@@ -161,6 +164,14 @@ const BarberDashboard = () => {
           >
             <NotificationsIcon fontSize="medium" />
             اعلان ها
+          </Button>
+          <Button
+            className={style.button}
+            sx={{ fontSize: "20px" }}
+            onClick={() => navigate(`/salonProfile/${barber.salons}`, { state: { barberId } })}
+          >
+            <NotificationsIcon fontSize="medium" />
+            سالن من
           </Button>
         </div>
         <div className={style.menuItem}>

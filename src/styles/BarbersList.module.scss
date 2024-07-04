@@ -20,3 +20,26 @@
     align-items: flex-start;
     justify-content: center;
 }
+.container{
+    display :grid;
+    justify-content:start;
+    margin : 10px;
+    .bookmarks{
+        padding: 20px 50px;
+        width: 1200px;
+        height: 700px;
+        border : 1px solid var(--secondary-color);
+        border-radius: 4px;
+        //background-color: var(--secondary-color);
+        box-shadow: 0 4px 8px 0 var(--secondary-color-lighter);
+        //height: 780px;
+        overflow-y: auto;
+        overflow-x: hidden;
+        flex-direction: row;
+        justify-content: space-evenly;
+        margin: auto;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+        gap: 20px;
+}
+}
