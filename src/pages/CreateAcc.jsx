@@ -787,7 +787,6 @@ const CreateAcc = () => {
                 onChange={handleBarberFirstName}
                 error={barberFirstNameError}
                 helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
-                
               />
               <TextField
                 label="نام خانوادگی"
