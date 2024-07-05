@@ -92,6 +92,10 @@ const ReserveCard = () => {
     );
   };
 
+  const postData = {
+    appointment: {},
+    message: "پیام جدید دارید",
+  };
   const handleConfirmReserve = (reservationId) => {
     axios
       .post(
@@ -105,6 +109,46 @@ const ReserveCard = () => {
       )
       .then((response) => {
         console.log("Reservation confirmed:", response.data);
+        const confirmedReservation = reservations.find(
+          (r) => r.id === reservationId
+        );
+
+        if (!confirmedReservation) {
+          console.error("Confirmed reservation not found in state.");
+          return;
+        }
+
+        confirmedReservation.appointments.forEach((appointment) => {
+          const postData = {
+            appointment: {
+              barber: appointment.barber,
+              customer: appointment.customer,
+              start_time: appointment.start_time,
+              end_time: appointment.end_time,
+              services: appointment.services,
+            },
+            message: "پیام جدید دارید",
+          };
+
+          axios
+            .post(
+              "https://reserveto-back.onrender.com/api/notifications/",
+              postData,
+              {
+                headers: {
+                  Authorization: `Bearer ${token}`,
+                },
+              }
+            )
+            .then((response) => {
+              console.log("Notification sent:", response.data);
+              console.log(response.status);
+            })
+            .catch((error) => {
+              console.error("Error sending notification:", error);
+            });
+        });
+
         setReservations(reservations.filter((r) => r.id !== reservationId));
       })
       .catch((error) => {
