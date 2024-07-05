@@ -1,6 +1,8 @@
+import React from "react";
 import axios from "axios";
+import { toArray } from "lodash";
 
-const GETBarberGalleryAPI = async (barberId) => {
+const APIendpointAllServices = async () => {
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -8,10 +10,9 @@ const GETBarberGalleryAPI = async (barberId) => {
       headers: {
         Authorization: `Bearer ${token}`,
       },
-      proxy: true,
     });
 
-    const response = await api.get(`api/barbers/${barberId}/gallery/`);
+    const response = await api.get("api/allservices/");
 
     if (response.status === 200) {
       return response.data;
@@ -24,4 +25,4 @@ const GETBarberGalleryAPI = async (barberId) => {
   }
 };
 
-export default GETBarberGalleryAPI;
+export default APIendpointAllServices;

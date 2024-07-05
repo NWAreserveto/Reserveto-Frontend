@@ -5,6 +5,7 @@ import EventIcon from "@mui/icons-material/Event";
 import CommentIcon from "@mui/icons-material/Comment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import CreateSalon from "../components/Createsalon"
@@ -13,6 +14,10 @@ import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
 import EditProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
+import Reserves from "../components/barberDashboard/Reserves";
+import Notifications from "../components/barberDashboard/Notifications";
+import Requests from "../components/barberDashboard/Requests";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
@@ -22,9 +27,8 @@ const BarberDashboard = () => {
 
   const barberIdList = window.location.href.split("/");
   const barberId = barberIdList[barberIdList.length - 1];
-
+  const navigate = useNavigate();
   const [barber, setBarber] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -40,8 +44,13 @@ const BarberDashboard = () => {
   }, [barberId]);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    handleUpload(event.target.files[0]);
+    const selectedFile = event.target.files[0];
+    handleUpload(selectedFile);
+  };
+
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
   const handleUpload = async (file) => {
@@ -81,12 +90,19 @@ const BarberDashboard = () => {
       case 0:
         return <EditProfile barber={barber} />;
       case 1:
-        return <Dashboard />;
-      // case2: Reserves
+        return <Dashboard barberId={barberId} />;
+      case 2:
+        return <Reserves barberId={barberId} />;
       // case3: Comments
-      // case4: Notifications
-      case 5 : 
-        return <CreateSalon barberId={barber.id} />
+      case 4:
+        return <Notifications barberId={barberId} />;
+      case 5:
+        return (
+          <Requests
+            barberId={barberId}
+            isAdmin={barber.is_admin}
+          />
+        );
       default:
         return <Dashboard />;
     }
@@ -157,7 +173,7 @@ const BarberDashboard = () => {
             onClick={() => setIndex(2)}
           >
             <EventIcon fontSize="medium" />
-            رزورها
+            رزرو ها
           </Button>
           <Button
             className={style.button}
@@ -178,16 +194,17 @@ const BarberDashboard = () => {
           <Button
             className={style.button}
             sx={{ fontSize: "20px" }}
-            onClick={handleButtonClick}
+            onClick={() => setIndex(5)}
           >
-            <NotificationsIcon fontSize="medium" />
-            سالن من
+            <AddIcon fontSize="medium" />
+            درخواست ها
           </Button>
         </div>
         <div className={style.menuItem}>
           <Button
             className={style.button}
             sx={{ fontSize: "20px" }}
+            onClick={handleLogout}
           >
             <LogoutIcon fontSize="medium" />
             خروج

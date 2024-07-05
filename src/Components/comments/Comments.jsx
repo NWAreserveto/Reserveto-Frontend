@@ -29,9 +29,7 @@ const Comments = ({ barberId, barberName, barberPic }) => {
   return (
     <Box // whole comment section
       sx={{
-        mr: 75.3,
-        mt: 6,
-        width: 880,
+        width: '100%',
         justifyContent: "center",
         alignItems: "center",
         boxShadow: "0px 1px 1px green",

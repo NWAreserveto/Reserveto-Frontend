@@ -66,11 +66,6 @@ const BarberProfile = () => {
 
       {!loading && <Body barber={barber} />}
 
-      <Comments
-        barberId={barberId}
-        barberName={barber.first_name + " " + barber.last_name}
-      />
-
       <Footer />
     </>
   );
