@@ -13,17 +13,23 @@ import Button from "@mui/material/Button"
 import { IconButton } from "@mui/material";
 import Usernavbar from "../components/Usernavbar";
 import { Avatar, Divider } from "@material-ui/core";
+import EditNoteIcon from '@mui/icons-material/EditNote';
 import Editprofile from "../components/editprofile";
+import EditInfo from "../components/EditInfoProfile";
+import UserBookmarks from "../components/userBookmark/BookmarksList";
 import Footer from "../components/Footer";
 import Info from '../components/info'; // Assuming you have an Info component
 import profilePic from "../images//profilePic.jpg"
 import axios from "axios";
+import Box from "@mui/material/Box";
 import { Navigate, useNavigate } from "react-router-dom";
+import CircularProgress from "@mui/material/CircularProgress";
 import APIendpointUser from "../API/APIendpointUser";
 import ReservesComponent from "../components/ReservesComponent"; // Import your custom components
 import CommentsComponent from "../components/CommentsComponent";
 import InterestsComponent from "../components/InterestsComponent";
 import CustomerReservesList from "../components/UserReserves";
+import { AddAPhoto } from "@material-ui/icons";
 
 const UserProfile = () => {
   const [index, setIndex] = useState(1);
@@ -76,10 +82,25 @@ const UserProfile = () => {
   const main = () => {
     switch (index) {
       case 0:
+        return <Editprofile user={user}/>
       case 1:
+        return <UserBookmarks userid={user.id}/>
+      case 2:
+
+      case 3:
+        return <EditInfo user={user}/>
       default:
     }
   };
+  if (loading) {
+    return <Box sx={{ mt : 1 , display: 'flex',justifyContent : 'center' }}>
+    <CircularProgress sx={{color : 'var(--secondary-color)'}} />
+  </Box>; // Show a loading indicator while fetching data
+  }
+
+  if (!user) {
+    return <div>Error loading user data</div>; // Handle the case where user data couldn't be fetched
+  }
   return (
     <>
     <Navbar />
@@ -88,7 +109,7 @@ const UserProfile = () => {
         <div className={style.menuItem}>
           <div className={style.avatarContainer}>
             <Avatar
-              src={user.profile_picture}
+              //src={user.profile_picture}
               sx={{
                 width: "200px",
                 height: "200px",
@@ -110,7 +131,7 @@ const UserProfile = () => {
                 component="span"
                 className={style.uploadButton}
               >
-                <EditIcon />
+                <AddAPhoto fontSize="large" />
               </IconButton>
             </label>
           </div>
@@ -148,11 +169,20 @@ const UserProfile = () => {
             onClick={() => setIndex(2)}
           >
             <EventIcon fontSize="medium" />
-            رزورها
+            رزروها
+          </Button>
+          <Button
+            className={style.button}
+            sx={{ fontSize: "20px" }}
+            onClick={() => setIndex(3)}
+          >
+            <EditNoteIcon fontSize="medium" />
+            ویرایش پروفایل
           </Button>
         </div>
         <div className={style.menuItem}>
           <Button
+          onClick={() =>navigate('/')}
             className={style.button}
             sx={{ fontSize: "20px" }}
           >
@@ -164,6 +194,7 @@ const UserProfile = () => {
       </div>
       <div className={style.main}>{main()}</div>
     </div>
+    <Footer />
     </>
   );
 };

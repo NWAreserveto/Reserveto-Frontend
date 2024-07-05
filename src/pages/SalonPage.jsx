@@ -44,68 +44,6 @@ import EditProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
-// const SalonProfile = () => {
-//   const [salon,setSalon] = useState([]);
-//   const [barberIDs, setBarberIDs] = useState([]);
-//   const [loading, setLoading] = useState(true);
-//   const [error, setError] = useState(null);
-//   const [selectedTab, setSelectedTab] = useState(null);
-//   const [isEditProfileActive, setIsEditProfileActive] = useState(false);
-//   const [isHovered, setIsHoverd] = useState(false);
-//   const [isMenuHovered, setIsMenuHovered] = useState(false);
-
-//   useEffect(() => {
-//     const fetchBarberData = async () => {
-//       try {
-//         const salonList = window.location.href.split("/");
-//         const salonid = salonList[salonList.length - 1];
-//         const data = await APIgetSalon(salonid);
-//         setSalon(data);
-//         console.log("data is : " + data);
-//         console.log("data.babers is : " + data.barbers);
-//         if (data && data.barbers) {
-//           setBarberIDs(String(data.barbers).split(','));
-//           console.log("ids : " + String(data.barbers).split(','));
-//           //setBarberIDs(ids);
-//         }
-//       } catch (err) {
-//         setError(err);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchBarberData();
-//   }, []);
-//   const handleImageButtonClick = (index) => {
-//     console.log(index);
-//     setSelectedTab(index);
-//   };
-//   const toggleEditProfile = () => {
-//     setIsEditProfileActive(!isEditProfileActive); // Toggle edit profile mode
-//   };
-//   console.log("salon id is : " + salon.id);
-//   console.log("salon name is : " + salon.name);
-
-//   return (
-//     <div className={style.userpage}>
-//         <SalonAvatar salon={salon} onClick={toggleEditProfile}/>
-//         {isEditProfileActive ? (
-//         <div className={style.editcontainer}>
-//         <EditSalonprofile salon={salon} />
-//         </div>
-//         ) : (
-//         <div className={style.barbers}>
-//           <SalonBarbers salonid={salon.id} barberIDs={barberIDs}/>
-//       </div>
-//       )
-//       }
-//         {/* <SalonServices/> */}
-//     </div>
-// )
-// };
-
-// export default SalonProfile;
 
 
 const SalonProfile = ({ barberid }) => {

@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from './SalonPagebarberCard'
+import Card from '../BarbersCard'
 import style from "../../styles/salon.module.scss";
 import APIgetSalon from "../../API/APIendpointSalon";
 import fetchBarberById from "../../API/APIendpointBarberProfile";
@@ -41,7 +41,7 @@ const SalonBarbers = ({ salonid, barberIDs }) => {
   // if (loading) return <div>Loading...</div>;
   console.log("the id's are : " + barberIDs);
   if (error) return <div>Error: {error.message}</div>;
-  if (!barberIDs.length) return <div>No barbers found</div>;
+  if (!barberIDs.length) return <div className={style.error}><h1>No barbers found</h1></div>;
   return (
     <div className={style.barber_list}>
       <h1>آرایشگران</h1>
@@ -65,6 +65,7 @@ const SalonBarbers = ({ salonid, barberIDs }) => {
             id={barber.id}
             name={barber.first_name + " " + barber.last_name}
             location={barber.address}
+            average_rating={barber.average_rating}
           />
         ))}
       </div>

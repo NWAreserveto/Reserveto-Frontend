@@ -1,21 +1,9 @@
 
-// .swiperSlide {
-//   display: flex;
-//   justify-content: left; /* Center horizontally */
-//   align-items: center; /* Center vertically */
-//   height: 550px; /* Adjust the height as needed */
-//   cursor: pointer;
-//   border-radius: 10px;
-//   width: 700px;
-// }
-// .SlideConstainer{
-//   display: flex;
-//   justify-content:center; /* Center horizontally */
-//   align-items: center; /* Center vertically */
-//   margin: 50px;
-//   //height: 300px; /* Adjust the height as needed */
-//   //width: 300px;
-// }
+.error{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
 
 .barber_list {
   //margin: 200px;
@@ -243,7 +231,7 @@ h1{
     // background-color: rgb(105, 14, 14);
     //height: 550px;
     width: 1620px;
-    min-height : 500px;
+    min-height : 450px;
     //margin: 4% 0% 4% 0%;
     flex-direction: column;
     position: relative;

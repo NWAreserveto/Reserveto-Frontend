@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import Card from "./SalonBarberCard";
+import Card from "../BarbersCard";
 import style from "../../styles/salon.module.scss";
 import APIgetSalon from "../../API/APIendpointSalon";
 import fetchBarberById from "../../API/APIendpointBarberProfile";
@@ -65,6 +65,7 @@ const SalonBarbers = ({ salonid, barberIDs }) => {
             id={barber.id}
             name={barber.first_name + " " + barber.last_name}
             location={barber.address}
+            average_rating={barber.average_rating}
           />
         ))}
       </div>

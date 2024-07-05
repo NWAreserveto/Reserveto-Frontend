@@ -1,8 +1,10 @@
 .container{
     display: flex;
-    margin-top: 50px;  
+    margin-top: 100px; 
+    margin-right: 20px; 
+    margin-bottom: 20px;
     //flex-direction: row;
-    height: 100vh;
+    height: 100vb;
 
 
     .menu{
@@ -13,6 +15,7 @@
         align-items: center;
         justify-content: space-between;
         padding: 30px 5px; 
+        border-radius: 9px;
         background-color: var(--secondary-color);
         color: var(--primary-color);
 

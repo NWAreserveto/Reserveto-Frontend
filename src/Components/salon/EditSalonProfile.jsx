@@ -27,6 +27,7 @@ import jsonData from "../../images/provinces_cities_counties.json";
 import axios from "axios";
 
 const textfieldstyle = {
+  position : 'fixed',
   "& label": {
     transformOrigin: "right !important",
     left: "inherit !important",
@@ -115,11 +116,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
     setsalonName(value);
     setNameError(!validateName(value));
   };
-  const handlePhone = (e) => {
-    const value = e.target.value;
-    setphone(value);
-    setPhoneError(!validatePhone(value));
-  };
+  
   const [address, setaddress] = useState(salon.address);
   const handleAddress = (e) => {
     setaddress(e.target.value);
@@ -218,7 +215,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
         <div className={style.formItem}>
           <TextField
             label=" نام سالن"
-            name="first_name"
+            name="salon_name"
             value={salonname}
             onChange={handlename}
             fullWidth
@@ -228,16 +225,6 @@ const EditSalonProfile = ({ salon, barberId }) => {
           />
         </div>
         <div className={style.formItem}>
-          <TextField
-            label="شماره تلفن"
-            name="phone_number"
-            value={phone}
-            onChange={handlePhone}
-            fullWidth
-            sx={textfieldstyle}
-            error={phoneError}
-            helperText={phoneError && "شماره همراه نامعتبر میباشد"}
-          />
         </div>
         <div className={style.formItem}>
           <TextField

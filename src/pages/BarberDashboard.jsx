@@ -7,6 +7,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
+import CreateSalon from "../components/Createsalon"
 import { IconButton } from "@mui/material";
 import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
@@ -67,6 +68,13 @@ const BarberDashboard = () => {
       console.error("Error uploading file:", error);
     }
   };
+  const handleButtonClick = () => {
+    if (barber.salons) {
+      navigate(`/salonProfile/${barber.salons}`);
+    } else {
+      setIndex(5);
+    }
+  };
 
   const main = () => {
     switch (index) {
@@ -77,6 +85,8 @@ const BarberDashboard = () => {
       // case2: Reserves
       // case3: Comments
       // case4: Notifications
+      case 5 : 
+        return <CreateSalon barberId={barber.id} />
       default:
         return <Dashboard />;
     }
@@ -168,7 +178,7 @@ const BarberDashboard = () => {
           <Button
             className={style.button}
             sx={{ fontSize: "20px" }}
-            onClick={() => navigate(`/salonProfile/${barber.salons}`, { state: { barberId } })}
+            onClick={handleButtonClick}
           >
             <NotificationsIcon fontSize="medium" />
             سالن من
