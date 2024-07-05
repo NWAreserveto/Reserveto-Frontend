@@ -41,12 +41,12 @@ const BarberDashboard = () => {
 
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    handleUpload();
+    handleUpload(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
+    formData.append("profile_picture", file);
 
     const token = localStorage.getItem("token");
     try {
@@ -60,8 +60,8 @@ const BarberDashboard = () => {
           },
         }
       );
-      setBarber((prevBarber) => ({
-        ...prevBarber,
+      setBarber((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {

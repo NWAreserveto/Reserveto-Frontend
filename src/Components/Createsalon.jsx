@@ -16,7 +16,6 @@ import {
 } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 import APIsalonCreate from "../API/APIendpointCreateSalon";
-import API
 import style from "../styles/EditBarberProfile.module.scss";
 import jsonData from "../images/provinces_cities_counties.json";
 import axios from "axios";

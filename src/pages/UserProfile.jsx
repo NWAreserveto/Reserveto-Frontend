@@ -10,6 +10,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 //import style from "../styles/Avatar.module.scss"
 import style from '../styles/UserDashboard.module.scss'
 import Button from "@mui/material/Button"
+import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
 import Usernavbar from "../components/Usernavbar";
 import { Avatar, Divider } from "@material-ui/core";
@@ -58,15 +59,41 @@ const UserProfile = () => {
     fetchData();
   },[id]);
 
-  const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    handleUpload();
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
   };
 
-  const handleUpload = async () => {
+
+  const handleFileChange = (event) => {
+    setSelectedFile(event.target.files[0]);
+    handleUpload(event.target.files[0]);
+  };
+
+  const handleUpload = async (file) => {
     const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
-  }
+    formData.append("profile_picture", file);
+
+    const token = localStorage.getItem("token");
+    try {
+      const response = await axios.patch(
+        `https://reserveto-back.onrender.com/api/customers/profiles/${userid}/`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "multipart/form-data",
+          },
+        }
+      );
+      setUser((prevuser) => ({
+        ...prevuser,
+        profile_picture: response.data.profile_picture,
+      }));
+    } catch (error) {
+      console.error("Error uploading file:", error);
+    }
+  };
   
 
   const handleImageButtonClick = (index) => {
@@ -109,14 +136,13 @@ const UserProfile = () => {
         <div className={style.menuItem}>
           <div className={style.avatarContainer}>
             <Avatar
-              //src={user.profile_picture}
+              src={user.profile_picture}
               sx={{
                 width: "200px",
                 height: "200px",
                 bgcolor: "var(--primary-color)",
               }}
             />
-
             <label htmlFor="file-upload">
               <input
                 id="file-upload"
@@ -138,12 +164,12 @@ const UserProfile = () => {
           <div className={style.name}>
             <h3>{user.Full_Name}</h3>
             {/* <h3>{user.user.username}</h3> */}
-            <IconButton
+            {/* <IconButton
               className={style.button}
               onClick={() => setIndex(0)}
             >
               <EditIcon />
-            </IconButton>
+            </IconButton> */}
           </div>
 
           <Divider
@@ -171,10 +197,11 @@ const UserProfile = () => {
             <EventIcon fontSize="medium" />
             رزروها
           </Button>
+          
           <Button
             className={style.button}
-            sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(3)}
+            sx={{ fontSize: "20px" ,border : '1px solid var(--primary-color)'}}
+            onClick={() => setIndex(0)}
           >
             <EditNoteIcon fontSize="medium" />
             ویرایش پروفایل
@@ -182,7 +209,7 @@ const UserProfile = () => {
         </div>
         <div className={style.menuItem}>
           <Button
-          onClick={() =>navigate('/')}
+          onClick={handleLogout}
             className={style.button}
             sx={{ fontSize: "20px" }}
           >
