@@ -5,6 +5,7 @@ import EventIcon from "@mui/icons-material/Event";
 import CommentIcon from "@mui/icons-material/Comment";
 import NotificationsIcon from "@mui/icons-material/Notifications";
 import EditIcon from "@mui/icons-material/Edit";
+import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import { IconButton } from "@mui/material";
@@ -12,6 +13,10 @@ import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
 import EditProfile from "../components/barberDashboard/EditProfile";
 import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
+import Reserves from "../components/barberDashboard/Reserves";
+import Notifications from "../components/barberDashboard/Notifications";
+import Requests from "../components/barberDashboard/Requests";
+import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 
 const BarberDashboard = () => {
@@ -19,9 +24,8 @@ const BarberDashboard = () => {
 
   const barberIdList = window.location.href.split("/");
   const barberId = barberIdList[barberIdList.length - 1];
-
+  const navigate = useNavigate();
   const [barber, setBarber] = useState({});
-  const [selectedFile, setSelectedFile] = useState(null);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -37,13 +41,18 @@ const BarberDashboard = () => {
   }, [barberId]);
 
   const handleFileChange = (event) => {
-    setSelectedFile(event.target.files[0]);
-    handleUpload();
+    const selectedFile = event.target.files[0];
+    handleUpload(selectedFile);
   };
 
-  const handleUpload = async () => {
+  const handleLogout = () => {
+    localStorage.clear();
+    navigate("/");
+  };
+
+  const handleUpload = async (file) => {
     const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
+    formData.append("profile_picture", file);
 
     const token = localStorage.getItem("token");
     try {
@@ -71,10 +80,19 @@ const BarberDashboard = () => {
       case 0:
         return <EditProfile barber={barber} />;
       case 1:
-        return <Dashboard />;
-      // case2: Reserves
+        return <Dashboard barberId={barberId} />;
+      case 2:
+        return <Reserves barberId={barberId} />;
       // case3: Comments
-      // case4: Notifications
+      case 4:
+        return <Notifications barberId={barberId} />;
+      case 5:
+        return (
+          <Requests
+            barberId={barberId}
+            isAdmin={barber.is_admin}
+          />
+        );
       default:
         return <Dashboard />;
     }
@@ -162,11 +180,20 @@ const BarberDashboard = () => {
             <NotificationsIcon fontSize="medium" />
             اعلان ها
           </Button>
+          <Button
+            className={style.button}
+            sx={{ fontSize: "20px" }}
+            onClick={() => setIndex(5)}
+          >
+            <AddIcon fontSize="medium" />
+            درخواست ها
+          </Button>
         </div>
         <div className={style.menuItem}>
           <Button
             className={style.button}
             sx={{ fontSize: "20px" }}
+            onClick={handleLogout}
           >
             <LogoutIcon fontSize="medium" />
             خروج

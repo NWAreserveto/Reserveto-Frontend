@@ -1,6 +1,8 @@
+import React from "react";
 import axios from "axios";
+import { toArray } from "lodash";
 
-const GETAllServicesAPI = async () => {
+const APIendpointAllServices = async () => {
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -10,17 +12,17 @@ const GETAllServicesAPI = async () => {
       },
     });
 
-    const response = await api.get(`api/allservices/`);
+    const response = await api.get("api/allservices/");
 
     if (response.status === 200) {
-      console.log(response.data);
       return response.data;
     } else {
+      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {
-    console.error(error);
+    console.error("Error fetching data:", error);
   }
 };
 
-export default GETAllServicesAPI;
+export default APIendpointAllServices;

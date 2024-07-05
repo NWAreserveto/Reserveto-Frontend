@@ -7,7 +7,6 @@
     align-items: center;
     justify-content: space-evenly;
     margin: auto;
-    gap:  px;
     overflow: scroll;
 
     .formItem{
@@ -23,6 +22,13 @@
         flex-direction: row;
         align-items: center;
         justify-content: space-between;
+    }
+
+
+    .error{
+        color: red;
+        font-size: 12px;
+        margin-top: 4px;
     }
 
 
