@@ -6,10 +6,36 @@ import StarIcon from "@mui/icons-material/Star";
 import style from "../../styles/Dashboard.module.scss";
 import { Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
-import { Chip } from "@mui/material";
 import OrderList from "./OrderList";
+import { useState, useEffect } from "react";
+import axios from "axios";
+import { toArray } from "lodash";
 
-const Dashboard = () => {
+const Dashboard = ({ barberId }) => {
+  const [status, setStatus] = useState({
+    reserves: 5,
+    comments: 6,
+    notifications: 7,
+    raiting: 5,
+  });
+  const fetchStatus = async () => {
+    const token = localStorage.getItem("token");
+    try {
+      const api = axios.create({
+        baseURL: "https://reserveto-back.onrender.com/",
+        headers: {
+          Authorization: `Bearer ${token}`,
+        },
+      });
+      const response = await api.get(`api/barbers/stats/${barberId}/`);
+      setStatus(response.data);
+    } catch (error) {
+      console.error("Error fetching Requests:", error);
+    }
+  };
+  useEffect(() => {
+    fetchStatus();
+  }, [barberId]);
   return (
     <div className={style.dashboard}>
       <div className={style.menu}>
@@ -25,7 +51,7 @@ const Dashboard = () => {
             />
             <h3>رزروها</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{status.reserves}</div>
           <Divider flexItem />
           <Link>مشاهده رزروها</Link>
         </Paper>
@@ -41,7 +67,7 @@ const Dashboard = () => {
             />
             <h3>نظرات</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{status.comments}</div>
           <Divider flexItem />
           <Link>مشاهده نظرات</Link>
         </Paper>
@@ -57,7 +83,7 @@ const Dashboard = () => {
             />
             <h3>اعلان</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{status.notifications}</div>
           <Divider flexItem />
           <Link>مشاهده اعلان ها</Link>
         </Paper>
@@ -73,7 +99,7 @@ const Dashboard = () => {
             />
             <h3>امتیاز</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{status.raiting}</div>
           <Divider flexItem />
           <Link>مشاهده امتیازات</Link>
         </Paper>
