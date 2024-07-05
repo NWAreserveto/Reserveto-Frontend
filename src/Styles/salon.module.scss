@@ -208,8 +208,9 @@ h1{
   //height: 550px;
   border-radius: 2px;
   box-shadow: 0 4px 8px 0 var(--secondary-color);
-  width: 1620px;
   min-height : 500px;
+  min-width: 1260px;
+  max-width: 1420px;
   //margin: 4% 0% 4% 0%;
   flex-direction: column;
   position: relative;
