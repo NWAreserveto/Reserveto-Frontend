@@ -125,7 +125,7 @@ export default function BarbersCard({
           }}
           // color="secondary"
         >
-          برو
+          پروفایل
         </Button>
       </CardActions>
     </Card>

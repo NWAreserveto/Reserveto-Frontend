@@ -176,7 +176,8 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
         : [...prevSelected, serviceId]
     );
   };
-  const customerId = localStorage.getItem("userId");
+  const customerId = localStorage.getItem("customerId");
+  console.log(customerId);
   const barberId = localStorage.getItem("barberId");
   const [success, setSuccess] = useState(false);
   const [responseData, setResponseData] = useState(null);
