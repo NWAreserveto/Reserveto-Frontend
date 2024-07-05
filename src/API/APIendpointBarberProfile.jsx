@@ -8,11 +8,12 @@ const GETBarberProfileAPI = async (barberId) => {
     });
 
     const response = await api.get(`api/barbers/profiles/${barberId}/`);
+    localStorage.setItem("barberName", response.data.first_name);
+    localStorage.setItem("barberLastName", response.data.last_name);
 
     if (response.status === 200) {
       return response.data;
     } else {
-      console.log(response.status);
       throw new Error(`Request failed with status code ${response.status}`);
     }
   } catch (error) {

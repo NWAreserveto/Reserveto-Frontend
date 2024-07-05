@@ -1,79 +1,120 @@
-import React from "react";
-import { Box, Typography } from "@mui/material";
-import { Swiper, SwiperSlide } from "swiper/react";
-import "swiper/css";
-import "swiper/css/navigation";
-import "swiper/css/pagination";
-import "swiper/css/scrollbar";
-import { Navigation } from "swiper/modules";
-import { CardMedia } from "@material-ui/core";
-import ParentComponent from "./ParentPopup";
+import React, { useEffect, useState } from "react";
+import { makeStyles } from "@material-ui/styles";
+import { Avatar, Box, CircularProgress } from "@material-ui/core";
+import GETBarberGalleryAPI from "../../API/APIendpointBarberGallery";
 
-const Samples = ({ samples }) => {
+const useStyles = makeStyles((theme) => ({
+  container: {
+    position: "relative",
+    minHeight: "40vh",
+    width: "100%",
+    margin: "0 auto",
+    padding: "40px 20px",
+    zIndex: -1,
+  },
+  imageBox: {
+    position: "relative",
+    height: 210,
+    width: 250,
+    borderRadius: 6,
+    overflow: "hidden",
+    zIndex: -1,
+  },
+  images: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    zIndex: -1,
+  },
+  imageItem: {
+    margin: 8,
+    zIndex: -1,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 6,
+    transition: "transform 0.2s linear",
+    zIndex: -1,
+  },
+  imageText: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 400,
+    textTransform: "capitalize",
+    zIndex: -1,
+  },
+}));
+
+const Samples = ({ barber }) => {
+
+  const [images, setImages] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const data = await GETBarberGalleryAPI(barber.id);
+        setImages(data);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error fetching images:", error);
+      }
+    };
+    fetchData();
+  }, [barber]);
+
+  const classes = useStyles();
+
   return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        alignItems: "center",
-      }}
-    >
-      <Box
-        sx={{
-          margin: "0 20px",
-          backgroundColor: "#e8dbc4",
-          borderRadius: 8,
-          width: "1260px",
-          padding: 4,
-        }}
-      >
-        <Typography
-          sx={{
-            fontSize: 26,
-            padding: 2,
-            mt: -2,
-            mr: 1,
-          }}
-        >
-          نمونه کار ها
-        </Typography>
-        <p>جهت رزرو سرویس از دکمه زیر استفاده کنید</p>
-        <Box
-          sx={{
-            display: "flex",
-            flexDirection: "row",
-            justifyContent: "center",
-            alignItems: "center",
-            width: "100%",
-            height: "100%",
-            position: "relative",
-          }}
-        >
-          <Swiper
-            modules={[Navigation]}
-            slidesPerView={3.7}
-            spaceBetween={0}
-            navigation
-            pagination
+    <div className={classes.container}>
+      <div className={classes.images}>
+      {loading && ( // loading part
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "10vh",
+            }}
           >
-            {samples.map((item, index) => (
-              <SwiperSlide key={index}>
-                <CardMedia
-                  component={"img"}
-                  style={{
-                    height: 230,
-                    width: 230,
-                    borderRadius: 20,
-                  }}
-                  image={item.img}
-                />
-              </SwiperSlide>
-            ))}
-            <ParentComponent />
-          </Swiper>
-        </Box>
-      </Box>
-    </Box>
+            <CircularProgress
+              sx={{
+                size: 60,
+              }}
+              color="success"
+            />
+          </Box>
+        )}
+        {!loading && Array.isArray(images) && images.map((pic) => (
+          <div key={pic.id} className={classes.imageItem}>
+            <div
+              className={classes.imageBox}
+              style={{ backgroundColor: "#f0f0f0" }}
+            >
+              <Avatar
+                src={pic.image}
+                alt=""
+                sx={{
+                  zIndex: -1,
+                }}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  borderRadius: 6,
+                  objectFit: "cover",
+                }}
+              />
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
   );
 };
 

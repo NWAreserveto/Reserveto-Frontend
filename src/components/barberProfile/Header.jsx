@@ -12,7 +12,9 @@ const Header = ({
   point,
 }) => {
   return (
-    <Box>
+    <Box sx={{
+      mb: 2,
+    }}>
       <Box // background picture
         sx={{
           mt: "5%",
@@ -74,7 +76,7 @@ const Header = ({
       >
         <Box // location icon
           sx={{
-            color: "white",
+            color: "black",
             fontSize: { xs: 31, sm: 32, md: 33, lg: 34 },
             pr: { xs: 32, lg: 40, xl: 56.5 },
           }}
@@ -84,7 +86,7 @@ const Header = ({
 
         <Typography // location name
           sx={{
-            color: "white",
+            color: "black",
             mt: 0.3,
             fontSize: { xs: 18, lg: 20 },
             pr: 1,
@@ -110,7 +112,7 @@ const Header = ({
             pr: 1.5,
           }}
         >
-          {point}
+          {point ? point : 3.5}
         </Typography>
         <Box // score icon
           sx={{

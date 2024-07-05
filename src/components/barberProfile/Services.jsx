@@ -1,11 +1,6 @@
-import React from "react";
-import style from "../../styles/Services.module.scss";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { Navigation } from "swiper/modules";
+import React, { useEffect, useState } from "react";
 import Animation from "../Animation";
-import "swiper/css";
-import "swiper/css/navigation";
-
+import { makeStyles } from "@material-ui/styles";
 import ShaveAnimationData from "../../images/Shaving.json";
 import BarberAnimationData from "../../images/Barber.json";
 import SpaAnimationData from "../../images/Spa.json";
@@ -14,74 +9,138 @@ import NailAnimationData from "../../images/Nail.json";
 import MakeupAnimationData from "../../images/Makeup.json";
 import EyelashAnimationData from "../../images/Eyelash.json";
 import HairWashingAnimationData from "../../images/HairWashing.json";
-import { Box } from "@mui/material";
+import GETAllServicesAPI from "../../API/APIendpointAllServices";
+import { Box, CircularProgress } from "@material-ui/core";
 
-const Services = () => {
+
+const animations = [
+  {id: 1, animationData: BarberAnimationData,  title:"اصلاح مو"},
+  {id: 2, animationData: ShaveAnimationData,  title:"اصلاح صورت"},
+  {id: 3, animationData: SpaAnimationData,  title:"اسپا"},
+  {id: 4, animationData: MassageAnimationData,  title:"ماساژ"},
+  {id: 5, animationData: NailAnimationData,  title:"ناخن"},
+  {id: 6, animationData: MakeupAnimationData,  title:"آرایش"},
+  {id: 7, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 8, animationData: HairWashingAnimationData,  title:"شست و شوی مو"},
+  {id: 9, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 10, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 11, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 12, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 13, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 14, animationData: EyelashAnimationData,  title:"مژه"},
+  {id: 15, animationData: EyelashAnimationData,  title:"مژه"},
+]
+
+const useStyles = makeStyles((theme) => ({
+  container: {
+    position: "relative",
+    minHeight: "40vh",
+    width: "100%",
+    margin: "0 auto",
+    padding: "40px 20px",
+    zIndex: -1,
+  },
+  imageBox: {
+    position: "relative",
+    height: 210,
+    width: 250,
+    borderRadius: 6,
+    overflow: "hidden",
+    zIndex: -1,
+  },
+  images: {
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    flexWrap: "wrap",
+    zIndex: -1,
+  },
+  imageItem: {
+    margin: 8,
+    zIndex: -1,
+  },
+  image: {
+    height: "100%",
+    width: "100%",
+    borderRadius: 6,
+    transition: "transform 0.2s linear",
+    zIndex: -1,
+  },
+  imageText: {
+    position: "absolute",
+    bottom: 10,
+    left: 10,
+    color: "#fff",
+    fontSize: 12,
+    fontWeight: 400,
+    textTransform: "capitalize",
+    zIndex: -1,
+  },
+}));
+
+const Services = ({  barber }) => {
+  const classes = useStyles();
+  const services = animations.filter((animation) =>
+    barber.services_offered.includes(animation.id)
+  );
+
+  const [allServices, setAllServices] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const allServices = await GETAllServicesAPI();
+        setAllServices(allServices);
+        setLoading(false);
+      } catch (error) {
+        console.log("Error fetching images:", error);
+      }
+    };
+    fetchData();
+  }, [barber]);
+
   return (
-    <Box>
-      <div className={style.services} id="services">
-        <div className={style.container}>
-          <div
-            className={style.swiper}
-            style={{
-              backgroundColor: "#e8dbc4",
-              borderRadius: 20,
-              padding: 25,
+    <div className={classes.container}>
+      <div className={classes.images}>
+      {loading && ( // loading part
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "10vh",
             }}
           >
-            <Swiper
-              style={{
-                "--swiper-theme-color": "var(--secondary-color)",
-                "--swiper-navigation-size": "32px",
+            <CircularProgress
+              sx={{
+                size: 60,
               }}
-              modules={[Navigation]}
-              slidesPerView={6}
-              navigation
+              color="success"
+            />
+          </Box>
+        )}
+        {!loading && services.map((service) => (
+          <div key={service.id} className={classes.imageItem}>
+            <div
+              className={classes.imageBox}
             >
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={ShaveAnimationData}
-                  title={"اصلاح صورت"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={BarberAnimationData}
-                  title={"اصلاح مو"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={SpaAnimationData} title={"اسپا"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={MassageAnimationData}
-                  title={"ماساژ"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={NailAnimationData} title={"ناخن"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={MakeupAnimationData}
-                  title={"آرایش"}
-                />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation animationData={EyelashAnimationData} title={"مژه"} />
-              </SwiperSlide>
-              <SwiperSlide className={style.swiperItem}>
-                <Animation
-                  animationData={HairWashingAnimationData}
-                  title={"شست وشو مو"}
-                />
-              </SwiperSlide>
-            </Swiper>
+              <Animation
+                animationData={service.animationData}
+                title={allServices[(parseInt(service.id) - 1)].name}
+                style={{
+                  height: "100%",
+                  width: "100%",
+                  borderRadius: 6,
+                  objectFit: "cover",
+                }}
+              />
+            </div>
           </div>
-        </div>
+        ))}
       </div>
-    </Box>
+    </div>
   );
 };
 

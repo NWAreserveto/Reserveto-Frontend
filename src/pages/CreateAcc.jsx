@@ -7,11 +7,13 @@ import InputAdornment from "@mui/material/InputAdornment";
 import Tabs from "@mui/material/Tabs";
 import Tab from "@mui/material/Tab";
 import Box from "@mui/material/Box";
+// import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewCustomerAPI from "../API/APIendpointCustomer.jsx";
 import signUpNewBarberAPI from "../API/APIendpointBarber.jsx";
 import { CustomTabPanel, a11yProps } from "../components/TabPanel.jsx";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import style from "../styles/CreateAcc.module.scss";
+import { toast, ToastContainer } from "react-toastify";
 
 const CreateAcc = () => {
   const [isChecked, setIsChecked] = useState(false);
@@ -200,30 +202,57 @@ const CreateAcc = () => {
   };
 
   const [open, setOpen] = React.useState(false);
+  const [success, setSucces] = useState(false);
+  const navigate = useNavigate();
+  const [responseData, setResponseData] = useState();
 
   const handleClose = () => {
     setOpen(false);
   };
 
-  const customerSignupbutton = () => {
-    signUpNewCustomerAPI(customer1);
-    // alert("Haloo");
-    // setOpen(true);
+  const customerSignupbutton = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await signUpNewCustomerAPI(customer1);
+      console.log(response);
+      const isSuccess = response.status === 201;
+      setSucces(isSuccess);
+      if (isSuccess) {
+        toast.success("حساب کاربری با موفقیت ساخته شد.");
+        setOpen(false);
+        setTimeout(() => {
+          navigate("/Login");
+        }, 5000);
+      }
+    } catch (error) {
+      toast.error("نام کاربری تکراری است.");
+    }
   };
 
-  const barberSignupbutton = () => {
-    signUpNewBarberAPI(barber1);
-    // alert('byee');
+  const barberSignupbutton = async (event) => {
+    event.preventDefault();
+    try {
+      const response = await signUpNewBarberAPI(barber1);
+      console.log(response);
+      const isSuccess = response.status === 201;
+      setSucces(isSuccess);
+      if (isSuccess) {
+        toast.success("حساب کاربری با موفقیت ساخته شد.");
+        setOpen(false);
+        setTimeout(() => {
+          navigate("/Login");
+        }, 5000);
+      }
+    } catch (error) {
+      toast.error("نام کاربری تکراری است.");
+    }
   };
 
   return (
     <div className={style.container}>
+      <ToastContainer />
       <div className={style.createAccount}>
-
-        <Box
-          sx={{ width: "100%" }}
-          className={style.koli}
-        >
+        <Box sx={{ width: "100%" }} className={style.koli}>
           <Box className={style.tabs}>
             <Tabs
               value={value}
@@ -243,631 +272,622 @@ const CreateAcc = () => {
                 },
               }}
             >
-              <Tab
-                label="کاربر"
-                {...a11yProps(0)}
-              />
-              <Tab
-                label="آرایشگر"
-                {...a11yProps(1)}
-              />
+              <Tab label="کاربر" {...a11yProps(0)} />
+              <Tab label="آرایشگر" {...a11yProps(1)} />
             </Tabs>
           </Box>
 
-          <CustomTabPanel
-            value={value}
-            index={0}
-            className={style.tab1}
-          >
+          <CustomTabPanel value={value} index={0} className={style.tab1}>
             {/* <CustomTextArea  showPassword handleShowPassword passwordError password passwordErrorText  handlePassChange={}/> */}
             <div className={style.tab1}></div>
-            <TextField
-              id="outlined-basic"
-              label="نام کاربری"
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+            <form onSubmit={customerSignupbutton}>
+              <TextField
+                id="outlined-basic"
+                label="نام کاربری"
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                },
-              }}
-              className={style.username}
-              value={username}
-              onChange={handleNameChange}
-              error={nameError}
-              helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />{" "}
-            <br />
-            <TextField
-              id="outlined-basic"
-              label="ایمیل"
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.username}
+                value={username}
+                onChange={handleNameChange}
+                error={nameError}
+                helperText={nameError ? "نام کاربری خود را وارد کنید" : ""}
+                inputProps={{
+                  pattern: "[A-Za-z ]+",
+                }}
+              />{" "}
+              <br />
+              <TextField
+                id="outlined-basic"
+                label="ایمیل"
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                },
-              }}
-              className={style.email}
-              value={email}
-              onChange={handleEmailChange}
-              error={emailError}
-              helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
-              inputProps={{
-                type: "email",
-              }}
-            />
-            <br />
-            <TextField
-              label="رمز"
-              variant="outlined"
-              type={showPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      className={style.icon1}
-                      aria-label="toggle password visibility"
-                      onClick={handleShowPassword}
-                    >
-                      {showPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                },
-              }}
-              className={style.password}
-              value={password}
-              onChange={handlePassChange}
-              // error={passwordError}
-              // helperText={passwordError ? "رمز خود را وارد کنید" : ""}
-              // inputProps={{
-              //   pattern: "[a-zA-Z0-9._:$!%-]+",
-              // }}
-            />
-            <TextField
-              label="تایید رمز"
-              variant="outlined"
-              type={showConfirmPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      className={style.icon2}
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowConfirmPassword}
-                    >
-                      {showConfirmPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.email}
+                value={email}
+                onChange={handleEmailChange}
+                error={emailError}
+                helperText={emailError ? "ایمیل خود را وارد کuنید" : ""}
+                inputProps={{
+                  type: "email",
+                }}
+              />
+              <br />
+              <TextField
+                label="رمز"
+                variant="outlined"
+                type={showPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        className={style.icon1}
+                        aria-label="toggle password visibility"
+                        onClick={handleShowPassword}
+                      >
+                        {showPassword ? <Visibility /> : <VisibilityOff />}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                },
-              }}
-              className={style.password}
-              value={confirmPass}
-              onChange={handleConfirmPassChange}
-              // error={confirmPasswordError}
-              // helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
-              // inputProps={{
-              //   pattern: "[a-zA-Z0-9._:$!%-]+",
-              // }}
-            />
-            <Link to="/">
-              <button
-                onClick={customerSignupbutton}
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                  },
+                }}
+                className={style.password}
+                value={password}
+                onChange={handlePassChange}
+                // error={passwordError}
+                // helperText={passwordError ? "رمز خود را وارد کنید" : ""}
+                // inputProps={{
+                //   pattern: "[a-zA-Z0-9._:$!%-]+",
+                // }}
+              />
+              <TextField
+                label="تایید رمز"
+                variant="outlined"
+                type={showConfirmPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        className={style.icon2}
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowConfirmPassword}
+                      >
+                        {showConfirmPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
+                  },
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
+                  },
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                  },
+                }}
+                className={style.password}
+                value={confirmPass}
+                onChange={handleConfirmPassChange}
+                // error={confirmPasswordError}
+                // helperText={confirmPasswordError ? "رمز خود را وارد کنید" : ""}
+                // inputProps={{
+                //   pattern: "[a-zA-Z0-9._:$!%-]+",
+                // }}
+              />
+              <input
+                type="submit"
                 className={style.SignUpCustomer}
-              >
-                ثبت نام
-              </button>
-            </Link>
+                id="customerSignUp"
+                value="ثبت نام"
+              />
+            </form>
           </CustomTabPanel>
 
-          <CustomTabPanel
-            value={value}
-            index={1}
-            className={style.tab2}
-          >
-            <TextField
-              id="outlined-basic"
-              label="نام کاربری"
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+          <CustomTabPanel value={value} index={1} className={style.tab2}>
+            <form onSubmit={barberSignupbutton}>
+              <TextField
+                id="outlined-basic"
+                label="نام کاربری"
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                },
-              }}
-              className={style.username}
-              value={barberName}
-              onChange={handleBarberNameChange}
-              error={barberNameError}
-              helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />{" "}
-            <br />
-            <TextField
-              id="outlined-basic"
-              label="ایمیل"
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.username}
+                value={barberName}
+                onChange={handleBarberNameChange}
+                error={barberNameError}
+                helperText={
+                  barberNameError ? "نام کاربری خود را وارد کنید" : ""
+                }
+                inputProps={{
+                  pattern: "[A-Za-z ]+",
+                }}
+              />{" "}
+              <br />
+              <TextField
+                id="outlined-basic"
+                label="ایمیل"
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                },
-              }}
-              className={style.email}
-              value={barberEmail}
-              onChange={handleBarberEmailChange}
-              error={barberEmailError}
-              helperText={barberEmailError ? "ایمیل خود را وارد کنید" : ""}
-              inputProps={{
-                type: "email",
-              }}
-            />{" "}
-            <br />
-            <TextField
-              label="رمز"
-              variant="outlined"
-              type={barberShowPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      className={style.icon1}
-                      aria-label="toggle password visibility"
-                      onClick={handleBarberShowPassword}
-                    >
-                      {barberShowPassword ? <Visibility /> : <VisibilityOff />}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                },
-              }}
-              className={style.password}
-              value={barberPassword}
-              onChange={handleBarberPassChange}
-              error={barberPasswordError}
-              helperText={barberPasswordError ? "رمز خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[a-zA-Z0-9._:$!%-]+",
-              }}
-            />
-            <TextField
-              label="تایید رمز"
-              variant="outlined"
-              type={showBarberConfirmPassword ? "text" : "password"}
-              InputProps={{
-                endAdornment: (
-                  <InputAdornment position="end">
-                    <IconButton
-                      className={style.icon2}
-                      aria-label="toggle password visibility"
-                      onClick={handleClickShowBarberConfirmPassword}
-                    >
-                      {showBarberConfirmPassword ? (
-                        <Visibility />
-                      ) : (
-                        <VisibilityOff />
-                      )}
-                    </IconButton>
-                  </InputAdornment>
-                ),
-              }}
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.email}
+                value={barberEmail}
+                onChange={handleBarberEmailChange}
+                error={barberEmailError}
+                helperText={barberEmailError ? "ایمیل خود را وارد کنید" : ""}
+                inputProps={{
+                  type: "email",
+                }}
+              />{" "}
+              <br />
+              <TextField
+                label="رمز"
+                variant="outlined"
+                type={barberShowPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        className={style.icon1}
+                        aria-label="toggle password visibility"
+                        onClick={handleBarberShowPassword}
+                      >
+                        {barberShowPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                },
-              }}
-              className={style.password}
-              value={barberConfirmPass}
-              onChange={handleBarberConfirmPassChange}
-              error={barberConfirmPasswordError}
-              helperText={
-                barberConfirmPasswordError ? "رمز خود را وارد کنید" : ""
-              }
-              inputProps={{
-                pattern: "[a-zA-Z0-9._:$!%-]+",
-              }}
-            />
-            <TextField
-              label="نام "
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                },
-              }}
-              className={style.name}
-              value={barberFirstName}
-              onChange={handleBarberFirstName}
-              error={barberFirstNameError}
-              helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
-              inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />
-            <TextField
-              label="نام خانوادگی"
-              variant="outlined"
-              type="text"
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.password}
+                value={barberPassword}
+                onChange={handleBarberPassChange}
+                error={barberPasswordError}
+                helperText={barberPasswordError ? "رمز خود را وارد کنید" : ""}
+                inputProps={{
+                  pattern: "[a-zA-Z0-9._:$!%-]+",
+                }}
+              />
+              <TextField
+                label="تایید رمز"
+                variant="outlined"
+                type={showBarberConfirmPassword ? "text" : "password"}
+                InputProps={{
+                  endAdornment: (
+                    <InputAdornment position="end">
+                      <IconButton
+                        className={style.icon2}
+                        aria-label="toggle password visibility"
+                        onClick={handleClickShowBarberConfirmPassword}
+                      >
+                        {showBarberConfirmPassword ? (
+                          <Visibility />
+                        ) : (
+                          <VisibilityOff />
+                        )}
+                      </IconButton>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
                   },
-                },
-              }}
-              className={style.lastName}
-              value={barberLastName}
-              onChange={handleBarberLastName}
-              error={barberLastNameError}
-              helperText={
-                barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""
-              }
-              inputProps={{
-                pattern: "[A-Za-z ]+",
-              }}
-            />
-            <TextField
-              label="تلفن همراه"
-              type="number"
-              variant="outlined"
-              className={style.telephoneNum}
-              sx={{
-                "& label": {
-                  transformOrigin: "right !important",
-                  left: "inherit !important",
-                  right: "1.75rem !important",
-                  fontSize: "small",
-                  color: "#807D7B",
-                  fontWeight: 400,
-                  overflow: "unset",
-                },
-                "& legend": {
-                  textAlign: "right",
-                  display: "flex",
-                  justifyContent: "center",
-                  fontSize: "10px",
-                },
-                "& label.Mui-focused": {
-                  color: "var(--secondary-color) !important",
-                },
-                "& .MuiInput-underline:after": {
-                  borderBottomColor: "yellow",
-                },
-                "& .MuiOutlinedInput-root": {
-                  "& fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
                   },
-                  "&:hover fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
                   },
-                  "&.Mui-focused fieldset": {
-                    borderColor: "var(--secondary-color) !important",
+                }}
+                className={style.password}
+                value={barberConfirmPass}
+                onChange={handleBarberConfirmPassChange}
+                error={barberConfirmPasswordError}
+                helperText={
+                  barberConfirmPasswordError ? "رمز خود را وارد کنید" : ""
+                }
+                inputProps={{
+                  pattern: "[a-zA-Z0-9._:$!%-]+",
+                }}
+              />
+              <TextField
+                label="نام "
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
                   },
-                },
-              }}
-              value={barberPhoneNum}
-              onChange={handleBarberPhoneNum}
-              error={barberPhoneNumError}
-              helperText={
-                barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""
-              }
-            />
-            <Link to="/">
-              <button
-                onClick={barberSignupbutton}
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
+                  },
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                  },
+                }}
+                className={style.name}
+                value={barberFirstName}
+                onChange={handleBarberFirstName}
+                error={barberFirstNameError}
+                helperText={barberFirstNameError ? "نام  خود را وارد کنید" : ""}
+              />
+              <TextField
+                label="نام خانوادگی"
+                variant="outlined"
+                type="text"
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
+                  },
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
+                  },
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                  },
+                }}
+                className={style.lastName}
+                value={barberLastName}
+                onChange={handleBarberLastName}
+                error={barberLastNameError}
+                helperText={
+                  barberLastNameError ? "نام خانوادگی  خود را وارد کنید" : ""
+                }
+                
+              />
+              <TextField
+                label="تلفن همراه"
+                type="number"
+                variant="outlined"
+                className={style.telephoneNum}
+                sx={{
+                  "& label": {
+                    transformOrigin: "right !important",
+                    left: "inherit !important",
+                    right: "1.75rem !important",
+                    fontSize: "small",
+                    color: "#807D7B",
+                    fontWeight: 400,
+                    overflow: "unset",
+                  },
+                  "& legend": {
+                    textAlign: "right",
+                    display: "flex",
+                    justifyContent: "center",
+                    fontSize: "10px",
+                  },
+                  "& label.Mui-focused": {
+                    color: "var(--secondary-color) !important",
+                  },
+                  "& .MuiInput-underline:after": {
+                    borderBottomColor: "yellow",
+                  },
+                  "& .MuiOutlinedInput-root": {
+                    "& fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&:hover fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                    "&.Mui-focused fieldset": {
+                      borderColor: "var(--secondary-color) !important",
+                    },
+                  },
+                }}
+                value={barberPhoneNum}
+                onChange={handleBarberPhoneNum}
+                error={barberPhoneNumError}
+                helperText={
+                  barberPhoneNumError ? "تلفن همراه خود را وارد کنید" : ""
+                }
+              />
+              <input
+                type="submit"
                 className={style.SignUpBarber}
-              >
-                ثبت نام
-              </button>
-            </Link>
+                id="barberSignUp"
+                value="ثبت نام"
+              />
+            </form>
           </CustomTabPanel>
         </Box>
       </div>

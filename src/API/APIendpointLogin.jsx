@@ -12,13 +12,25 @@ const LoginCOB = async (person) => {
 
       localStorage.setItem("token", response.data.access);
       localStorage.setItem("role", response.data.role);
+
+      if (response.data.role === "barber") {
+        localStorage.setItem("barberId", response.data.Barber.id);
+        localStorage.setItem("barberName", response.data.Barber.user.username);
+      } else if (response.data.role === "customer") {
+        localStorage.setItem("customerId", response.data.Customer.id);
+        localStorage.setItem(
+          "customerName",
+          response.data.Customer.user.username
+        );
+        console.log("Hallo");
+      }
     } else {
-      console.log(response.status);
+      console.log("response.status");
     }
     return response;
   } catch (error) {
     console.error(error);
-    throw error;
+    console.log("cayy");
   }
 };
 
