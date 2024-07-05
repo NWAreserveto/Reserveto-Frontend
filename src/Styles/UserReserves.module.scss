@@ -1,0 +1,87 @@
+// styles/BarberReserves.module.scss
+.container {
+    padding: 20px;
+  }
+  
+  .header {
+    margin-top: 20px;
+    width: 140vb;
+  }
+  
+  .headerCard {
+    background-color: var(--secodary-color-lighter);
+    box-shadow: none;
+  }
+  
+  .headerContent {
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    align-items: center;
+    padding: 8px;
+  }
+
+  .headerContent2{
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+    padding: 8px;
+  }
+  
+  .headerItem {
+    text-align: center;
+  }
+  
+  .tabPanel {
+    margin-top: 10px;
+  }
+  
+  .reserve {
+    margin-bottom: 10px;
+    padding: auto;
+    box-shadow: 0 2px 4px 1px var(--secondary-color);
+    height: 60px;
+  }
+  
+  .reserveContent {
+    height: 60px;
+    display: grid;
+    grid-template-columns: repeat(7, 1fr);
+    align-items: center;
+
+  }
+  .reserveContent2 {
+    height: 60px;
+    display: grid;
+    grid-template-columns: repeat(6, 1fr);
+    align-items: center;
+
+  }
+
+  .MuiCardContent-root:last-child{
+    padding-bottom: 0px;
+  }
+  
+  .MuiCardContent-root{
+    padding: 0;
+  }
+  .reserveItem {
+    text-align: center;
+  }
+  
+  .reserveActions {
+    display: flex;
+    justify-content: center;
+  }
+  .emptyState {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    margin-top: 40px;
+    width: 130vb;
+  }
+  
+  .emptyImage {
+    width: 200px;
+    margin-bottom: 20px;
+  }
+  

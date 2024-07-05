@@ -8,11 +8,11 @@ import IconButton from "@mui/material/IconButton";
 import MenuItem from "@mui/material/MenuItem";
 import Stack from "@mui/material/Stack";
 import Box from "@mui/material/Box";
+import Paper from "@mui/material/Paper";
 import style from "../styles/EditProfile.module.scss";
 import APIUserUpdate from "../API/APIendpointUpdateUser";
 import axios from "axios";
 import { Avatar, Divider } from "@material-ui/core";
-//import style from "../styles/BarberDashboard.module.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
 import CommentIcon from "@mui/icons-material/Comment";
@@ -34,6 +34,82 @@ import { useEffect, useState } from "react";
 //   following: 50,
 //   posts: 20
 // };
+const textfieldstyle = {
+  "& label": {
+    transformOrigin: "right !important",
+    left: "inherit !important",
+    right: "1.75rem !important",
+    fontSize: "small",
+    color: "#807D7B",
+    fontWeight: 400,
+    overflow: "unset",
+  },
+  "& legend": {
+    textAlign: "right",
+    display: "flex",
+    justifyContent: "center",
+    fontSize: "10px",
+  },
+  "& legend.Mui-error" : {
+    mb : -2
+  },
+  "& label.Mui-focused": {
+    color: "var(--secondary-color) !important",
+  },
+  '&label.Mui-error': {
+      color: 'red !important', // Error label color
+    },
+  "& .MuiInput-underline:after": {
+    borderBottomColor: "yellow",
+  },
+  '& .MuiFormHelperText-root': {
+    textAlign: 'right', // Align helper text to the right
+    direction: 'rtl',  // Set the text direction to right-to-left
+  },
+  '& .MuiInputLabel-root': {
+    '&.Mui-focused': {
+      color: 'var(--secondary-color)', // Default focused label color
+    },
+    '&.Mui-error': {
+      color: 'red !important', // Error label color
+    },
+    '&.Mui-error.Mui-focused': {
+      color: 'red !important', // Error label color when focused
+    },
+  },
+  "& .MuiOutlinedInput-root": {
+    '&.Mui-error fieldset': {
+      borderColor: 'red !important',
+    },
+    '&.Mui-error:hover fieldset': {
+      borderColor: 'red !important', // Error border color on hover
+    },
+    '&.Mui-error.Mui-focused fieldset': {
+      borderColor: 'red !important',
+    },
+    '&.Mui-error.label.Mui-focused fieldset': {
+      color: 'red !important',
+    },
+
+    "& fieldset": {
+      borderColor: "var(--secondary-color) !important",
+    },
+    "&:hover fieldset": {
+      borderColor: "var(--secondary-color-lighter) !important",
+    },
+    "&.Mui-focused fieldset": {
+      borderColor: "var(--secondary-color) !important",
+    },
+  },
+  "& .MuiSelect-icon": {
+    right: "unset",
+    left: "10px",
+  },
+  
+  "& .MuiSelect-select": {
+    paddingRight: "15px !important",
+  },
+};
 
 const currencies = [
   {
@@ -47,6 +123,14 @@ const currencies = [
 ];
 
 const EditProfile = ({ user }) => {
+  const [nameError, setNameError] = useState(false);
+  const [lastnameError, setLastNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const validateName = (value) => /^[\u0600-\u06FF\s]+$/.test(value);
+  const validatelastName = (value) => /^[\u0600-\u06FF\s]+$/.test(value);
+  const validatePhone = (value) => /^(\+98|0)?9\d{9}$/.test(value);
+
   const [profilePicture, setProfilePicture] = useState(null);
   const handleFileSelect = (event) => {
     const file = event.target.files[0];
@@ -61,12 +145,12 @@ const EditProfile = ({ user }) => {
     address: user.address,
     // Add other fields as needed
   });
-  const handleChange = (event) => {
-    setUserData({
-      ...userData,
-      [event.target.name]: event.target.value,
-    });
-  };
+  // const handleChange = (event) => {
+  //   setUserData({
+  //     ...userData,
+  //     [event.target.name]: event.target.value,
+  //   });
+  // };
   const handleApplyChanges = async () => {
     try {
       console.log("handleApplyChanges called -----------------------");
@@ -79,15 +163,27 @@ const EditProfile = ({ user }) => {
   };
   const [username, setuserName] = useState(user.user.username);
   const handleUsername = (e) => {
-    setuserName(e.target.value);
+    const value = e.target.value
+    setuserName(value);
+    
   };
   const [firstname, setfirstname] = useState(user.first_name);
   const handleFirstname = (e) => {
-    setfirstname(e.target.value);
+    const value = e.target.value
+    setfirstname(value);
+    setNameError(!validateName(value));
   };
   const [lastname, setlastname] = useState(user.last_name);
   const handleLastname = (e) => {
-    setlastname(e.target.value);
+    const value = e.target.value
+    setlastname(value);
+    setLastNameError(!validateName(value));
+  };
+  const [Phone , setphone] = useState(user.phone_number);
+  const handlePhone = (e) => {
+    const value = e.target.value;
+    setphone(value);
+    setPhoneError(!validatePhone(value));
   };
   const [email, setemail] = useState(user.user.email);
   const handleEmail = (e) => {
@@ -97,6 +193,11 @@ const EditProfile = ({ user }) => {
   const handleAddress = (e) => {
     setaddress(e.target.value);
   };
+  const [isModified, setIsModified] = useState(false);
+  useEffect(() => {
+    const isEqual = (a, b) => JSON.stringify(a) === JSON.stringify(b);
+    setIsModified(!isEqual(newData, user));
+  }, []);
   const testData = {
     user: {
       username: username !== user.user.username ? username : undefined,
@@ -107,9 +208,11 @@ const EditProfile = ({ user }) => {
     email: email,
   };
   const newData = {
+    Full_Name: firstname +" "+ lastname,
     first_name: firstname,
     last_name: lastname,
     address: address,
+    phone_number : Phone,
     // user: {
     //   username: username !== user.user.username ? username : undefined,
     //   email: email,
@@ -123,12 +226,14 @@ const EditProfile = ({ user }) => {
       formData.append("profilePicture", profilePicture); // Append the selected file
       formData.append("data", JSON.stringify(formData));
       APIUserUpdate(user.id, newData);
+      window.location.reload();
     } catch (error) {
       console.error("Failed to update profile:", error);
     }
   };
   const [selectedFile, setSelectedFile] = useState(null);
   const [salonprof, setsalonprof] = useState({});
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
     handleUpload();
@@ -158,362 +263,92 @@ const EditProfile = ({ user }) => {
       console.error("Error uploading file:", error);
     }
   };
+  
   // const handleChange = (event) => {
   //     setName(event.target.value);}
   return (
-    <div className={style.EditContainer}>
-      <Box
-        component="form"
+    <div className={style.form}>
+      <Paper
         sx={{
-          mb: 2,
-          bgcolor: "var(--primary-color)",
-          border: "2px solid",
-          borderColor: "var(--secondary-color)",
-          //bgcolor : 'white',
-          height: { xs: 40, sm: 50, md: 60, lg: 600 },
-          width: { xs: 400, sm: 450, md: 500, lg: 900 },
-          "& .MuiTextField-root": { m: 1 },
+          width: "100%",
+          padding: "50px 20px",
+          display: "flex",
+          flexDirection: "column",
+          gap: "15px",
         }}
-        noValidate
-        autoComplete="off"
-        //onSubmit={(e) => { e.preventDefault(); }}
       >
-        <div style={{ margin: "25px" }}>
-          <div className={style.changebutt}>
-            <label htmlFor="file-upload">
-              <input
-                id="file-upload"
-                type="file"
-                accept="image/*"
-                onChange={handleFileChange}
-                style={{ display: "none" }}
-              />
-              <IconButton
-                sx={{ color: "var(--secondary-color)" }}
-                variant="contained"
-                component="span"
-                className={style.uploadbutton}
-              >
-                <AddPhotoIcon />
-              </IconButton>
-            </label>
-          </div>
-          <TextField
-            id="outlined-basic"
-            label="نام کاربری"
-            variant="outlined"
-            fullWidth
-            required
-            type="text"
+        <div className={style.formHeader}>
+          <h3>اطلاعات شخصی</h3>
+          <Button
             sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
+              color: "var(--secondary-color)",
+              borderColor: "var(--secondary-color)",
+              "&:hover": {
+                bgcolor: "var(--secondary-color-lighter)",
+                borderColor: "var(--secondary-color)",
               },
             }}
-            //className={style.username}
-            value={username}
-            onChange={handleUsername}
-            //error={barberNameError}
-            //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />
+            type="submit"
+            variant="outlined"
+            onClick={edit}
+            disabled={!isModified || nameError || lastnameError || phoneError || addressError || (firstname == user.first_name &&
+              lastname == user.last_name &&
+              address == user.address && Phone == user.phone_number) || (address == null || lastname == null || firstname == null || Phone == null)}
+          >
+            ویرایش اطلاعات
+          </Button>
+        </div>
+        <Divider flexItem />
+        <div className={style.formItem}>
           <TextField
-            id="outlined-basic"
             label="نام"
-            variant="outlined"
-            fullWidth
-            required
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
-            }}
-            //className={style.username}
+            name="first_name"
             value={firstname}
             onChange={handleFirstname}
-            //error={barberNameError}
-            //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label="نام خانوادگی"
-            variant="outlined"
             fullWidth
-            required
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
-            }}
-            //className={style.username}
+            sx={textfieldstyle}
+            error={nameError}
+            helperText={nameError && "نام باید فقط شامل حروف فارسی باشد"}
+          />
+          </div>
+          <div className={style.formItem}>
+          <TextField
+            label=" نام خانوادگی"
+            name="last_name"
             value={lastname}
             onChange={handleLastname}
-            //error={barberNameError}
-            //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
-          />
-          <TextField
-            id="outlined-basic"
-            label="ایمیل "
-            variant="outlined"
             fullWidth
-            required
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
-            }}
-            //className={style.username}
-            value={email}
-            onChange={handleEmail}
-            //error={barberNameError}
-            //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            inputProps={{
-              pattern: "[A-Za-z ]+",
-            }}
+            sx={textfieldstyle}
+            error={lastnameError}
+            helperText={lastnameError && "نام خانوادگی باید فقط شامل حروف فارسی باشد"}
           />
-          <TextField
-            id="outlined-basic"
-            label="آدرس "
-            variant="outlined"
+        </div>
+        <div className={style.formItem}>
+        <TextField
+            label=" شماره همراه"
+            name="phone_number"
+            value={Phone}
+            onChange={handlePhone}
             fullWidth
-            required
-            type="text"
-            sx={{
-              "& label": {
-                transformOrigin: "right !important",
-                left: "inherit !important",
-                right: "1.75rem !important",
-                fontSize: "small",
-                color: "#807D7B",
-                fontWeight: 400,
-                overflow: "unset",
-              },
-              "& legend": {
-                textAlign: "right",
-                display: "flex",
-                justifyContent: "center",
-                fontSize: "10px",
-              },
-              "& label.Mui-focused": {
-                color: "var(--secondary-color) !important",
-              },
-              "& .MuiInput-underline:after": {
-                borderBottomColor: "yellow",
-              },
-              "& .MuiOutlinedInput-root": {
-                "& fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&:hover fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-                "&.Mui-focused fieldset": {
-                  borderColor: "var(--secondary-color) !important",
-                },
-              },
-            }}
-            //className={style.username}
+            sx={textfieldstyle}
+            error={phoneError}
+            helperText={phoneError && " فرمت شماره همراه نامعتبر است"}
+          />
+        </div>
+        <div className={style.formItem}>
+          <TextField
+            label="آدرس"
+            name="address"
             value={address}
             onChange={handleAddress}
-            //error={barberNameError}
-            //helperText={barberNameError ? "نام کاربری خود را وارد کنید" : ""}
-            // inputProps={{
-            //   pattern: "[A-Za-z ]+",
-            // }}
+            fullWidth
+            sx={textfieldstyle}
           />
-          <TextField
-            sx={{
-              "& .MuiOutlinedInput-root": {
-                "& .MuiOutlinedInput-notchedOutline": {
-                  //borderColor: "#2e2e2e",
-                },
-                "&.Mui-focused": {
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "var(--secondary-color)",
-                    //borderWidth: "2px",
-                  },
-                },
-                "&:hover:not(.Mui-focused)": {
-                  "& .MuiOutlinedInput-notchedOutline": {
-                    borderColor: "var(--secondary-color-lighter)",
-                  },
-                },
-              },
-              "& .MuiInputLabel-outlined": {
-                fontWeight: "bold",
-                "&.Mui-focused": {
-                  color: "var(--secondary-color)",
-                  fontWeight: "bold",
-                },
-              },
-            }}
-            id="outlined-select-currency"
-            select
-            label="جنسیت"
-            defaultValue="ML"
-          >
-            {currencies.map((option) => (
-              <MenuItem key={option.value} value={option.value}>
-                {option.label}
-              </MenuItem>
-            ))}
-          </TextField>
         </div>
-        <div className={style.changebutt}>
-          <Stack direction="row" spacing={2} gap={1}>
-            <Button
-              type="submit"
-              variant="contained"
-              onClick={edit}
-              sx={{ m: 1, bgcolor: "var(--secondary-color)" }}
-              startIcon={<checkIcon />}
-            >
-              اعمال تغییرات
-            </Button>
-            <Button
-              type="submit"
-              variant="outlined"
-              sx={{
-                m: 1,
-                borderColor: "var(--secondary-color)",
-                color: "var(--secondary-color)",
-              }}
-              startIcon={
-                <DeleteIcon sx={{ color: "var(--secondary-color)" }} />
-              }
-            >
-              حذف تغییرات
-            </Button>
-          </Stack>
-        </div>
-      </Box>
+        <span />
+        <span />
+        <Divider flexItem />
+      </Paper>
     </div>
   );
 };

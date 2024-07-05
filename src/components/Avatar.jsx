@@ -46,7 +46,25 @@ const StyledBadge = styled(Badge)(({ theme }) => ({
     },
   },
 }));
+function stringToColor(string) {
+  let hash = 0;
+  let i;
 
+  /* eslint-disable no-bitwise */
+  for (i = 0; i < string.length; i += 1) {
+    hash = string.charCodeAt(i) + ((hash << 5) - hash);
+  }
+
+  let color = '#';
+
+  for (i = 0; i < 3; i += 1) {
+    const value = (hash >> (i * 8)) & 0xff;
+    color += `00${value.toString(16)}`.slice(-2);
+  }
+  /* eslint-enable no-bitwise */
+
+  return color;
+}
 const Avatar = ({ user, onClick }) => {
   const [selectedFile, setSelectedFile] = useState(null);
   const [salonprof, setsalonprof] = useState({});
@@ -85,6 +103,7 @@ const Avatar = ({ user, onClick }) => {
 
   return user ? (
     // <div className={style.container}>
+    <div className={style.backcontainer}>
     <box
       className={style.back}
       // sx={{
@@ -102,7 +121,7 @@ const Avatar = ({ user, onClick }) => {
         anchorOrigin={{ vertical: 'bottom', horizontal: 'right' }}
         variant="dot"
       >
-        <ProfileAvatar size='large' sx={{width : '200px' , height : '200px'}}  src={user.profile_picture}>
+        <ProfileAvatar size='large'  sx={{width : '200px',bgcolor : stringToColor(user.user.username) , height : '200px' , fontSize : '50px'}}  src={user.profile_picture}>
           {user.user.username.charAt(0)}
           </ProfileAvatar>
             </StyledBadge>
@@ -135,6 +154,7 @@ const Avatar = ({ user, onClick }) => {
         </Button>
       </div>
     </box>
+    </div>
   ) : (
     // </div>
     <h4>sharmandeh user nayomad bala</h4>

@@ -1,22 +1,21 @@
 
-// .swiperSlide {
-//   display: flex;
-//   justify-content: left; /* Center horizontally */
-//   align-items: center; /* Center vertically */
-//   height: 550px; /* Adjust the height as needed */
-//   cursor: pointer;
-//   border-radius: 10px;
-//   width: 700px;
-// }
-// .SlideConstainer{
-//   display: flex;
-//   justify-content:center; /* Center horizontally */
-//   align-items: center; /* Center vertically */
-//   margin: 50px;
-//   //height: 300px; /* Adjust the height as needed */
-//   //width: 300px;
-// }
+.error{
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
 .barber_list {
+  //margin: 200px;
+  //margin-top: 0px;
+  display :grid;
+  //padding: 20px;
+  justify-content:start;
+  //align-items: left;
+}
+.barber_listt {
+  //margin: 200px;
+  //margin-top: 0px;
   display :grid;
   //padding: 20px;
   justify-content:start;
@@ -24,9 +23,14 @@
 }
 .grid_containerr {
     //opacity: 0.7;
-    padding: 0 100px;
+    padding: 20px 50px;
     width: calc(100vw - 300px);
-    height: 780px;
+    max-height: 700px;
+    border : 1px solid var(--secondary-color);
+    border-radius: 4px;
+    //background-color: var(--secondary-color);
+    box-shadow: 0 4px 8px 0 var(--secondary-color-lighter);
+    //height: 780px;
     overflow-y: auto;
     overflow-x: hidden;
     flex-direction: row;
@@ -54,10 +58,9 @@
 //   //opacity: 0.6;
 // }
 .grid_container {
-  opacity: 0.8;
   padding: 0 100px;
     width: calc(100vw - 300px);
-    height: 850px;
+    height: 600px;
     overflow: auto;
     //display: flex;
     flex-direction: column;
@@ -69,21 +72,19 @@
   gap: 20px;
 }
 h1{
-  color: antiquewhite;
+  color : var(--secondary-color);
   margin: 10px;
-  opacity: 0.8;
 }
 .container{
   display: flex;  
-  //flex-direction: row;
-  height: 100vh;
+  flex-direction: row;
+  //height: 100vh;
   //background-image: url("../images/LoginBackground.jpg");
   background-position: 100%;
 
 
 
   .menu{
-      opacity: 0.7;
       height: 100vh;
       width: 300px;
       display: flex;
@@ -133,9 +134,6 @@ h1{
       }
   }
   
-.avatarContainer {
-  //display: inline-block;
-}
 
 .fileInput {
   display:none;
@@ -165,8 +163,7 @@ h1{
 
 }
 .saloncomments{
-  opacity: 0.8;
-  padding: 0 100px;
+  position: relative;
     width: calc(100vw - 300px);
     //height: 850px;
     //display: flex;
@@ -175,63 +172,141 @@ h1{
   display: grid;
 
   h1{
-  color: antiquewhite;
+  color: var(--secondary-color);
   margin: 10px;
-  opacity: 0.8;
+    }
+    .commentcontainer{
+      bottom: 0;
+      background-color: var(--secondary-color);
+      //left: 0;
+      width: 100%;
+      display: flex;
+      justify-content: flex-start;
+      position: fixed;
     }
 
   
 }
 
 .salondashboard{
-  background-color: transparent;
-  opacity: 0.7;
-  padding: 0 100px;
-  width: calc(100vw - 300px);
-  height: 100%;
-  overflow: scroll;
-  display: flex;
+   //display: flex;
+  // //justify-content: right;
+   //text-align: end;
+  //align-items: flex-end;
+  //justify-content: right;
+  //   // background-color: rgb(105, 14, 14);
+  //   //height: 550px;
+  //   width: 1620px;
+  //   //margin: 4% 0% 4% 0%;
+  //   flex-direction: column;
+  //   position: relative;
+  .profcontainer{
+    display: flex;
+    text-align: end;
+
+  // background-color: rgb(105, 14, 14);
+  //height: 550px;
+  border-radius: 2px;
+  box-shadow: 0 4px 8px 0 var(--secondary-color);
+  width: 1620px;
+  min-height : 500px;
+  //margin: 4% 0% 4% 0%;
   flex-direction: column;
-  align-items: center;
-  justify-content: space-evenly;
-  margin: auto;
+  position: relative;
+    justify-content: center;
+    align-items: center;
+  }
+  .pagecontainer{
+    display: flex;
+    text-align: end;
+    margin : 200px;
+    border: 2px solid var(--secondary-color);
+    box-shadow: 0 4px 8px 0 var(--secondary-color);
+    border-radius: 4px;
+    margin-bottom: 5px;
+    margin-top: 80px;
+    // background-color: rgb(105, 14, 14);
+    //height: 550px;
+    width: 1620px;
+    min-height : 450px;
+    //margin: 4% 0% 4% 0%;
+    flex-direction: column;
+    position: relative;
+      //height: 600px;
+      justify-content: center;
+      align-items: center;
+    }
 
   h1{
     font-size:80px;
-    margin: 10px;
+    position: absolute;
+    margin-right: 80px;
+    margin-bottom: 80px;
+    bottom: 0;
+    right: 0;
+    opacity: 0.8;
+    //margin: 10px;
   }
-  p{
+  .address{
     color:antiquewhite;
-    margin:0;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    //margin-right: 85px;
+    //margin-bottom: 50px;
+    opacity: 0.8;
+  }
+  .phone{
+    color:antiquewhite;
+    position: absolute;
+    bottom: 0;
+    right: 0;
+    margin-right: 85px;
+    margin-bottom: 30px;
+    opacity: 0.8;
   }
 
   .dashboardmenu{
-      width: 90%;
+      margin: 200px;
+      margin-bottom: 10px;
+      margin-top: 5px;
+      //margin-bottom: 10px;
       display: flex;
       flex-direction: row;
       align-items: center;
       justify-content:center;
 
       .paper{
-        width: 900px;
+        //width: 900px;
         display: flex;
         flex-direction: column;
-        align-items: flex-start;
+        align-items: center;
         justify-content: center;
-        //align-items: center;
     
       }
       .card{
-          width: 400px;
+          //width: 400px;
+          width: 100%;
+          background-color: var(--secondary-color);
           display: flex;
+          box-shadow: 0 4px 8px 0 var(--secondary-color);
           flex-direction: column;
           align-items: flex-start;
           justify-content: center;
 
+          // .check{
+          //   width: 100%;
+          //     margin: 15px 0 20px 0;
+          //     padding: 0px 10px;
+          //     display: flex;
+          //     //align-items: flex-start;
+          //     justify-content: space-between;
+          //     flex-direction: row-reverse;
 
+          // }
           .header{
               width: 100%;
-              margin: 15px 0 20px 0;
+              margin: 10px 0 10px 0;
               padding: 0px 10px;
               display: flex;
               align-items: flex-start;
@@ -239,23 +314,29 @@ h1{
               flex-direction: row-reverse;
 
               h3{
-                  font-size: 25px;
+                color: var(--primary-color);
+                  font-size: 30px;
+              }
+              p{
+                color: var(--secondary-color);
+                font-size: 25px;
               }
           }
 
           
           .score{
-              font-size: 18px;
+              font-size: 15px;
               font-weight: 500;
-              margin: -15px 10px 20px 0;
+              margin: 0px 10px 20px 0;
+              color: var(--primary-color);
+              opacity: 0.8;
           }
 
 
           a{
               padding: 10px 20px;
               font-size: 15px;
-              color: black;
-
+              color: var(--secondary-color-lighter);
           }
           a::hover{
               color: var(--primary-color);
@@ -293,4 +374,4 @@ h1{
 
 
   
-}
+  }

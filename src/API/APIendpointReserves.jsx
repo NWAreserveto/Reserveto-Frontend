@@ -1,6 +1,7 @@
 import axios from "axios";
 
-const APIendpointBookmarksList = async () => {
+const Reserves = async (userId) => {
+
   try {
     const token = localStorage.getItem("token");
     const api = axios.create({
@@ -10,17 +11,20 @@ const APIendpointBookmarksList = async () => {
       },
     });
 
-    const userId = localStorage.getItem("customerId");
-    const response = await api.get(`/api/customers/${userId}/bookmarks/`);
+    const response = await api.get(`/api/C_orders/${userId}/`);
 
     if (response.status === 200) {
+      console.log(response.status);
       return response.data;
+      
     } else {
-      throw new Error(`Request failed with status code ${response.status}`);
+      console.log(response.status);
+      return null;
     }
   } catch (error) {
-    console.error("Error fetching data:", error);
+    console.error(error);
+    throw error;
   }
 };
 
-export default APIendpointBookmarksList;
+export default Reserves;

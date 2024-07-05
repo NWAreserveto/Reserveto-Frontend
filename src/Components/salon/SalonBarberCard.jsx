@@ -59,31 +59,8 @@ export default function SalonBarbersCard({
         flexDirection: "column",
       }}
     >
-      <CardMedia sx={{ height: 210 }} image={profilePic} title="green iguana" />
       <CardActionArea onClick={gotoOtherPage} style={{ flex: "1" }}>
-        {/* <div
-          style={{
-            //backgroundImage: `url(${profilePic})`,
-            backgroundSize: 'cover',
-            display: "flex",
-            justifyContent: "center",
-            marginTop: "1rem",
-          }}
-        >
-          <img
-            src={profilePic}
-            alt={typeof name === "string" && name.charAt(0)}
-            style={{
-              height: '100%',
-              width: '100%',
-              clipPath: "circle()",
-              objectFit: "cover",
-              //marginTop: '-48px',
-              objectPosition: "center center",
-              maxHeight: "250px",
-            }}
-          />
-        </div> */}
+      <CardMedia sx={{ height: 210 }} image={profilePic} title="green iguana" />
         <div style={{ display: "flex", justifyContent: "center" }}>
           <h2>{name}</h2>
         </div>

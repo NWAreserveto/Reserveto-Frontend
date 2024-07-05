@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
+import CreateSalon from "../components/Createsalon"
 import { IconButton } from "@mui/material";
 import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
@@ -16,9 +17,10 @@ import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import Reserves from "../components/barberDashboard/Reserves";
 import Notifications from "../components/barberDashboard/Notifications";
 import Requests from "../components/barberDashboard/Requests";
+
 import Comments from "../components/comments/Comments";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const BarberDashboard = () => {
   const [index, setIndex] = useState(1);
@@ -67,12 +69,19 @@ const BarberDashboard = () => {
           },
         }
       );
-      setBarber((prevBarber) => ({
-        ...prevBarber,
+      setBarber((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {
       console.error("Error uploading file:", error);
+    }
+  };
+  const handleButtonClick = () => {
+    if (barber.salons) {
+      navigate(`/salonProfile/${barber.salons}`);
+    } else {
+      setIndex(5);
     }
   };
 
@@ -111,6 +120,7 @@ const BarberDashboard = () => {
         return <Dashboard />;
     }
   };
+  console.log(barber);
   return (
     <div className={style.container}>
       <div className={style.menu}>
