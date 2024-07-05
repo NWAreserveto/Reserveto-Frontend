@@ -256,7 +256,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
   return (
     <div style={styles.wrapper}>
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" }}
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" ,zIndex: 2}}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={

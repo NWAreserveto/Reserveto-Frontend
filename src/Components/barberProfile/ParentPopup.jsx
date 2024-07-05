@@ -36,7 +36,8 @@ const ParentComponent = ({ barber }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        mt: 4,
+        mb: 2,
+        zIndex: 1000
       }}
     >
       <Button
