@@ -15,7 +15,7 @@ const APIendpointSearchBarber = async (searchQuery) => {
       return response.data;
     } else {
       console.log(response.status);
-      throw new Error(`Request failed with status code ${response.status}`);
+      throw new Error(`Request failed with status code ${response.status}`);  
     }
   } catch (error) {
     console.error("Error fetching data:", error);

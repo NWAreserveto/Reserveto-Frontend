@@ -28,7 +28,6 @@ const BarbersList = ({ searchQuery, customerId }) => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [searchQuery]);
 
