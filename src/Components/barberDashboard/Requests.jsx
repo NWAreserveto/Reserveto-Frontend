@@ -38,14 +38,17 @@ const Requests = ({ barberId, isAdmin }) => {
     const accept = async () => {
       try {
         const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("status", "approved");
         const api = axios.create({
           baseURL: "https://reserveto-back.onrender.com",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const response = await api.post(
-          `api/barbers/admin/requests/confirmation/${id}/1`
+        const response = await api.patch(
+          `api/barbers/admin/requests/confirmation/${id}/`,
+          formData
         );
       } catch (error) {
         console.error("Error fetching Requests:", error);
@@ -60,14 +63,16 @@ const Requests = ({ barberId, isAdmin }) => {
     const reject = async () => {
       try {
         const token = localStorage.getItem("token");
+        const formData = new FormData();
+        formData.append("status", "rejected");
         const api = axios.create({
           baseURL: "https://reserveto-back.onrender.com",
           headers: {
             Authorization: `Bearer ${token}`,
           },
         });
-        const response = await api.post(
-          `api/barbers/admin/requests/confirmation/${id}/-1`
+        const response = await api.patch(
+          `api/barbers/admin/requests/confirmation/${id}/`
         );
       } catch (error) {
         console.error("Error fetching Requests:", error);

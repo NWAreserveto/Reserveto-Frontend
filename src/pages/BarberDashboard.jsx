@@ -8,6 +8,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
+import AddBusinessIcon from "@mui/icons-material/AddBusiness";
 import { IconButton } from "@mui/material";
 import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
@@ -18,6 +19,8 @@ import Notifications from "../components/barberDashboard/Notifications";
 import Requests from "../components/barberDashboard/Requests";
 import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
+import CreateSalon from "../components/barberDashboard/CreateSalon";
+import AccountCircleIcon from "@mui/icons-material/AccountCircle";
 
 const BarberDashboard = () => {
   const [index, setIndex] = useState(1);
@@ -48,6 +51,10 @@ const BarberDashboard = () => {
   const handleLogout = () => {
     localStorage.clear();
     navigate("/");
+  };
+
+  const handleNavigate = () => {
+    navigate(`/BarberProfile/${barberId}`);
   };
 
   const handleUpload = async (file) => {
@@ -93,6 +100,13 @@ const BarberDashboard = () => {
             isAdmin={barber.is_admin}
           />
         );
+      case 6:
+        return (
+          <CreateSalon
+            barberId={barberId}
+            barber={barber}
+          />
+        );
       default:
         return <Dashboard />;
     }
@@ -111,9 +125,9 @@ const BarberDashboard = () => {
               }}
             />
 
-            <label htmlFor="file-upload">
+            <label htmlFor="file-upload2">
               <input
-                id="file-upload"
+                id="file-upload2"
                 type="file"
                 accept="image/*"
                 onChange={handleFileChange}
@@ -187,6 +201,24 @@ const BarberDashboard = () => {
           >
             <AddIcon fontSize="medium" />
             درخواست ها
+          </Button>
+          {barber.is_admin && (
+            <Button
+              className={style.button}
+              sx={{ fontSize: "20px" }}
+              onClick={() => setIndex(6)}
+            >
+              <AddBusinessIcon fontSize="medium" />
+              سالن من
+            </Button>
+          )}
+          <Button
+            className={style.button}
+            sx={{ fontSize: "20px" }}
+            onClick={handleNavigate}
+          >
+            <AccountCircleIcon fontSize="medium" />
+            پروفایل
           </Button>
         </div>
         <div className={style.menuItem}>
