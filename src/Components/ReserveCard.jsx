@@ -92,9 +92,13 @@ const ReserveCard = () => {
     );
   };
 
-  const handleConfirmReserve = (reservationId) => {
-    axios
-      .post(
+  const postData = {
+    appointment: {},
+    message: "پیام جدید دارید",
+  };
+  const handleConfirmReserve = async (reservationId) => {
+    try {
+      const response = await axios.post(
         `https://reserveto-back.onrender.com/api/cart/${reservationId}/confirm/`,
         {},
         {
@@ -102,14 +106,56 @@ const ReserveCard = () => {
             Authorization: `Bearer ${token}`,
           },
         }
-      )
-      .then((response) => {
-        console.log("Reservation confirmed:", response.data);
-        setReservations(reservations.filter((r) => r.id !== reservationId));
-      })
-      .catch((error) => {
-        console.error("Error confirming reservation:", error);
-      });
+      );
+
+      console.log("Reservation confirmed:", response.data);
+      const confirmedReservation = reservations.find(
+        (r) => r.id === reservationId
+      );
+
+      if (!confirmedReservation) {
+        console.error("Confirmed reservation not found in state.");
+        return;
+      }
+
+      for (const appointment of confirmedReservation.appointments) {
+        const postData = {
+          appointment: {
+            barber: appointment.barber,
+            customer: appointment.customer,
+            start_time: appointment.start_time,
+            end_time: appointment.end_time,
+            services: appointment.services,
+          },
+          message: "پیام جدید دارید",
+        };
+
+        try {
+          const notificationResponse = await axios.post(
+            "https://reserveto-back.onrender.com/api/notifications/",
+            postData,
+            {
+              headers: {
+                Authorization: `Bearer ${token}`,
+              },
+            }
+          );
+          console.log("Notification sent:", notificationResponse.data);
+        } catch (notificationError) {
+          console.error(
+            "Error sending notification:",
+            notificationError.response || notificationError.message
+          );
+        }
+      }
+
+      setReservations(reservations.filter((r) => r.id !== reservationId));
+    } catch (error) {
+      console.error(
+        "Error confirming reservation:",
+        error.response || error.message
+      );
+    }
   };
 
   if (reservations.length === 0) {

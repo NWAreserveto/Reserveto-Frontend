@@ -60,7 +60,8 @@ const BarberProfile = () => {
           location={barber.location}
           profileImg={barber.profile_picture}
           backgroundImg={BackGround}
-          point={barber.point}
+          point={barber.average_rating}
+          reviewCount={barber.review_count}
         />
       )}
 

@@ -27,7 +27,7 @@ const Reply = ({ reply, barberName, barberPic }) => {
     <Box // whole comment
       sx={{
         borderRadius: "20px",
-        backgroundColor: "#F9F2DE",
+        backgroundColor: 'white',
         display: "flex",
         mb: "28px",
         padding: 2,
@@ -45,7 +45,6 @@ const Reply = ({ reply, barberName, barberPic }) => {
         <Avatar
           src={barberPic}
           sx={{
-            zIndex: -1,
             border: "solid 1px white",
             height: 45,
             width: 45,
@@ -59,7 +58,6 @@ const Reply = ({ reply, barberName, barberPic }) => {
       <Box // front of profile picture
         sx={{
           width: "100%",
-          // backgroundColor: 'red',
         }}
       >
         <Box // header of comment (name + time)

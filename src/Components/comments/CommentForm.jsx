@@ -12,6 +12,7 @@ const CommentForm = ({
   commentId,
   setReplies,
   setComments,
+  inDashboard,
 }) => {
   const [text, setText] = useState("");
   const [rating, setRating] = useState(5);
@@ -110,8 +111,12 @@ const CommentForm = ({
             <Typography sx={{ fontSize: 11, pb: 0.3 }}>پاسخ</Typography>
           </Button>
         )}
-      {(isComment || isReplying) && (
-        <FormControl component="form" onSubmit={handleFormSubmit} ref={formRef}>
+      {(isComment || isReplying) &&
+        !inDashboard && 
+        <FormControl 
+          component="form" 
+          onSubmit={handleFormSubmit} 
+          ref={formRef}>
           <Box
             sx={{
               display: "flex",
@@ -124,7 +129,6 @@ const CommentForm = ({
               onChange={(e) => setText(e.target.value)}
               placeholder="نظرتو بنویس..."
               sx={{
-                zIndex: 0,
                 width: isComment ? 650 : 700,
                 mt: !isComment ? 2 : 0,
                 overflow: "auto",
@@ -177,7 +181,6 @@ const CommentForm = ({
                   setRating(newValue);
                 }}
                 sx={{
-                  zindex: 0,
                   mr: 3.5,
                   mt: 2.5,
                   direction: "ltr",
@@ -205,8 +208,7 @@ const CommentForm = ({
           >
             ارسال
           </Button>
-        </FormControl>
-      )}
+        </FormControl>}
     </Box>
   );
 };
