@@ -17,13 +17,11 @@ import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import Reserves from "../components/barberDashboard/Reserves";
 import Notifications from "../components/barberDashboard/Notifications";
 import Requests from "../components/barberDashboard/Requests";
-import { useNavigate } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 
 const BarberDashboard = () => {
   const [index, setIndex] = useState(1);
-  const navigate = useNavigate();
 
   const barberIdList = window.location.href.split("/");
   const barberId = barberIdList[barberIdList.length - 1];

@@ -9,6 +9,7 @@ import EditIcon from "@mui/icons-material/Edit";
 import LogoutIcon from "@mui/icons-material/Logout";
 //import style from "../styles/Avatar.module.scss"
 import style from '../styles/UserDashboard.module.scss'
+import UserReserves from "../components/UserReserves"
 import Button from "@mui/material/Button"
 import DeleteIcon from "@mui/icons-material/Delete";
 import { IconButton } from "@mui/material";
@@ -33,7 +34,7 @@ import CustomerReservesList from "../components/UserReserves";
 import { AddAPhoto } from "@material-ui/icons";
 
 const UserProfile = () => {
-  const [index, setIndex] = useState(1);
+  const [index, setIndex] = useState(2);
   const navigate = useNavigate();
   const [selectedFile, setSelectedFile] = useState(null);
   const [selectedTab, setSelectedTab] = useState(null);
@@ -113,10 +114,11 @@ const UserProfile = () => {
       case 1:
         return <UserBookmarks userid={user.id}/>
       case 2:
-
+        return <UserReserves />
       case 3:
         return <EditInfo user={user}/>
       default:
+        return <UserReserves />
     }
   };
   if (loading) {
@@ -182,6 +184,14 @@ const UserProfile = () => {
           />
           <Button
             className={style.button}
+            sx={{ fontSize: "20px" }}
+            onClick={() => setIndex(2)}
+          >
+            <EventIcon fontSize="medium" />
+            رزروها
+          </Button>
+          <Button
+            className={style.button}
             tabIndex={0}
             sx={{ fontSize: "20px" }}
             onClick={() => setIndex(1)}
@@ -189,15 +199,6 @@ const UserProfile = () => {
             <BookmarksIcon fontSize="medium" />
             علاقه‌مندی‌ها
           </Button>
-          <Button
-            className={style.button}
-            sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(2)}
-          >
-            <EventIcon fontSize="medium" />
-            رزروها
-          </Button>
-          
           <Button
             className={style.button}
             sx={{ fontSize: "20px" ,border : '1px solid var(--primary-color)'}}
