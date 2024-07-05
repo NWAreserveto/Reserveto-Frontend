@@ -2,18 +2,19 @@
 import { useState, useEffect } from "react";
 import axios from "axios";
 import { Tabs, Tab, Typography, Paper, Divider } from "@mui/material";
-import ReserveCard from "./barberDashboard/ReserveCard";
-import style from "../styles/BarberReserves.module.scss";
+import ReserveCard from "./UserReservesCard";
+import style from "../styles/UserReserves.module.scss";
 import EmptyList from "../images/order-empty.svg";
 
-const Reserves = ({ barberId }) => {
+
+const UserReserves = ({ userid }) => {
   const [showOprands, setShowOprands] = useState(false);
   const [reserves, setReserves] = useState([]);
   const [tabIndex, setTabIndex] = useState(0);
   const fetchReserves = async () => {
     try {
       const response = await axios.get(
-        `https://reserveto-back.onrender.com/api/B_orders/${barberId}`
+        `https://reserveto-back.onrender.com/api/C_orders/${userid}`
       );
       setReserves(response.data.Appointments);
     } catch (error) {
@@ -23,7 +24,7 @@ const Reserves = ({ barberId }) => {
 
   useEffect(() => {
     fetchReserves();
-  }, [barberId]);
+  }, [userid]);
 
   const handleAccept = (id) => {
     const accept = async () => {
@@ -87,8 +88,8 @@ const Reserves = ({ barberId }) => {
   return (
     <Paper
       sx={{
-        width: "90%",
-        margin: "40px auto",
+        width: "100%",
+        margin: "auto 20px auto",
         padding: "50px 100px",
         display: "flex",
         flexDirection: "column",
@@ -203,4 +204,4 @@ const Reserves = ({ barberId }) => {
   );
 };
 
-export default Reserves;
+export default UserReserves;

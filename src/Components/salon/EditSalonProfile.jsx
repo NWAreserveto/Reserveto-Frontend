@@ -27,7 +27,6 @@ import jsonData from "../../images/provinces_cities_counties.json";
 import axios from "axios";
 
 const textfieldstyle = {
-  position : 'fixed',
   "& label": {
     transformOrigin: "right !important",
     left: "inherit !important",
@@ -116,7 +115,11 @@ const EditSalonProfile = ({ salon, barberId }) => {
     setsalonName(value);
     setNameError(!validateName(value));
   };
-  
+  const handlePhone = (e) => {
+    const value = e.target.value;
+    setphone(value);
+    setPhoneError(!validatePhone(value));
+  };
   const [address, setaddress] = useState(salon.address);
   const handleAddress = (e) => {
     setaddress(e.target.value);
@@ -129,7 +132,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
     barbers: salonbarbers,
     //profile_Picture: profilePicture
   };
-  const edit = () => {
+  const edit = async () => {
     try {
       console.log("handleApplyChanges called -----------------------");
       if (
@@ -140,7 +143,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
         const formData = new FormData();
         //formData.append('profilePicture', profilePicture); // Append the selected file
         //formData.append('data', JSON.stringify(formData));
-        APISalonUpdate(salon.id, newData);
+        await APISalonUpdate(salon.id, newData);
         window.location.reload();
       }
     } catch (error) {
@@ -148,6 +151,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
     }
   };
   const navigate = useNavigate();
+  const BarberId = localStorage.getItem("barberId");
   const remove = () => {
     try {
       const confirmed = window.confirm(
@@ -155,7 +159,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
       );
       if (confirmed) {
         APIDletesalon(salon.id);
-        navigate(`/Barber/Dashboard/${barberId}`);
+        navigate(`/Barber/Dashboard/${BarberId}`);
       }
     } catch (error) {
       console.error("failed to delete salon:", error);
@@ -225,6 +229,16 @@ const EditSalonProfile = ({ salon, barberId }) => {
           />
         </div>
         <div className={style.formItem}>
+          <TextField
+            label="شماره تلفن"
+            name="phone_number"
+            value={phone}
+            onChange={handlePhone}
+            fullWidth
+            sx={textfieldstyle}
+            error={phoneError}
+            helperText={phoneError && "شماره همراه نامعتبر میباشد"}
+          />
         </div>
         <div className={style.formItem}>
           <TextField

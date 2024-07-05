@@ -114,11 +114,11 @@ const UserProfile = () => {
       case 1:
         return <UserBookmarks userid={user.id}/>
       case 2:
-        return <UserReserves />
+        return <UserReserves userid={user.id} />
       case 3:
         return <EditInfo user={user}/>
       default:
-        return <UserReserves />
+        return <UserReserves userid={user.id} />
     }
   };
   if (loading) {

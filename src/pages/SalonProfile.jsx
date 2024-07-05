@@ -78,14 +78,15 @@ const SalonProfile = ({ barberid }) => {
   console.log("salon name is : " + salon.name);
   const barbers = [1, 12, 9, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11];
   const [index, setIndex] = useState(1);
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    handleUpload();
+    handleUpload(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
+    formData.append("profile_picture", file);
 
     const token = localStorage.getItem("token");
     try {
@@ -99,8 +100,8 @@ const SalonProfile = ({ barberid }) => {
           },
         }
       );
-      setsalonprof((prevsalon) => ({
-        ...prevsalon,
+      setSalon((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {
