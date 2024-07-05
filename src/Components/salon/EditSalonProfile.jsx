@@ -45,15 +45,46 @@ const textfieldstyle = {
   "& label.Mui-focused": {
     color: "var(--secondary-color) !important",
   },
+  '&label.Mui-error': {
+      color: 'red !important', // Error label color
+    },
   "& .MuiInput-underline:after": {
     borderBottomColor: "yellow",
   },
+  '& .MuiFormHelperText-root': {
+    textAlign: 'right', // Align helper text to the right
+    direction: 'rtl',  // Set the text direction to right-to-left
+  },
+  '& .MuiInputLabel-root': {
+    '&.Mui-focused': {
+      color: 'var(--secondary-color)', // Default focused label color
+    },
+    '&.Mui-error': {
+      color: 'red !important', // Error label color
+    },
+    '&.Mui-error.Mui-focused': {
+      color: 'red !important', // Error label color when focused
+    },
+  },
   "& .MuiOutlinedInput-root": {
+    '&.Mui-error fieldset': {
+      borderColor: 'red !important',
+    },
+    '&.Mui-error:hover fieldset': {
+      borderColor: 'red !important', // Error border color on hover
+    },
+    '&.Mui-error.Mui-focused fieldset': {
+      borderColor: 'red !important',
+    },
+    '&.Mui-error.label.Mui-focused fieldset': {
+      color: 'red !important',
+    },
+
     "& fieldset": {
       borderColor: "var(--secondary-color) !important",
     },
     "&:hover fieldset": {
-      borderColor: "var(--secondary-color) !important",
+      borderColor: "var(--secondary-color-lighter) !important",
     },
     "&.Mui-focused fieldset": {
       borderColor: "var(--secondary-color) !important",
@@ -63,6 +94,7 @@ const textfieldstyle = {
     right: "unset",
     left: "10px",
   },
+  
   "& .MuiSelect-select": {
     paddingRight: "15px !important",
   },
@@ -71,12 +103,22 @@ const textfieldstyle = {
 const EditSalonProfile = ({ salon, barberId }) => {
   const [salonbarbers, setbarbers] = useState(salon.barbers);
   const [salonname, setsalonName] = useState(salon.name);
-  const handlename = (e) => {
-    setsalonName(e.target.value);
-  };
   const [phone, setphone] = useState(salon.phone_number);
+
+  const [nameError, setNameError] = useState(false);
+  const [phoneError, setPhoneError] = useState(false);
+  const [addressError, setAddressError] = useState(false);
+  const validateName = (value) => /^[\u0600-\u06FF\s]+$/.test(value);
+  const validatePhone = (value) => /^(\+98|0)?9\d{9}$/.test(value);
+  const handlename = (e) => {
+    const value = e.target.value;
+    setsalonName(value);
+    setNameError(!validateName(value));
+  };
   const handlePhone = (e) => {
-    setphone(e.target.value);
+    const value = e.target.value;
+    setphone(value);
+    setPhoneError(!validatePhone(value));
   };
   const [address, setaddress] = useState(salon.address);
   const handleAddress = (e) => {
@@ -90,7 +132,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
     barbers: salonbarbers,
     //profile_Picture: profilePicture
   };
-  const edit = () => {
+  const edit = async () => {
     try {
       console.log("handleApplyChanges called -----------------------");
       if (
@@ -101,7 +143,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
         const formData = new FormData();
         //formData.append('profilePicture', profilePicture); // Append the selected file
         //formData.append('data', JSON.stringify(formData));
-        APISalonUpdate(salon.id, newData);
+        await APISalonUpdate(salon.id, newData);
         window.location.reload();
       }
     } catch (error) {
@@ -109,6 +151,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
     }
   };
   const navigate = useNavigate();
+  const BarberId = localStorage.getItem("barberId");
   const remove = () => {
     try {
       const confirmed = window.confirm(
@@ -116,7 +159,7 @@ const EditSalonProfile = ({ salon, barberId }) => {
       );
       if (confirmed) {
         APIDletesalon(salon.id);
-        navigate(`/Barber/Dashboard/${barberId}`);
+        navigate(`/Barber/Dashboard/${BarberId}`);
       }
     } catch (error) {
       console.error("failed to delete salon:", error);
@@ -165,7 +208,9 @@ const EditSalonProfile = ({ salon, barberId }) => {
             type="submit"
             variant="outlined"
             onClick={edit}
-            disabled={!isModified}
+            disabled={!isModified || nameError || phoneError || addressError || (salonname == salon.name &&
+              phone == salon.phone_number &&
+              address == salon.address)}
           >
             ویرایش اطلاعات
           </Button>
@@ -174,11 +219,13 @@ const EditSalonProfile = ({ salon, barberId }) => {
         <div className={style.formItem}>
           <TextField
             label=" نام سالن"
-            name="first_name"
+            name="salon_name"
             value={salonname}
             onChange={handlename}
             fullWidth
             sx={textfieldstyle}
+            error={nameError}
+            helperText={nameError && "نام سالن باید به صورت حروف فارسی باشد"}
           />
         </div>
         <div className={style.formItem}>
@@ -189,6 +236,8 @@ const EditSalonProfile = ({ salon, barberId }) => {
             onChange={handlePhone}
             fullWidth
             sx={textfieldstyle}
+            error={phoneError}
+            helperText={phoneError && "شماره همراه نامعتبر میباشد"}
           />
         </div>
         <div className={style.formItem}>

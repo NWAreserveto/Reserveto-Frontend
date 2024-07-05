@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import Card from "@mui/material/Card";
 import CardActions from "@mui/material/CardActions";
 import { CardActionArea, Avatar } from "@mui/material";
+import APIendpointBookmarksList from "../API/APIendpointBookmarksList";
 import Rating from "@mui/material/Rating";
 import Button from "@mui/material/Button";
 import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
@@ -16,33 +17,56 @@ export default function BarbersCard({
   name,
   location,
   customerId,
+  average_rating
 }) {
-  const navigate = useNavigate();
+  const [loading2, setLoading2] = useState(true);
   const [bookmarked, setBookmarked] = useState(false);
-
+  const [bookmarks, setBookmarks] = useState([]);
   useEffect(() => {
-    console.log("Customer ID:", customerId);
-  }, [customerId]);
+    const fetchData = async () => {
+      try {
+        const responseData = await APIendpointBookmarksList();
+        setBookmarks(responseData || []);
+        const isBookmarked = bookmarks.some((bookmark) => bookmark.barber === id);
+        setBookmarked(isBookmarked);
+        setLoading2(false);
+      } catch (error) {
+        console.error("Error fetching bookmarks:", error);
+      }
+    };
+
+    fetchData();
+  }, [loading2]);
+
+  const navigate = useNavigate();
+  
+
+  // useEffect(() => {
+  //   console.log("Customer ID:", customerId);
+  // }, [customerId]);
 
   const gotoOtherPage = () => {
     navigate(`/BarberProfile/${id}`);
   };
 
   const handleBookmark = async () => {
-    const barber_id = id;
-    const salon_id = 1;
-
     const url = `https://reserveto-back.onrender.com/api/customers/${customerId}/bookmarks/`;
-
     const data = {
       customer: customerId,
-      barber: barber_id,
-      salon: salon_id,
+      barber: id,
+      salon: 1,
     };
+    let updatedBookmarks = [...bookmarks];
+    if (bookmarked === true) {
+          // Remove bookmark if already bookmarked
+          updatedBookmarks = updatedBookmarks.filter((bookmark) => bookmark.barber !== id);
+          console.log(updatedBookmarks);
+          setBookmarked(false);
+    }
 
     try {
       const response = await fetch(url, {
-        method: "POST",
+        method: bookmarked ? "DELETE" : "POST",
         headers: {
           "Content-Type": "application/json",
         },
@@ -50,15 +74,46 @@ export default function BarbersCard({
       });
 
       if (response.ok) {
-        setBookmarked(true);
-        console.log("Bookmark added successfully");
+        setBookmarked(!bookmarked);
+        console.log(bookmarked ? "Bookmark removed successfully" : "Bookmark added successfully");
       } else {
-        console.error("Failed to add bookmark");
+        console.error(bookmarked ? "Failed to remove bookmark" : "Failed to add bookmark");
       }
     } catch (error) {
       console.error("Error:", error);
     }
   };
+  // const handleBookmark = async () => {
+  //   const barber_id = id;
+  //   const salon_id = 1;
+
+  //   const url = `https://reserveto-back.onrender.com/api/customers/${customerId}/bookmarks/`;
+
+  //   const data = {
+  //     customer: customerId,
+  //     barber: barber_id,
+  //     salon: salon_id,
+  //   };
+
+  //   try {
+  //     const response = await fetch(url, {
+  //       method: "POST",
+  //       headers: {
+  //         "Content-Type": "application/json",
+  //       },
+  //       body: JSON.stringify(data),
+  //     });
+
+  //     if (response.ok) {
+  //       setBookmarked(true);
+  //       console.log("Bookmark added successfully");
+  //     } else {
+  //       console.error("Failed to add bookmark");
+  //     }
+  //   } catch (error) {
+  //     console.error("Error:", error);
+  //   }
+  // };
 
   return (
     <Card
@@ -69,7 +124,7 @@ export default function BarbersCard({
         flexDirection: "column",
       }}
     >
-      <CardActionArea style={{ flex: "1" }}>
+      <CardActionArea  onClick={gotoOtherPage} style={{ flex: "1" }}>
         <div
           style={{
             display: "flex",
@@ -113,20 +168,7 @@ export default function BarbersCard({
           sx={{ direction: "ltr" }}
         /> */}
 
-        <Button
-          variant="outlined"
-          onClick={gotoOtherPage}
-          sx={{
-            color: "var(--secondary-color)",
-            border: "1px solid var(--secondary-color)",
-            "&:hover": {
-              border: "1px solid var(--secondary-color-lighter)",
-            },
-          }}
-          // color="secondary"
-        >
-          برو
-        </Button>
+      <Rating name="rating" disabled value={average_rating} max={5} sx={{ direction: "ltr" }} />
       </CardActions>
     </Card>
   );

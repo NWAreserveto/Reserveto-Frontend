@@ -36,7 +36,8 @@ const ParentComponent = ({ barber }) => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        mt: 4,
+        mb: 2,
+        zIndex: 1000
       }}
     >
       <Button
@@ -54,7 +55,7 @@ const ParentComponent = ({ barber }) => {
           background:
             "linear-gradient(45deg, var(--primary-color) 30%, var(--secondary-color) 90%)",
           boxShadow: "0 3px 5px 2px rgba(0,0,0,0.2)",
-          borderRadius: 10,
+          borderRadius: 4,
           color: "white",
           "&:hover": {
             background:

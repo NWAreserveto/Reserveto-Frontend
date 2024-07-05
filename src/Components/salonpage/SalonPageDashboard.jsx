@@ -6,6 +6,7 @@ import NotificationsIcon from "@mui/icons-material/Notifications";
 import StarIcon from "@mui/icons-material/Star";
 import Rating from '@mui/material/Rating';
 import style from "../../styles/salon.module.scss";
+import LocalPhoneIcon from '@mui/icons-material/LocalPhone';
 import PhoneIcon from '@mui/icons-material/Phone';
 import { Divider } from "@material-ui/core";
 import { Link } from "react-router-dom";
@@ -19,41 +20,29 @@ const SalonDashboard = ({salon}) => {
     const [value, setValue] = React.useState(4);
   return (
     <div className={style.salondashboard}>
-        <Divider
-            flexItem
-            variant="middle"
-            sx={{
-              borderBottomWidth: "1px",
-              borderBottomColor: "var(--primary-color)",
-            }}
-        />
-        <sapn>
+      <div className={style.pagecontainer} style={{
+         backgroundImage: `url(${salon.profile_picture})`,
+         backgroundSize: "cover",
+         backgroundRepeat: "no-repeat",
+         backgroundPosition: "center",
+       }}>
+        <sapn >
         <h1>سالن {salon.name}</h1>
-        <Stack direction="row" justifyContent="center" sx={{m:0}} alignItems="center">
-        <LocationOnIcon sx={{ color: "var(--secondary-color)" }} />
-        <Typography variant="body1">
-            <h4>{salon.address}</h4>
-        </Typography>
-        <LocationOnIcon sx={{ color: "var(--secondary-color)" }} />
-        </Stack>
-        <Stack direction="row" justifyContent="center" sx={{m:0}} alignItems="center">
-          <Typography variant="body1">
-            <h4>{salon.phone_number}</h4>
-          </Typography>
-        </Stack>
         </sapn>
-        <Divider
-            flexItem
-            variant="middle"
-            sx={{
-              borderBottomWidth: "1px",
-              borderBottomColor: "var(--primary-color)",
-            }}
-        />
+        <div className={style.address}>
+        <Stack direction="row" justifyContent="center" sx={{m:0}} alignItems="center">
+        {/* <LocationOnIcon sx={{ color: "var(--secondary-color)" }} /> */}
+        {/* <LocationOnIcon sx={{ color: "var(--secondary-color)" }} /> */}
+        </Stack>
+        </div>
+        {/* </span> */}
+
+      </div>
+        
       <div className={style.dashboardmenu}>
         <Paper className={style.card}>
           <div className={style.header}>
-            <CommentIcon
+            <LocationOnIcon
               fontSize="large"
               sx={{
                 color: "var(--secondary-color)",
@@ -61,15 +50,15 @@ const SalonDashboard = ({salon}) => {
                 fontSize: "50px",
               }}
             />
-            <h3>نظرات</h3>
+            <h3>آدرس</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{salon.address}</div>
           <Divider flexItem />
           <Link>مشاهده نظرات</Link>
         </Paper>
         <Paper className={style.card}>
           <div className={style.header}>
-            <StarIcon
+            <LocalPhoneIcon
               fontSize="large"
               sx={{
                 color: "var(--secondary-color)",
@@ -77,11 +66,11 @@ const SalonDashboard = ({salon}) => {
                 fontSize: "50px",
               }}
             />
-            <h3>امتیاز</h3>
+            <h3>شماره تماس</h3>
           </div>
-          <div className={style.score}>1111</div>
+          <div className={style.score}>{salon.phone_number}</div>
           <Divider flexItem />
-          <Link>مشاهده امتیازات</Link>
+          <Link>منتظر تماس شما هستیم</Link>
         </Paper>
       </div>
       {/* <OrderList /> */}

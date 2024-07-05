@@ -17,6 +17,9 @@ import {
 } from "@mui/material";
 import moment from "moment";
 import axios from "axios";
+import { toast, ToastContainer } from "react-toastify";
+import "react-toastify/dist/ReactToastify.css";
+import { useNavigate } from "react-router-dom";
 
 export default function Time({ selectedDate, timesData, onTimeChange }) {
   const [open, setOpen] = useState(true);
@@ -173,9 +176,21 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
         : [...prevSelected, serviceId]
     );
   };
-  const customerId = localStorage.getItem("userId");
+  const customerId = localStorage.getItem("customerId");
+  console.log(customerId);
   const barberId = localStorage.getItem("barberId");
+  const [success, setSuccess] = useState(false);
+  const [responseData, setResponseData] = useState(null);
 
+  const navigate = useNavigate();
+
+  useEffect(() => {
+    if ((success, responseData)) {
+      setTimeout(() => {
+        navigate(`/BarberProfile/${barberId}`);
+      }, 4000);
+    }
+  }, [success, responseData, navigate]);
   const handlePost = async () => {
     if (!selectedTime) return;
 
@@ -246,17 +261,24 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
           },
         }
       );
+      setResponseData(cartResponse.data);
+      setSuccess(response.status === 201);
+      if (response.status === 201) {
+        toast.success("با موفقیت رزرو شما وارد سبد خرید شد");
+      }
 
       console.log("Cart updated with the appointment:", cartResponse.status);
     } catch (error) {
       console.error("Post Error:", error);
+      toast.error("مشکلی پیش آمده");
     }
   };
 
   return (
     <div style={styles.wrapper}>
+      <ToastContainer className={styles.toast} />
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" }}
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" ,zIndex: 2}}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={
@@ -443,5 +465,9 @@ const styles = {
     fontSize: "small",
     width: "100%",
     textAlign: "right",
+  },
+
+  toast: {
+    paddingBottom: 0,
   },
 };

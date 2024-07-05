@@ -96,6 +96,7 @@ export default function SalonBarbersCard({
         height: "20rem",
         display: "flex",
         flexDirection: "column",
+        boxShadow : '0 2px 4px 0 black'
       }}
     >
       
@@ -114,7 +115,7 @@ export default function SalonBarbersCard({
           <p>{location}</p>
         </div>
       </CardActionArea>
-      <CardActions disableSpacing style={{ justifyContent: "space-between" }}>
+      <CardActions disableSpacing style={{ justifyContent: "space-between" , backgroundColor : 'var(--primary-color)' , opacity:'0.8' }}>
         <Rating name="rating" defaultValue={0} max={5} sx={{ direction: "ltr" }} />
         <label htmlFor="">
             <IconButton onClick={handleBookmark}>

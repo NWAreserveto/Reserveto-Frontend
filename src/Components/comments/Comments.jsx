@@ -4,7 +4,7 @@ import CommentForm from "./CommentForm";
 import { Box, Typography, Paper, CircularProgress } from "@mui/material";
 import GETBarberCommentsAPI from "../../API/APIendpointBarberComments";
 
-const Comments = ({ barberId, barberName, barberPic }) => {
+const Comments = ({ barberId, barberName, barberPic, inDashboard }) => {
   const [comments, setComments] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -39,7 +39,7 @@ const Comments = ({ barberId, barberName, barberPic }) => {
       <Paper
         sx={{
           padding: 3,
-          backgroundColor: "var(--primary-color-lighter)",
+          backgroundColor: 'white',
           borderRadius: "10px",
           mb: 5,
         }}
@@ -86,6 +86,7 @@ const Comments = ({ barberId, barberName, barberPic }) => {
               barberId={barberId}
               barberName={barberName}
               barberPic={barberPic}
+              inDashboard={inDashboard}
             />
           ))}
 
@@ -95,6 +96,7 @@ const Comments = ({ barberId, barberName, barberPic }) => {
           commentId={null}
           setReplies={null}
           setComments={setComments}
+          inDashboard={inDashboard}
         />
       </Paper>
     </Box>

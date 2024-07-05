@@ -2,8 +2,9 @@ import React from "react";
 import { Box, Typography, Avatar, Button } from "@mui/material";
 import GradeIcon from "@mui/icons-material/Grade";
 import Divider from "@material-ui/core/Divider";
+import ParentComponent from "./ParentPopup";
 import { Navigate, useNavigate } from "react-router-dom";
-import BarberShopIcon from "../../images/barber-shop-icon.png"
+import BarberShopIcon from "../../images/barber-shop-icon.png";
 
 const Information = ({ barber, salonName }) => {
   const navigate = useNavigate();
@@ -28,7 +29,7 @@ const Information = ({ barber, salonName }) => {
         />
       </Box>
 
-      <Box
+      <Box // full box
         sx={{
           mt: 15,
           display: "flex",
@@ -41,7 +42,7 @@ const Information = ({ barber, salonName }) => {
             backgroundColor: "var(--primary-color-lighter)",
             borderRadius: 8,
             width: "1260px",
-            height: barber.bio ? barber.bio : 250,
+            height: barber.bio ? barber.bio : 300,
             display: "flex",
             flexDirection: "column",
             boxShadow: "0px 1px 1px green",
@@ -53,7 +54,6 @@ const Information = ({ barber, salonName }) => {
               display: "flex",
               pl: 6.5,
               mt: 3,
-              // pl: { xs: 10, lg: 25, xl: 40 },
             }}
           >
             <Typography
@@ -64,7 +64,7 @@ const Information = ({ barber, salonName }) => {
                 pr: 0.8,
               }}
             >
-              {barber.point ? barber.point : 3.5}
+              {barber.average_rating ? barber.average_rating : 3.5}
             </Typography>
             <Box // score icon
               sx={{
@@ -86,18 +86,21 @@ const Information = ({ barber, salonName }) => {
             {barber.first_name + " " + barber.last_name}
           </Typography>
 
-          <Box
-            sx={{
-              pl: 2, 
-              pr: 2,
-              mr: 3,
-              borderRadius: 2,
-            }}>
-            <Button
-              onClick={() => navigate(`/salonPage/${barber.salons}`)}
+          {barber.salons && (
+            <Box
               sx={{
-                justifyContent: 'right',
-              }}>
+                pl: 2,
+                pr: 2,
+                mr: 3,
+                borderRadius: 2,
+              }}
+            >
+              <Button
+                onClick={() => navigate(`/salonPage/${barber.salons}`)}
+                sx={{
+                  justifyContent: "right",
+                }}
+              >
                 <Box
                   component="img"
                   sx={{
@@ -107,25 +110,20 @@ const Information = ({ barber, salonName }) => {
                   alt="icon"
                   src={BarberShopIcon}
                 />
-                
-              <Typography
-                sx={{
-                  mr: 1.7,
-                  color: 'black',
-                }}>
-                  {salonName}
-              </Typography>
-            </Button>
-          </Box>
 
-          <Divider
-            sx={{
-              // line
-              mt: 1,
-              pb: 1,
-              // mb: ,
-            }}
-          />
+                <Typography
+                  sx={{
+                    mr: 1.7,
+                    color: "black",
+                  }}
+                >
+                  {salonName}
+                </Typography>
+              </Button>
+            </Box>
+          )}
+
+          <Divider sx={{ mt: 1, pb: 1,}}/>
 
           <Typography // bio
             sx={{
@@ -136,6 +134,7 @@ const Information = ({ barber, salonName }) => {
           >
             {barber.bio ? barber.bio : "سلام به آرایشگاه من خوش اومدید"}
           </Typography>
+          <ParentComponent barber={barber} />
         </Box>
       </Box>
     </>

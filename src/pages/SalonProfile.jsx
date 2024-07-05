@@ -78,14 +78,15 @@ const SalonProfile = ({ barberid }) => {
   console.log("salon name is : " + salon.name);
   const barbers = [1, 12, 9, 2, 3, 4, 5, 6, 7, 8, 9, 9, 10, 11];
   const [index, setIndex] = useState(1);
+
   const handleFileChange = (event) => {
     setSelectedFile(event.target.files[0]);
-    handleUpload();
+    handleUpload(event.target.files[0]);
   };
 
-  const handleUpload = async () => {
+  const handleUpload = async (file) => {
     const formData = new FormData();
-    formData.append("profile_picture", selectedFile);
+    formData.append("profile_picture", file);
 
     const token = localStorage.getItem("token");
     try {
@@ -99,8 +100,8 @@ const SalonProfile = ({ barberid }) => {
           },
         }
       );
-      setsalonprof((prevsalon) => ({
-        ...prevsalon,
+      setSalon((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {
@@ -113,25 +114,25 @@ const SalonProfile = ({ barberid }) => {
       case 0:
         return <EditSalonprofile salon={salon} barberId={barberid} />;
       case 1:
-        return <SalonDashboard />;
+        return <SalonDashboard salon={salon}/>;
       case 5:
         return <SalonBarbers salonid={salon.id} barberIDs={barberIDs} />;
       // case2: Reserves
       // case3: Comments
       // case4: Notifications
       default:
-        return <SalonDashboard />;
+        return <SalonDashboard salon={salon}/>;
     }
   };
   return (
     <div
       className={style.container}
-      style={{
-        backgroundImage: `url(${salon.profile_picture})`,
-        backgroundSize: "cover",
-        backgroundRepeat: "no-repeat",
-        backgroundPosition: "center",
-      }}
+      // style={{
+      //   backgroundImage: `url(${salon.profile_picture})`,
+      //   backgroundSize: "cover",
+      //   backgroundRepeat: "no-repeat",
+      //   backgroundPosition: "center",
+      // }}
     >
       <div className={style.menu}>
         <div className={style.menuItem}>
@@ -186,14 +187,6 @@ const SalonProfile = ({ barberid }) => {
           >
             <DashboardIcon fontSize="medium" />
             پیشخوان
-          </Button>
-          <Button
-            className={style.button}
-            sx={{ fontSize: "20px" }}
-            onClick={() => setIndex(3)}
-          >
-            <CommentIcon fontSize="medium" />
-            نظرات
           </Button>
           <Button
             className={style.button}

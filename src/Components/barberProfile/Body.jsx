@@ -1,7 +1,6 @@
 import Samples from "./Samples";
 import Information from "./Information";
 import Services from "./Services";
-import ParentComponent from "./ParentPopup";
 import { Tabs, Tab, Box } from "@mui/material";
 import { useState, useEffect } from "react";
 import salonProfile from "../../API/APIendpointSalon";
@@ -67,13 +66,12 @@ const Body = ({ barber }) => {
             }}
           >
             <Information barber={barber} salonName={salon.name} />
-            <ParentComponent barber={barber} />
           </Box>
 
           <Box // tabs + comments
             sx={{
               display: "column",
-              mr: 48,
+              mr: 52,
             }}
           >
             <Box // tabs
@@ -132,6 +130,7 @@ const Body = ({ barber }) => {
               barberId={barber.id}
               barberName={barber.first_name + " " + barber.last_name}
               barberPic={barber.profile_picture}
+              inDashboard={false}
             />
           </Box>
         </Box>

@@ -15,6 +15,7 @@ const Reserve = () => {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
+        zIndex: 1000,
       }}
     >
       <ParentComponent />

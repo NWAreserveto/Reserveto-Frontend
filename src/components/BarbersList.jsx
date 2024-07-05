@@ -28,7 +28,6 @@ const BarbersList = ({ searchQuery, customerId }) => {
         console.error("Error fetching data:", error);
       }
     };
-
     fetchData();
   }, [searchQuery]);
 
@@ -47,6 +46,7 @@ const BarbersList = ({ searchQuery, customerId }) => {
               location={barber.location}
               profilePic={barber.profile_picture}
               customerId={customerId}
+              average_rating={barber.average_rating}
             />
           ))
       )}

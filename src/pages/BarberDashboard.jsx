@@ -1,4 +1,4 @@
-import { Avatar, Divider } from "@material-ui/core";
+import { Avatar, Box, Divider } from "@material-ui/core";
 import style from "../styles/BarberDashboard.module.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import EventIcon from "@mui/icons-material/Event";
@@ -9,6 +9,8 @@ import AddIcon from "@mui/icons-material/Add";
 import LogoutIcon from "@mui/icons-material/Logout";
 import Button from "@mui/material/Button";
 import AddBusinessIcon from "@mui/icons-material/AddBusiness";
+import CreateSalon from "../components/Createsalon"
+
 import { IconButton } from "@mui/material";
 import axios from "axios";
 import Dashboard from "../components/barberDashboard/Dashboard";
@@ -17,10 +19,12 @@ import GETBarberProfileAPI from "../API/APIendpointBarberProfile";
 import Reserves from "../components/barberDashboard/Reserves";
 import Notifications from "../components/barberDashboard/Notifications";
 import Requests from "../components/barberDashboard/Requests";
-import { useNavigate } from "react-router-dom";
+
+import Comments from "../components/comments/Comments";
 import { useEffect, useState } from "react";
 import CreateSalon from "../components/barberDashboard/CreateSalon";
 import AccountCircleIcon from "@mui/icons-material/AccountCircle";
+import { Navigate, useNavigate } from "react-router-dom";
 
 const BarberDashboard = () => {
   const [index, setIndex] = useState(1);
@@ -73,12 +77,19 @@ const BarberDashboard = () => {
           },
         }
       );
-      setBarber((prevBarber) => ({
-        ...prevBarber,
+      setBarber((prevuser) => ({
+        ...prevuser,
         profile_picture: response.data.profile_picture,
       }));
     } catch (error) {
       console.error("Error uploading file:", error);
+    }
+  };
+  const handleButtonClick = () => {
+    if (barber.salons) {
+      navigate(`/salonProfile/${barber.salons}`);
+    } else {
+      setIndex(5);
     }
   };
 
@@ -90,7 +101,20 @@ const BarberDashboard = () => {
         return <Dashboard barberId={barberId} />;
       case 2:
         return <Reserves barberId={barberId} />;
-      // case3: Comments
+      case 3: 
+        return <Box
+                  sx={{
+                    width: 880,
+                    mr: '18%',
+                    mt: 14,
+                  }}>
+                <Comments 
+                          barberId={barber.id}
+                          barberName={barber.first_name + " " + barber.last_name}
+                          barberPic={barber.profile_picture}
+                          inDashboard={true}
+                        />
+                </Box>
       case 4:
         return <Notifications barberId={barberId} />;
       case 5:
@@ -111,6 +135,7 @@ const BarberDashboard = () => {
         return <Dashboard />;
     }
   };
+  console.log(barber);
   return (
     <div className={style.container}>
       <div className={style.menu}>
