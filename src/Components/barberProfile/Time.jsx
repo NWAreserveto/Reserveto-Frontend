@@ -278,7 +278,7 @@ export default function Time({ selectedDate, timesData, onTimeChange }) {
     <div style={styles.wrapper}>
       <ToastContainer className={styles.toast} />
       <List
-        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" }}
+        sx={{ width: "100%", maxWidth: 360, bgcolor: "var(--primary-color)" ,zIndex: 2}}
         component="nav"
         aria-labelledby="nested-list-subheader"
         subheader={

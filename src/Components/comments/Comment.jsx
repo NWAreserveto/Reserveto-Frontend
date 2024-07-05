@@ -20,6 +20,7 @@ const Comment = ({
   barberId,
   barberName,
   barberPic,
+  inDashboard,
 }) => {
   const [customer, setCustomer] = useState({});
   const [replies, setReplies] = useState([]);
@@ -75,7 +76,7 @@ const Comment = ({
     <Box // whole comment
       sx={{
         borderRadius: "20px",
-        backgroundColor: "#F9F2DE",
+        backgroundColor: 'white',
         display: "flex",
         mb: "28px",
         padding: 2,
@@ -112,7 +113,6 @@ const Comment = ({
           <Avatar
             src={customer.profile_picture}
             sx={{
-              zIndex: -1,
               border: "solid 1px white",
               height: 45,
               width: 45,
@@ -143,7 +143,7 @@ const Comment = ({
               }}
             >
               {customer.first_name + customer.last_name === ""
-                ? "بدون نام"
+                ? customer.user.username
                 : customerFullName}
             </Typography>
             <Typography // time of comment
@@ -218,6 +218,7 @@ const Comment = ({
               commentId={commentId}
               setReplies={setReplies}
               setComments={null}
+              inDashboard={false}
             />
           )}
 
@@ -234,6 +235,7 @@ const Comment = ({
                     reply={reply}
                     barberName={barberName}
                     barberPic={barberPic}
+                    inDashboard={inDashboard}
                   />
                 ))}
               </Box>

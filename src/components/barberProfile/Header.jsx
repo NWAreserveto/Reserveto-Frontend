@@ -10,6 +10,7 @@ const Header = ({
   profileImg,
   backgroundImg,
   point,
+  reviewCount
 }) => {
   return (
     <Box sx={{
@@ -29,8 +30,8 @@ const Header = ({
             height: "250px",
             width: "1260px",
             borderRadius: "20px",
+            backgroundColor: "var(--secondary-color)",
           }}
-          image={backgroundImg}
         ></CardMedia>
       </Box>
 
@@ -104,6 +105,15 @@ const Header = ({
           pl: { xs: 10, lg: 25, xl: 40 },
         }}
       >
+        <Typography
+          sx={{
+            mr: 1,
+            fontSize: 20,
+            mt: -0.35,
+            color: 'white',
+          }}>
+          ({reviewCount})
+        </Typography>
         <Typography
           sx={{
             mt: { xs: -0.3, lg: -1 },
